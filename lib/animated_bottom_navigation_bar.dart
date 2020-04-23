@@ -1,6 +1,6 @@
 library animatedbottomnavigationbar;
 
-import 'package:animatedbottomnavigationbar/src/navigation_bar_item.dart';
+import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

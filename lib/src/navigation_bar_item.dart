@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:animatedbottomnavigationbar/src/bubble_selection_painter.dart';
+import 'package:animated_bottom_navigation_bar/src/bubble_selection_painter.dart';
 
 class NavigationBarItem extends StatelessWidget {
   final bool isActive;
