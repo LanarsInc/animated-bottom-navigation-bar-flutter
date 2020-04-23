@@ -1,4 +1,8 @@
-## [0.1.2] - 2020-04-23.
+## [0.1.2+1] - 2020-04-23.
+
+* Add example source files
+
+[0.1.2] - 2020-04-23.
 
 * Update example README
 
