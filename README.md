@@ -3,7 +3,7 @@ AnimatedBottomNavigationBar is a customizable widget inspired by [dribble shot](
 
 Made in [LANARS](https://dribbble.com/shots/7134849-Simple-Tab-Bar-Animation).
 
-[![pub package](https://img.shields.io/pub/v/animated-bottom-navigation-bar.svg)](https://pub.dev/packages/animated-bottom-navigation-bar)
+[![pub package](https://img.shields.io/pub/v/animated-bottom-navigation-bar.svg)](https://pub.dev/packages/animated_bottom_navigation_bar)
 <a href="https://github.com/Solido/awesome-flutter">
    <img alt="Awesome Flutter" src="https://img.shields.io/badge/Awesome-Flutter-blue.svg?longCache=true&style=flat-square" />
 </a>
