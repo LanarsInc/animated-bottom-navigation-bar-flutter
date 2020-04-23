@@ -64,7 +64,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Must have the same location if [FloatingActionButtonLocation.centerDocked] or [FloatingActionButtonLocation.endDocked].
   final GapLocation gapLocation;
 
-  /// Free space width between tab bar items.
+  /// Free space width between tab bar items. The preferred width is equal to total width of [FloatingActionButton] and double [notchMargin].
   final double gapWidth;
 
   AnimatedBottomNavigationBar({
@@ -87,7 +87,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.iconSize = 24,
     this.notchSmoothness = NotchSmoothness.softEdge,
     this.gapLocation = GapLocation.none,
-    this.gapWidth = 64,
+    this.gapWidth = 72,
   })  : assert(icons != null),
         assert(icons.length >= 2 && icons.length <= 5),
         assert(activeIndex != null),
