@@ -9,24 +9,62 @@ import 'src/circular_notched_and_cornered_shape.dart';
 import 'src/exceptions.dart';
 
 class AnimatedBottomNavigationBar extends StatefulWidget {
+  /// Icon data to render in the tab bar.
   final List<IconData> icons;
+
+  /// Handler which is passed every updated active index.
   final Function(int) onTap;
+
+  /// Current index of selected tab bar item.
   final int activeIndex;
+
+  /// Optional custom size for each tab bar icon.
   final double iconSize;
+
+  /// Optional custom tab bar height.
   final double height;
+
+  /// Optional custom tab bar elevation.
   final double elevation;
+
+  /// Optional custom notch margin for Floating
   final double notchMargin;
+
+  /// Optional custom maximum spread radius for splash selection animation.
   final double splashRadius;
+
+  /// Optional custom splash selection animation speed.
   final int splashSpeedInMilliseconds;
+
+  /// Optional custom tab bar top-left corner radius.
   final double leftCornerRadius;
+
+  /// Optional custom tab bar top-right corner radius. Useless with [GapLocation.end].
   final double rightCornerRadius;
+
+  /// Optional custom tab bar background color.
   final Color backgroundColor;
+
+  /// Optional custom splash selection animation color.
   final Color splashColor;
+
+  /// Optional custom currently selected tab bar [IconData] color.
   final Color activeColor;
+
+  /// Optional custom currently unselected tab bar [IconData] color.
   final Color inactiveColor;
+
+  /// Optional custom [Animation] to animate corners and notch appearing.
   final Animation<double> notchAndCornersAnimation;
+
+  /// Optional custom type of notch.
   final NotchSmoothness notchSmoothness;
+
+  /// Location of the free space between tab bar items for notch.
+  /// Must have the same location if [FloatingActionButtonLocation.centerDocked] or [FloatingActionButtonLocation.endDocked].
   final GapLocation gapLocation;
+
+  /// Free space width between tab bar items.
   final double gapWidth;
 
   AnimatedBottomNavigationBar({
