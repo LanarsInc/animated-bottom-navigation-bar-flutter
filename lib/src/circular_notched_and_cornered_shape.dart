@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/painting.dart';
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
 import 'exceptions.dart';
 
@@ -37,7 +37,31 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
   /// the guest circle.
   @override
   Path getOuterPath(Rect host, Rect guest) {
-    if (guest == null || !host.overlaps(guest)) return Path()..addRect(host);
+    if (guest == null || !host.overlaps(guest)) {
+      if (this.rightCornerRadius > 0 || this.leftCornerRadius > 0) {
+        double leftCornerRadius = this.leftCornerRadius * (animation?.value ?? 1);
+        double rightCornerRadius = this.rightCornerRadius * (animation?.value ?? 1);
+        return Path()
+          ..moveTo(host.left, host.top)
+          ..arcTo(
+            Rect.fromLTWH(host.left, host.top, leftCornerRadius * 2, leftCornerRadius * 2),
+            _degreeToRadians(180),
+            _degreeToRadians(90),
+            false,
+          )
+          ..lineTo(host.right - host.height, host.top)
+          ..arcTo(
+            Rect.fromLTWH(host.right - rightCornerRadius * 2, host.top, rightCornerRadius * 2, rightCornerRadius * 2),
+            _degreeToRadians(270),
+            _degreeToRadians(90),
+            false,
+          )
+          ..lineTo(host.right, host.bottom)
+          ..lineTo(host.left, host.bottom)
+          ..close();
+      }
+      return Path()..addRect(host);
+    }
 
     if (guest.center.dx == host.width / 2) {
       if (gapLocation != GapLocation.center)
@@ -122,11 +146,11 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
       ..lineTo(host.left, host.bottom)
       ..close();
   }
+}
 
-  double _degreeToRadians(double degree) {
-    final double radian = (math.pi / 180) * degree;
-    return radian;
-  }
+double _degreeToRadians(double degree) {
+  final double radian = (math.pi / 180) * degree;
+  return radian;
 }
 
 extension on NotchSmoothness {
