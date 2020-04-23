@@ -1,3 +1,7 @@
+## [0.1.2] - 2020-04-23.
+
+* Update example README
+
 ## [0.1.1] - 2020-04-23.
 
 * Update asset links
