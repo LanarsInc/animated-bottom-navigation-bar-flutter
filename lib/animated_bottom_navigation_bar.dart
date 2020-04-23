@@ -10,18 +10,18 @@ import 'src/exceptions.dart';
 
 class AnimatedBottomNavigationBar extends StatefulWidget {
   final List<IconData> icons;
-  final Function(int) onPressed;
+  final Function(int) onTap;
   final int activeIndex;
   final double iconSize;
   final double height;
   final double elevation;
   final double notchMargin;
-  final double maxSelectionBubbleRadius;
-  final int bubbleAnimationSpeedInMilliseconds;
+  final double splashRadius;
+  final int splashSpeedInMilliseconds;
   final double leftCornerRadius;
   final double rightCornerRadius;
   final Color backgroundColor;
-  final Color bubbleColor;
+  final Color splashColor;
   final Color activeColor;
   final Color inactiveColor;
   final Animation<double> notchAndCornersAnimation;
@@ -33,14 +33,14 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     Key key,
     @required this.icons,
     @required this.activeIndex,
-    @required this.onPressed,
+    @required this.onTap,
     this.height = 56,
     this.elevation = 8,
-    this.maxSelectionBubbleRadius = 24,
-    this.bubbleAnimationSpeedInMilliseconds = 300,
+    this.splashRadius = 24,
+    this.splashSpeedInMilliseconds = 300,
     this.notchMargin = 8,
     this.backgroundColor = Colors.white,
-    this.bubbleColor = Colors.purple,
+    this.splashColor = Colors.purple,
     this.activeColor = Colors.deepPurpleAccent,
     this.inactiveColor = Colors.black,
     this.notchAndCornersAnimation,
@@ -53,7 +53,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   })  : assert(icons != null),
         assert(icons.length >= 2 && icons.length <= 5),
         assert(activeIndex != null),
-        assert(onPressed != null),
+        assert(onTap != null),
         super(key: key) {
     if (gapLocation == GapLocation.end) {
       if (rightCornerRadius != 0)
@@ -97,7 +97,7 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
 
   _startBubbleAnimation() {
     _bubbleController = AnimationController(
-      duration: Duration(milliseconds: widget.bubbleAnimationSpeedInMilliseconds),
+      duration: Duration(milliseconds: widget.splashSpeedInMilliseconds),
       vsync: this,
     );
 
@@ -109,8 +109,8 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
     Tween<double>(begin: 0, end: 1).animate(bubbleCurve)
       ..addListener(() {
         setState(() {
-          _bubbleRadius = widget.maxSelectionBubbleRadius * bubbleCurve.value;
-          if (_bubbleRadius == widget.maxSelectionBubbleRadius) {
+          _bubbleRadius = widget.splashRadius * bubbleCurve.value;
+          if (_bubbleRadius == widget.splashRadius) {
             _bubbleRadius = 0;
           }
 
@@ -176,14 +176,14 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
         NavigationBarItem(
           isActive: i == widget.activeIndex,
           bubbleRadius: _bubbleRadius,
-          maxBubbleRadius: widget.maxSelectionBubbleRadius,
-          bubbleColor: widget.bubbleColor,
+          maxBubbleRadius: widget.splashRadius,
+          bubbleColor: widget.splashColor,
           activeColor: widget.activeColor,
           inactiveColor: widget.inactiveColor,
           iconData: widget.icons[i],
           iconScale: _iconScale,
           iconSize: widget.iconSize,
-          onPressed: () => widget.onPressed(widget.icons.indexOf(widget.icons[i])),
+          onTap: () => widget.onTap(widget.icons.indexOf(widget.icons[i])),
         ),
       );
 

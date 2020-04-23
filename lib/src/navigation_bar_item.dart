@@ -11,7 +11,7 @@ class NavigationBarItem extends StatelessWidget {
   final IconData iconData;
   final double iconScale;
   final double iconSize;
-  final VoidCallback onPressed;
+  final VoidCallback onTap;
 
   NavigationBarItem({
     this.isActive,
@@ -23,7 +23,7 @@ class NavigationBarItem extends StatelessWidget {
     this.iconData,
     this.iconScale,
     this.iconSize,
-    this.onPressed,
+    this.onTap,
   }) : super();
 
   @override
@@ -51,7 +51,7 @@ class NavigationBarItem extends StatelessWidget {
             focusColor: Colors.transparent,
             highlightColor: Colors.transparent,
             hoverColor: Colors.transparent,
-            onTap: onPressed,
+            onTap: onTap,
           ),
         ),
       ),
