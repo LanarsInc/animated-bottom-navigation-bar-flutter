@@ -39,19 +39,23 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
   Path getOuterPath(Rect host, Rect guest) {
     if (guest == null || !host.overlaps(guest)) {
       if (this.rightCornerRadius > 0 || this.leftCornerRadius > 0) {
-        double leftCornerRadius = this.leftCornerRadius * (animation?.value ?? 1);
-        double rightCornerRadius = this.rightCornerRadius * (animation?.value ?? 1);
+        double leftCornerRadius =
+            this.leftCornerRadius * (animation?.value ?? 1);
+        double rightCornerRadius =
+            this.rightCornerRadius * (animation?.value ?? 1);
         return Path()
           ..moveTo(host.left, host.top)
           ..arcTo(
-            Rect.fromLTWH(host.left, host.top, leftCornerRadius * 2, leftCornerRadius * 2),
+            Rect.fromLTWH(host.left, host.top, leftCornerRadius * 2,
+                leftCornerRadius * 2),
             _degreeToRadians(180),
             _degreeToRadians(90),
             false,
           )
           ..lineTo(host.right - host.height, host.top)
           ..arcTo(
-            Rect.fromLTWH(host.right - rightCornerRadius * 2, host.top, rightCornerRadius * 2, rightCornerRadius * 2),
+            Rect.fromLTWH(host.right - rightCornerRadius * 2, host.top,
+                rightCornerRadius * 2, rightCornerRadius * 2),
             _degreeToRadians(270),
             _degreeToRadians(90),
             false,
@@ -65,13 +69,15 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
 
     if (guest.center.dx == host.width / 2) {
       if (gapLocation != GapLocation.center)
-        throw GapLocationException('Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
+        throw GapLocationException(
+            'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
             'consider use ${GapLocation.center} instead of $gapLocation or change FloatingActionButtonLocation');
     }
 
     if (guest.center.dx != host.width / 2) {
       if (gapLocation != GapLocation.end)
-        throw GapLocationException('Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
+        throw GapLocationException(
+            'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
             'consider use ${GapLocation.end} instead of $gapLocation or change FloatingActionButtonLocation');
     }
 
@@ -122,7 +128,8 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
     return Path()
       ..moveTo(host.left, host.top)
       ..arcTo(
-        Rect.fromLTWH(host.left, host.top, leftCornerRadius * 2, leftCornerRadius * 2),
+        Rect.fromLTWH(
+            host.left, host.top, leftCornerRadius * 2, leftCornerRadius * 2),
         _degreeToRadians(180),
         _degreeToRadians(90),
         false,
@@ -137,7 +144,8 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
       ..quadraticBezierTo(p[4].dx, p[4].dy, p[5].dx, p[5].dy)
       ..lineTo(host.right - host.height, host.top)
       ..arcTo(
-        Rect.fromLTWH(host.right - rightCornerRadius * 2, host.top, rightCornerRadius * 2, rightCornerRadius * 2),
+        Rect.fromLTWH(host.right - rightCornerRadius * 2, host.top,
+            rightCornerRadius * 2, rightCornerRadius * 2),
         _degreeToRadians(270),
         _degreeToRadians(90),
         false,

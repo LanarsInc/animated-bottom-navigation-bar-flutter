@@ -101,16 +101,19 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     }
     if (gapLocation == GapLocation.center) {
       if (icons.length % 2 != 0)
-        throw NonAppropriatePathException('Odd count of icons along with $gapLocation causes render issue => '
+        throw NonAppropriatePathException(
+            'Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
     }
   }
 
   @override
-  _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
+  _AnimatedBottomNavigationBarState createState() =>
+      _AnimatedBottomNavigationBarState();
 }
 
-class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
+class _AnimatedBottomNavigationBarState
+    extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   ValueListenable<ScaffoldGeometry> geometryListenable;
   AnimationController _bubbleController;
   double _bubbleRadius = 0;
@@ -202,7 +205,8 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
   List<Widget> _buildItems() {
     List items = <Widget>[];
     for (var i = 0; i < widget.icons.length; i++) {
-      if (widget.gapLocation == GapLocation.center && i == widget.icons.length / 2) {
+      if (widget.gapLocation == GapLocation.center &&
+          i == widget.icons.length / 2) {
         items.add(
           GapItem(
             width: widget.gapWidth * widget.notchAndCornersAnimation.value,
@@ -225,7 +229,8 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
         ),
       );
 
-      if (widget.gapLocation == GapLocation.end && i == widget.icons.length - 1) {
+      if (widget.gapLocation == GapLocation.end &&
+          i == widget.icons.length - 1) {
         items.add(
           GapItem(
             width: widget.gapWidth * widget.notchAndCornersAnimation.value,
