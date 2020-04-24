@@ -1,7 +1,7 @@
 # animated-bottom-navigation-bar
 AnimatedBottomNavigationBar is a customizable widget inspired by [dribble shot](https://dribbble.com/shots/7134849-Simple-Tab-Bar-Animation).
 
-Made in [lanars.com](https://dribbble.com/shots/7134849-Simple-Tab-Bar-Animation).
+Made in [lanars.com](https://lanars.com).
 
 [![pub package](https://img.shields.io/pub/v/animated_bottom_navigation_bar.svg)](https://pub.dev/packages/animated_bottom_navigation_bar)
 
