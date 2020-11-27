@@ -163,6 +163,7 @@ double _degreeToRadians(double degree) {
 
 extension on NotchSmoothness {
   static const curveS1 = {
+    NotchSmoothness.sharpEdge: 0.0,
     NotchSmoothness.defaultEdge: 15.0,
     NotchSmoothness.softEdge: 20.0,
     NotchSmoothness.smoothEdge: 30.0,
@@ -170,6 +171,7 @@ extension on NotchSmoothness {
   };
 
   static const curveS2 = {
+    NotchSmoothness.sharpEdge: 0.1,
     NotchSmoothness.defaultEdge: 1.0,
     NotchSmoothness.softEdge: 5.0,
     NotchSmoothness.smoothEdge: 15.0,
