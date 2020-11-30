@@ -102,7 +102,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.gapLocation,
     this.gapWidth,
   })  : assert(icons != null || itemCount != null),
-        assert(((itemCount ?? icons.length) >= 2) && ((itemCount ?? icons.length) <= 5)),
+        assert(((itemCount ?? icons.length) >= 2) &&
+            ((itemCount ?? icons.length) <= 5)),
         assert(activeIndex != null),
         assert(onTap != null),
         super(key: key) {
@@ -114,7 +115,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     }
     if (gapLocation == GapLocation.center) {
       if ((itemCount ?? icons.length) % 2 != 0)
-        throw NonAppropriatePathException('Odd count of icons along with $gapLocation causes render issue => '
+        throw NonAppropriatePathException(
+            'Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
     }
   }
@@ -204,10 +206,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
         );
 
   @override
-  _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
+  _AnimatedBottomNavigationBarState createState() =>
+      _AnimatedBottomNavigationBarState();
 }
 
-class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
+class _AnimatedBottomNavigationBarState
+    extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   ValueListenable<ScaffoldGeometry> geometryListenable;
   AnimationController _bubbleController;
   double _bubbleRadius = 0;
@@ -298,7 +302,9 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
   }
 
   List<Widget> _buildItems() {
-    final gapItemWidth = widget.notchAndCornersAnimation != null ? widget.gapWidth * widget.notchAndCornersAnimation.value : widget.gapWidth;
+    final gapItemWidth = widget.notchAndCornersAnimation != null
+        ? widget.gapWidth * widget.notchAndCornersAnimation.value
+        : widget.gapWidth;
     final itemCount = widget.itemCount ?? widget.icons.length;
 
     List items = <Widget>[];
@@ -341,6 +347,12 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
   }
 }
 
-enum NotchSmoothness { sharpEdge, defaultEdge, softEdge, smoothEdge, verySmoothEdge }
+enum NotchSmoothness {
+  sharpEdge,
+  defaultEdge,
+  softEdge,
+  smoothEdge,
+  verySmoothEdge
+}
 
 enum GapLocation { none, center, end }
