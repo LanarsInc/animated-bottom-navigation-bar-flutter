@@ -1,3 +1,9 @@
+## [0.2.0] - 2020-11-30.
+
+* Enhancement [#4](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/4)
+* Enhancement [#5](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/5)
+* Add `NotchSmoothness.sharpEdge` type
+
 ## [0.1.3] - 2020-11-26.
 
 * Fix [#1](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/1) by [LuizFilipeMedeira](https://github.com/LuizFilipeMedeira)

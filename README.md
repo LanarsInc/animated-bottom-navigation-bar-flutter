@@ -7,6 +7,10 @@ Made in [lanars.com](https://lanars.com).
 
 <img src="https://raw.githubusercontent.com/LanarsInc/animated-bottom-navigation-bar-flutter/master/doc/assets/animated-bottom-navigation-bar.gif" width="300">
 
+With `AnimatedBottomNavigationBar.builder` you are able to customize tab view however you need. In this case you are responsible to handle an active(inactive) state of tabs.
+
+<img src="https://raw.githubusercontent.com/LanarsInc/animated-bottom-navigation-bar-flutter/master/doc/assets/animated-bottom-navigation-bar.jpg" width="300">
+
 # Getting Started
 
 To get started, place your `AnimatedBottomNavigationBar` in the bottomNavigationBar slot of a `Scaffold`.
@@ -152,7 +156,7 @@ Scaffold(
    ),
 );
 ```
-<img src="https://raw.githubusercontent.com/LanarsInc/animated-bottom-navigation-bar-flutter/master/doc/assets/example-very-smooth-notch-center.jpeg" width="300">
+<img src="https://raw.githubusercontent.com/LanarsInc/animated-bottom-navigation-bar-flutter/master/doc/assets/example-very-smooth-notch-center.jpeg" width="300"> 
 
 # Driving Navigation Bar Changes
 
