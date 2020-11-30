@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   rxdart: ^0.24.0
+  auto_size_text: ^2.1.0
   circular_reveal_animation: ^1.1.5
   animated_bottom_navigation_bar:
     path: ../

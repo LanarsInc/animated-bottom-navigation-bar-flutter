@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+  final autoSizeGroup = AutoSizeGroup();
   var _bottomNavIndex = 0; //default index of first screen
 
   AnimationController _animationController;
@@ -45,13 +47,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     Icons.brightness_4,
     Icons.brightness_6,
     Icons.brightness_7,
-  ];
-
-  final labelList = <String>[
-    "brightness_5",
-    "brightness_4",
-    "brightness_6",
-    "brightness_7",
   ];
 
   @override
@@ -116,14 +111,35 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar(
-        icons: iconList,
-        labels: labelList,
+      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+        itemCount: iconList.length,
+        tabBuilder: (int index, bool isActive) {
+          final color = isActive ? HexColor('#FFA400') : Colors.white;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                iconList[index],
+                size: 24,
+                color: color,
+              ),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: AutoSizeText(
+                  "brightness $index",
+                  maxLines: 1,
+                  style: TextStyle(color: color),
+                  group: autoSizeGroup,
+                ),
+              )
+            ],
+          );
+        },
         backgroundColor: HexColor('#373A36'),
         activeIndex: _bottomNavIndex,
-        activeColor: HexColor('#FFA400'),
         splashColor: HexColor('#FFA400'),
-        inactiveColor: Colors.white,
         notchAndCornersAnimation: animation,
         splashSpeedInMilliseconds: 300,
         notchSmoothness: NotchSmoothness.defaultEdge,
