@@ -1,25 +1,27 @@
 library animated_bottom_navigation_bar;
 
 import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'src/circular_notch_and_corner_clipper.dart';
 import 'src/circular_notched_and_cornered_shape.dart';
 import 'src/exceptions.dart';
+import 'src/gap_item.dart';
 
-part 'src/model/label_options.dart';
+/// Signature for a function that creates a widget for a given index & state.
+/// Used by [AnimatedBottomNavigationBar.builder].
+typedef IndexedWidgetBuilder = Widget Function(int index, bool isActive);
 
 class AnimatedBottomNavigationBar extends StatefulWidget {
+  /// Widgets to render in the tab bar.
+  final IndexedWidgetBuilder tabBuilder;
+
+  /// Total item count.
+  final int itemCount;
+
   /// Icon data to render in the tab bar.
   final List<IconData> icons;
-
-  /// Optional label data to render in the tab bar.
-  final List<String> labels;
-
-  /// Optional set of the label options.
-  final LabelOptions labelOptions;
 
   /// Handler which is passed every updated active index.
   final Function(int) onTap;
@@ -78,11 +80,11 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
 
   AnimatedBottomNavigationBar._internal({
     Key key,
-    @required this.icons,
     @required this.activeIndex,
     @required this.onTap,
-    this.labels,
-    this.labelOptions,
+    this.tabBuilder,
+    this.itemCount,
+    this.icons,
     this.height,
     this.elevation,
     this.splashRadius,
@@ -99,9 +101,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.notchSmoothness,
     this.gapLocation,
     this.gapWidth,
-  })  : assert(icons != null),
-        assert(icons.length >= 2 && icons.length <= 5),
-        assert(labels == null || (icons.length == labels.length)),
+  })  : assert(icons != null || itemCount != null),
+        assert(((itemCount ?? icons.length) >= 2) && ((itemCount ?? icons.length) <= 5)),
         assert(activeIndex != null),
         assert(onTap != null),
         super(key: key) {
@@ -112,7 +113,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
             'consider set rightCornerRadius to 0.');
     }
     if (gapLocation == GapLocation.center) {
-      if (icons.length % 2 != 0)
+      if ((itemCount ?? icons.length) % 2 != 0)
         throw NonAppropriatePathException('Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
     }
@@ -123,8 +124,6 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     @required List<IconData> icons,
     @required int activeIndex,
     @required Function(int) onTap,
-    List<String> labels,
-    LabelOptions labelOptions,
     double height = 56,
     double elevation = 8,
     double splashRadius = 24,
@@ -146,8 +145,6 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           icons: icons,
           activeIndex: activeIndex,
           onTap: onTap,
-          labels: labels,
-          labelOptions: labelOptions,
           height: height,
           elevation: elevation,
           splashRadius: splashRadius,
@@ -166,6 +163,46 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           gapWidth: gapWidth,
         );
 
+  AnimatedBottomNavigationBar.builder({
+    Key key,
+    @required int itemCount,
+    @required IndexedWidgetBuilder tabBuilder,
+    @required int activeIndex,
+    @required Function(int) onTap,
+    double height = 56,
+    double elevation = 8,
+    double splashRadius = 24,
+    int splashSpeedInMilliseconds = 300,
+    double notchMargin = 8,
+    Color backgroundColor = Colors.white,
+    Color splashColor = Colors.purple,
+    Animation<double> notchAndCornersAnimation,
+    double leftCornerRadius = 0,
+    double rightCornerRadius = 0,
+    NotchSmoothness notchSmoothness = NotchSmoothness.defaultEdge,
+    GapLocation gapLocation = GapLocation.end,
+    double gapWidth = 72,
+  }) : this._internal(
+          key: key,
+          tabBuilder: tabBuilder,
+          itemCount: itemCount,
+          activeIndex: activeIndex,
+          onTap: onTap,
+          height: height,
+          elevation: elevation,
+          splashRadius: splashRadius,
+          splashSpeedInMilliseconds: splashSpeedInMilliseconds,
+          notchMargin: notchMargin,
+          backgroundColor: backgroundColor,
+          splashColor: splashColor,
+          notchAndCornersAnimation: notchAndCornersAnimation,
+          leftCornerRadius: leftCornerRadius,
+          rightCornerRadius: rightCornerRadius,
+          notchSmoothness: notchSmoothness,
+          gapLocation: gapLocation,
+          gapWidth: gapWidth,
+        );
+
   @override
   _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
 }
@@ -175,12 +212,12 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
   AnimationController _bubbleController;
   double _bubbleRadius = 0;
   double _iconScale = 1;
-  final autoSizeLabelGroup = AutoSizeGroup();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     geometryListenable = Scaffold.geometryOf(context);
+
     if (widget.notchAndCornersAnimation != null) {
       widget.notchAndCornersAnimation..addListener(() => setState(() {}));
     }
@@ -262,10 +299,13 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
 
   List<Widget> _buildItems() {
     final gapItemWidth = widget.notchAndCornersAnimation != null ? widget.gapWidth * widget.notchAndCornersAnimation.value : widget.gapWidth;
+    final itemCount = widget.itemCount ?? widget.icons.length;
 
     List items = <Widget>[];
-    for (var i = 0; i < widget.icons.length; i++) {
-      if (widget.gapLocation == GapLocation.center && i == widget.icons.length / 2) {
+    for (var i = 0; i < itemCount; i++) {
+      final isActive = i == widget.activeIndex;
+
+      if (widget.gapLocation == GapLocation.center && i == itemCount / 2) {
         items.add(
           GapItem(
             width: gapItemWidth,
@@ -275,23 +315,21 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
 
       items.add(
         NavigationBarItem(
-          isActive: i == widget.activeIndex,
+          isActive: isActive,
           bubbleRadius: _bubbleRadius,
           maxBubbleRadius: widget.splashRadius,
           bubbleColor: widget.splashColor,
           activeColor: widget.activeColor,
           inactiveColor: widget.inactiveColor,
-          iconData: widget.icons[i],
-          labelData: widget.labels?.elementAt(i),
-          labelOptions: widget.labelOptions ?? LabelOptions(),
+          child: widget.tabBuilder?.call(i, isActive),
+          iconData: widget.icons?.elementAt(i),
           iconScale: _iconScale,
           iconSize: widget.iconSize,
-          autoSizeGroup: autoSizeLabelGroup,
-          onTap: () => widget.onTap(widget.icons.indexOf(widget.icons[i])),
+          onTap: () => widget.onTap(i),
         ),
       );
 
-      if (widget.gapLocation == GapLocation.end && i == widget.icons.length - 1) {
+      if (widget.gapLocation == GapLocation.end && i == itemCount - 1) {
         items.add(
           GapItem(
             width: gapItemWidth,
