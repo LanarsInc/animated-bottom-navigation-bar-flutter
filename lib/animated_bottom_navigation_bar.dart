@@ -1,6 +1,7 @@
-library animatedbottomnavigationbar;
+library animated_bottom_navigation_bar;
 
 import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -8,9 +9,17 @@ import 'src/circular_notch_and_corner_clipper.dart';
 import 'src/circular_notched_and_cornered_shape.dart';
 import 'src/exceptions.dart';
 
+part 'src/model/label_options.dart';
+
 class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Icon data to render in the tab bar.
   final List<IconData> icons;
+
+  /// Optional label data to render in the tab bar.
+  final List<String> labels;
+
+  /// Optional set of the label options.
+  final LabelOptions labelOptions;
 
   /// Handler which is passed every updated active index.
   final Function(int) onTap;
@@ -72,6 +81,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     @required this.icons,
     @required this.activeIndex,
     @required this.onTap,
+    this.labels,
+    this.labelOptions,
     this.height = 56,
     this.elevation = 8,
     this.splashRadius = 24,
@@ -90,6 +101,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.gapWidth = 72,
   })  : assert(icons != null),
         assert(icons.length >= 2 && icons.length <= 5),
+        assert(labels == null || (icons.length == labels.length)),
         assert(activeIndex != null),
         assert(onTap != null),
         super(key: key) {
@@ -118,6 +130,7 @@ class _AnimatedBottomNavigationBarState
   AnimationController _bubbleController;
   double _bubbleRadius = 0;
   double _iconScale = 1;
+  final autoSizeLabelGroup = AutoSizeGroup();
 
   @override
   void didChangeDependencies() {
@@ -227,8 +240,11 @@ class _AnimatedBottomNavigationBarState
           activeColor: widget.activeColor,
           inactiveColor: widget.inactiveColor,
           iconData: widget.icons[i],
+          labelData: widget.labels?.elementAt(i),
+          labelOptions: widget.labelOptions ?? LabelOptions(),
           iconScale: _iconScale,
           iconSize: widget.iconSize,
+          autoSizeGroup: autoSizeLabelGroup,
           onTap: () => widget.onTap(widget.icons.indexOf(widget.icons[i])),
         ),
       );

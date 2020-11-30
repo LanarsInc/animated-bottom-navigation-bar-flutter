@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:animated_bottom_navigation_bar/src/bubble_selection_painter.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
 
 class NavigationBarItem extends StatelessWidget {
   final bool isActive;
@@ -11,6 +13,9 @@ class NavigationBarItem extends StatelessWidget {
   final IconData iconData;
   final double iconScale;
   final double iconSize;
+  final AutoSizeGroup autoSizeGroup;
+  final String labelData;
+  final LabelOptions labelOptions;
   final VoidCallback onTap;
 
   NavigationBarItem({
@@ -24,10 +29,21 @@ class NavigationBarItem extends StatelessWidget {
     this.iconScale,
     this.iconSize,
     this.onTap,
+    this.autoSizeGroup,
+    this.labelData,
+    this.labelOptions,
   }) : super();
 
   @override
   Widget build(BuildContext context) {
+    final hasLabel = labelData != null;
+
+    final labelStyle = labelOptions.mutateLabelColor
+        ? labelOptions.textStyle.copyWith(
+            color: isActive ? activeColor : inactiveColor,
+          )
+        : labelOptions.textStyle;
+
     return Expanded(
       child: Container(
         height: double.infinity,
@@ -41,10 +57,34 @@ class NavigationBarItem extends StatelessWidget {
           child: InkWell(
             child: Transform.scale(
               scale: isActive ? iconScale : 1,
-              child: Icon(
-                iconData,
-                color: isActive ? activeColor : inactiveColor,
-                size: iconSize,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    iconData,
+                    color: isActive ? activeColor : inactiveColor,
+                    size: iconSize,
+                  ),
+                  hasLabel
+                      ? Padding(
+                          padding: EdgeInsets.only(
+                            left: 8,
+                            top: 4,
+                            right: 8,
+                          ),
+                          child: AutoSizeText(
+                            labelData,
+                            maxLines: 1,
+                            style: labelStyle,
+                            minFontSize: labelOptions.minFontSize,
+                            overflow: labelOptions.textOverflow,
+                            group: autoSizeGroup,
+                          ),
+                        )
+                      : Container(),
+                ],
               ),
             ),
             splashColor: Colors.transparent,

@@ -47,6 +47,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     Icons.brightness_7,
   ];
 
+  final labelList = <String>[
+    "brightness_5",
+    "brightness_4",
+    "brightness_6",
+    "brightness_7",
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -111,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: iconList,
+        labels: labelList,
         backgroundColor: HexColor('#373A36'),
         activeIndex: _bottomNavIndex,
         activeColor: HexColor('#FFA400'),
