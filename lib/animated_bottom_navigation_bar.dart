@@ -76,29 +76,29 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Free space width between tab bar items. The preferred width is equal to total width of [FloatingActionButton] and double [notchMargin].
   final double gapWidth;
 
-  AnimatedBottomNavigationBar({
+  AnimatedBottomNavigationBar._internal({
     Key key,
     @required this.icons,
     @required this.activeIndex,
     @required this.onTap,
     this.labels,
     this.labelOptions,
-    this.height = 56,
-    this.elevation = 8,
-    this.splashRadius = 24,
-    this.splashSpeedInMilliseconds = 300,
-    this.notchMargin = 8,
-    this.backgroundColor = Colors.white,
-    this.splashColor = Colors.purple,
-    this.activeColor = Colors.deepPurpleAccent,
-    this.inactiveColor = Colors.black,
+    this.height,
+    this.elevation,
+    this.splashRadius,
+    this.splashSpeedInMilliseconds,
+    this.notchMargin,
+    this.backgroundColor,
+    this.splashColor,
+    this.activeColor,
+    this.inactiveColor,
     this.notchAndCornersAnimation,
-    this.leftCornerRadius = 0,
-    this.rightCornerRadius = 0,
-    this.iconSize = 24,
-    this.notchSmoothness = NotchSmoothness.softEdge,
-    this.gapLocation = GapLocation.none,
-    this.gapWidth = 72,
+    this.leftCornerRadius,
+    this.rightCornerRadius,
+    this.iconSize,
+    this.notchSmoothness,
+    this.gapLocation,
+    this.gapWidth,
   })  : assert(icons != null),
         assert(icons.length >= 2 && icons.length <= 5),
         assert(labels == null || (icons.length == labels.length)),
@@ -113,19 +113,64 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     }
     if (gapLocation == GapLocation.center) {
       if (icons.length % 2 != 0)
-        throw NonAppropriatePathException(
-            'Odd count of icons along with $gapLocation causes render issue => '
+        throw NonAppropriatePathException('Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
     }
   }
 
+  AnimatedBottomNavigationBar({
+    Key key,
+    @required List<IconData> icons,
+    @required int activeIndex,
+    @required Function(int) onTap,
+    List<String> labels,
+    LabelOptions labelOptions,
+    double height = 56,
+    double elevation = 8,
+    double splashRadius = 24,
+    int splashSpeedInMilliseconds = 300,
+    double notchMargin = 8,
+    Color backgroundColor = Colors.white,
+    Color splashColor = Colors.purple,
+    Color activeColor = Colors.deepPurpleAccent,
+    Color inactiveColor = Colors.black,
+    Animation<double> notchAndCornersAnimation,
+    double leftCornerRadius = 0,
+    double rightCornerRadius = 0,
+    double iconSize = 24,
+    NotchSmoothness notchSmoothness = NotchSmoothness.defaultEdge,
+    GapLocation gapLocation = GapLocation.end,
+    double gapWidth = 72,
+  }) : this._internal(
+          key: key,
+          icons: icons,
+          activeIndex: activeIndex,
+          onTap: onTap,
+          labels: labels,
+          labelOptions: labelOptions,
+          height: height,
+          elevation: elevation,
+          splashRadius: splashRadius,
+          splashSpeedInMilliseconds: splashSpeedInMilliseconds,
+          notchMargin: notchMargin,
+          backgroundColor: backgroundColor,
+          splashColor: splashColor,
+          activeColor: activeColor,
+          inactiveColor: inactiveColor,
+          notchAndCornersAnimation: notchAndCornersAnimation,
+          leftCornerRadius: leftCornerRadius,
+          rightCornerRadius: rightCornerRadius,
+          iconSize: iconSize,
+          notchSmoothness: notchSmoothness,
+          gapLocation: gapLocation,
+          gapWidth: gapWidth,
+        );
+
   @override
-  _AnimatedBottomNavigationBarState createState() =>
-      _AnimatedBottomNavigationBarState();
+  _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
 }
 
-class _AnimatedBottomNavigationBarState
-    extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
+class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   ValueListenable<ScaffoldGeometry> geometryListenable;
   AnimationController _bubbleController;
   double _bubbleRadius = 0;
@@ -216,14 +261,11 @@ class _AnimatedBottomNavigationBarState
   }
 
   List<Widget> _buildItems() {
-    final gapItemWidth = widget.notchAndCornersAnimation != null
-        ? widget.gapWidth * widget.notchAndCornersAnimation.value
-        : widget.gapWidth;
+    final gapItemWidth = widget.notchAndCornersAnimation != null ? widget.gapWidth * widget.notchAndCornersAnimation.value : widget.gapWidth;
 
     List items = <Widget>[];
     for (var i = 0; i < widget.icons.length; i++) {
-      if (widget.gapLocation == GapLocation.center &&
-          i == widget.icons.length / 2) {
+      if (widget.gapLocation == GapLocation.center && i == widget.icons.length / 2) {
         items.add(
           GapItem(
             width: gapItemWidth,
@@ -249,8 +291,7 @@ class _AnimatedBottomNavigationBarState
         ),
       );
 
-      if (widget.gapLocation == GapLocation.end &&
-          i == widget.icons.length - 1) {
+      if (widget.gapLocation == GapLocation.end && i == widget.icons.length - 1) {
         items.add(
           GapItem(
             width: gapItemWidth,
