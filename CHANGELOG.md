@@ -1,3 +1,6 @@
+## [0.2.1] - 2020-12-27.
+* Resolve `List` warning
+
 ## [0.2.0] - 2020-11-30.
 
 * Enhancement [#4](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/4)
