@@ -7,26 +7,26 @@ class NavigationBarItem extends StatelessWidget {
   final bool isActive;
   final double bubbleRadius;
   final double maxBubbleRadius;
-  final Color bubbleColor;
-  final Color activeColor;
-  final Color inactiveColor;
-  final IconData iconData;
+  final Color? bubbleColor;
+  final Color? activeColor;
+  final Color? inactiveColor;
+  final IconData? iconData;
   final double iconScale;
-  final double iconSize;
+  final double? iconSize;
   final VoidCallback onTap;
-  final Widget child;
+  final Widget? child;
 
   NavigationBarItem({
-    this.isActive,
-    this.bubbleRadius,
-    this.maxBubbleRadius,
-    this.bubbleColor,
-    this.activeColor,
-    this.inactiveColor,
-    this.iconData,
-    this.iconScale,
-    this.iconSize,
-    this.onTap,
+    required this.isActive,
+    required this.bubbleRadius,
+    required this.maxBubbleRadius,
+    required this.bubbleColor,
+    required this.activeColor,
+    required this.inactiveColor,
+    required this.iconData,
+    required this.iconScale,
+    required this.iconSize,
+    required this.onTap,
     this.child,
   });
 

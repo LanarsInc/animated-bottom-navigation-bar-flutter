@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class BubblePainter extends CustomPainter {
   final double bubbleRadius;
   final double maxBubbleRadius;
-  final Color bubbleColor;
-  final Color endColor;
+  final Color? bubbleColor;
+  final Color? endColor;
 
   BubblePainter({
-    this.bubbleRadius,
-    this.maxBubbleRadius,
-    this.bubbleColor,
+    required this.bubbleRadius,
+    required this.maxBubbleRadius,
+    this.bubbleColor = Colors.purple,
   })  : endColor = Color.lerp(bubbleColor, Colors.white, 0.8),
         super();
 
@@ -19,17 +19,14 @@ class BubblePainter extends CustomPainter {
 
     var animationProgress = bubbleRadius / maxBubbleRadius;
 
-    double strokeWidth = bubbleRadius < maxBubbleRadius * 0.5
-        ? bubbleRadius
-        : maxBubbleRadius - bubbleRadius;
+    double strokeWidth = bubbleRadius < maxBubbleRadius * 0.5 ? bubbleRadius : maxBubbleRadius - bubbleRadius;
 
     final paint = Paint()
-      ..color = Color.lerp(bubbleColor, endColor, animationProgress)
+      ..color = Color.lerp(bubbleColor, endColor, animationProgress)!
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 
-    canvas.drawCircle(
-        Offset(size.width / 2, size.height / 2), bubbleRadius, paint);
+    canvas.drawCircle(Offset(size.width / 2, size.height / 2), bubbleRadius, paint);
   }
 
   @override

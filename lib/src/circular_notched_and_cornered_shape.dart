@@ -10,18 +10,18 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
   /// Creates a [CircularNotchedAndCorneredRectangle].
   ///
   /// The same object can be used to create multiple shapes.
-  final Animation<double> animation;
+  final Animation<double>? animation;
   final NotchSmoothness notchSmoothness;
   final GapLocation gapLocation;
   final double leftCornerRadius;
   final double rightCornerRadius;
 
   CircularNotchedAndCorneredRectangle({
+    required this.notchSmoothness,
+    required this.gapLocation,
+    required this.leftCornerRadius,
+    required this.rightCornerRadius,
     this.animation,
-    this.notchSmoothness,
-    this.gapLocation,
-    this.leftCornerRadius,
-    this.rightCornerRadius,
   });
 
   /// Creates a [Path] that describes a rectangle with a smooth circular notch.
@@ -36,26 +36,22 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
   /// The notch is curve that smoothly connects the host's top edge and
   /// the guest circle.
   @override
-  Path getOuterPath(Rect host, Rect guest) {
+  Path getOuterPath(Rect host, Rect? guest) {
     if (guest == null || !host.overlaps(guest)) {
       if (this.rightCornerRadius > 0 || this.leftCornerRadius > 0) {
-        double leftCornerRadius =
-            this.leftCornerRadius * (animation?.value ?? 1);
-        double rightCornerRadius =
-            this.rightCornerRadius * (animation?.value ?? 1);
+        double leftCornerRadius = this.leftCornerRadius * (animation?.value ?? 1);
+        double rightCornerRadius = this.rightCornerRadius * (animation?.value ?? 1);
         return Path()
           ..moveTo(host.left, host.top)
           ..arcTo(
-            Rect.fromLTWH(host.left, host.top, leftCornerRadius * 2,
-                leftCornerRadius * 2),
+            Rect.fromLTWH(host.left, host.top, leftCornerRadius * 2, leftCornerRadius * 2),
             _degreeToRadians(180),
             _degreeToRadians(90),
             false,
           )
           ..lineTo(host.right - host.height, host.top)
           ..arcTo(
-            Rect.fromLTWH(host.right - rightCornerRadius * 2, host.top,
-                rightCornerRadius * 2, rightCornerRadius * 2),
+            Rect.fromLTWH(host.right - rightCornerRadius * 2, host.top, rightCornerRadius * 2, rightCornerRadius * 2),
             _degreeToRadians(270),
             _degreeToRadians(90),
             false,
@@ -69,15 +65,13 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
 
     if (guest.center.dx == host.width / 2) {
       if (gapLocation != GapLocation.center)
-        throw GapLocationException(
-            'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
+        throw GapLocationException('Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
             'consider use ${GapLocation.center} instead of $gapLocation or change FloatingActionButtonLocation');
     }
 
     if (guest.center.dx != host.width / 2) {
       if (gapLocation != GapLocation.end)
-        throw GapLocationException(
-            'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
+        throw GapLocationException('Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
             'consider use ${GapLocation.end} instead of $gapLocation or change FloatingActionButtonLocation');
     }
 
@@ -128,8 +122,7 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
     return Path()
       ..moveTo(host.left, host.top)
       ..arcTo(
-        Rect.fromLTWH(
-            host.left, host.top, leftCornerRadius * 2, leftCornerRadius * 2),
+        Rect.fromLTWH(host.left, host.top, leftCornerRadius * 2, leftCornerRadius * 2),
         _degreeToRadians(180),
         _degreeToRadians(90),
         false,
@@ -144,8 +137,7 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
       ..quadraticBezierTo(p[4].dx, p[4].dy, p[5].dx, p[5].dy)
       ..lineTo(host.right - host.height, host.top)
       ..arcTo(
-        Rect.fromLTWH(host.right - rightCornerRadius * 2, host.top,
-            rightCornerRadius * 2, rightCornerRadius * 2),
+        Rect.fromLTWH(host.right - rightCornerRadius * 2, host.top, rightCornerRadius * 2, rightCornerRadius * 2),
         _degreeToRadians(270),
         _degreeToRadians(90),
         false,
@@ -161,7 +153,7 @@ double _degreeToRadians(double degree) {
   return radian;
 }
 
-extension on NotchSmoothness {
+extension on NotchSmoothness? {
   static const curveS1 = {
     NotchSmoothness.sharpEdge: 0.0,
     NotchSmoothness.defaultEdge: 15.0,
@@ -178,7 +170,7 @@ extension on NotchSmoothness {
     NotchSmoothness.verySmoothEdge: 25.0,
   };
 
-  double get s1 => curveS1[this];
+  double get s1 => curveS1[this] ?? 15.0;
 
-  double get s2 => curveS2[this];
+  double get s2 => curveS2[this] ?? 1.0;
 }

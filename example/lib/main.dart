@@ -83,70 +83,73 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      appBar: AppBar(
-        title: Text(
-          widget.title,
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: HexColor('#373A36'),
-      ),
-      body: NavigationScreen(
-        iconList[_bottomNavIndex],
-      ),
-      floatingActionButton: ScaleTransition(
-        scale: animation,
-        child: FloatingActionButton(
-          elevation: 8,
-          backgroundColor: HexColor('#FFA400'),
-          child: Icon(
-            Icons.brightness_3,
-            color: HexColor('#373A36'),
+    return Theme(
+      data: ThemeData.dark(),
+      child: Scaffold(
+        extendBody: true,
+        appBar: AppBar(
+          title: Text(
+            widget.title,
+            style: TextStyle(color: Colors.white),
           ),
-          onPressed: () {
-            _animationController.reset();
-            _animationController.forward();
-          },
+          backgroundColor: HexColor('#373A36'),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-        itemCount: iconList.length,
-        tabBuilder: (int index, bool isActive) {
-          final color = isActive ? HexColor('#FFA400') : Colors.white;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                iconList[index],
-                size: 24,
-                color: color,
-              ),
-              const SizedBox(height: 4),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: AutoSizeText(
-                  "brightness $index",
-                  maxLines: 1,
-                  style: TextStyle(color: color),
-                  group: autoSizeGroup,
+        body: NavigationScreen(
+          iconList[_bottomNavIndex],
+        ),
+        floatingActionButton: ScaleTransition(
+          scale: animation,
+          child: FloatingActionButton(
+            elevation: 8,
+            backgroundColor: HexColor('#FFA400'),
+            child: Icon(
+              Icons.brightness_3,
+              color: HexColor('#373A36'),
+            ),
+            onPressed: () {
+              _animationController.reset();
+              _animationController.forward();
+            },
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+          itemCount: iconList.length,
+          tabBuilder: (int index, bool isActive) {
+            final color = isActive ? HexColor('#FFA400') : Colors.white;
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  iconList[index],
+                  size: 24,
+                  color: color,
                 ),
-              )
-            ],
-          );
-        },
-        backgroundColor: HexColor('#373A36'),
-        activeIndex: _bottomNavIndex,
-        splashColor: HexColor('#FFA400'),
-        notchAndCornersAnimation: animation,
-        splashSpeedInMilliseconds: 300,
-        notchSmoothness: NotchSmoothness.defaultEdge,
-        gapLocation: GapLocation.center,
-        leftCornerRadius: 32,
-        rightCornerRadius: 32,
-        onTap: (index) => setState(() => _bottomNavIndex = index),
+                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: AutoSizeText(
+                    "brightness $index",
+                    maxLines: 1,
+                    style: TextStyle(color: color),
+                    group: autoSizeGroup,
+                  ),
+                )
+              ],
+            );
+          },
+          backgroundColor: HexColor('#373A36'),
+          activeIndex: _bottomNavIndex,
+          splashColor: HexColor('#FFA400'),
+          notchAndCornersAnimation: animation,
+          splashSpeedInMilliseconds: 300,
+          notchSmoothness: NotchSmoothness.defaultEdge,
+          gapLocation: GapLocation.center,
+          leftCornerRadius: 32,
+          rightCornerRadius: 32,
+          onTap: (index) => setState(() => _bottomNavIndex = index),
+        ),
       ),
     );
   }

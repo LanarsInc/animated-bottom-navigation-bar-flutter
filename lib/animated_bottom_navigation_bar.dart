@@ -15,13 +15,13 @@ typedef IndexedWidgetBuilder = Widget Function(int index, bool isActive);
 
 class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Widgets to render in the tab bar.
-  final IndexedWidgetBuilder tabBuilder;
+  final IndexedWidgetBuilder? tabBuilder;
 
   /// Total item count.
-  final int itemCount;
+  final int? itemCount;
 
   /// Icon data to render in the tab bar.
-  final List<IconData> icons;
+  final List<IconData>? icons;
 
   /// Handler which is passed every updated active index.
   final Function(int) onTap;
@@ -29,65 +29,67 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Current index of selected tab bar item.
   final int activeIndex;
 
-  /// Optional custom size for each tab bar icon.
-  final double iconSize;
+  /// Optional custom size for each tab bar icon. Default is 24.
+  final double? iconSize;
 
-  /// Optional custom tab bar height.
-  final double height;
+  /// Optional custom tab bar height. Default is 56.
+  final double? height;
 
-  /// Optional custom tab bar elevation.
-  final double elevation;
+  /// Optional custom tab bar elevation. Default is 8.
+  final double? elevation;
 
-  /// Optional custom notch margin for Floating
-  final double notchMargin;
+  /// Optional custom notch margin for Floating. Default is 8.
+  final double? notchMargin;
 
-  /// Optional custom maximum spread radius for splash selection animation.
+  /// Optional custom maximum spread radius for splash selection animation. Default is 24.
   final double splashRadius;
 
-  /// Optional custom splash selection animation speed.
-  final int splashSpeedInMilliseconds;
+  /// Optional custom splash selection animation speed. Default is 300 milliseconds.
+  final int? splashSpeedInMilliseconds;
 
-  /// Optional custom tab bar top-left corner radius.
-  final double leftCornerRadius;
+  /// Optional custom tab bar top-left corner radius. Default is 0.
+  final double? leftCornerRadius;
 
-  /// Optional custom tab bar top-right corner radius. Useless with [GapLocation.end].
-  final double rightCornerRadius;
+  /// Optional custom tab bar top-right corner radius. Useless with [GapLocation.end]. Default is 0.
+  final double? rightCornerRadius;
 
-  /// Optional custom tab bar background color.
-  final Color backgroundColor;
+  /// Optional custom tab bar background color. Default is [Colors.white].
+  final Color? backgroundColor;
 
-  /// Optional custom splash selection animation color.
-  final Color splashColor;
+  /// Optional custom splash selection animation color. Default is [Colors.purple].
+  final Color? splashColor;
 
-  /// Optional custom currently selected tab bar [IconData] color.
-  final Color activeColor;
+  /// Optional custom currently selected tab bar [IconData] color. Default is [Colors.deepPurpleAccent]
+  final Color? activeColor;
 
-  /// Optional custom currently unselected tab bar [IconData] color.
-  final Color inactiveColor;
+  /// Optional custom currently unselected tab bar [IconData] color. Default is [Colors.black]
+  final Color? inactiveColor;
 
   /// Optional custom [Animation] to animate corners and notch appearing.
-  final Animation<double> notchAndCornersAnimation;
+  final Animation<double>? notchAndCornersAnimation;
 
-  /// Optional custom type of notch.
-  final NotchSmoothness notchSmoothness;
+  /// Optional custom type of notch. Default is [NotchSmoothness.defaultEdge].
+  final NotchSmoothness? notchSmoothness;
 
   /// Location of the free space between tab bar items for notch.
   /// Must have the same location if [FloatingActionButtonLocation.centerDocked] or [FloatingActionButtonLocation.endDocked].
-  final GapLocation gapLocation;
+  /// Default is [GapLocation.end].
+  final GapLocation? gapLocation;
 
   /// Free space width between tab bar items. The preferred width is equal to total width of [FloatingActionButton] and double [notchMargin].
-  final double gapWidth;
+  /// Default is 72.
+  final double? gapWidth;
 
   AnimatedBottomNavigationBar._internal({
-    Key key,
-    @required this.activeIndex,
-    @required this.onTap,
+    Key? key,
+    required this.activeIndex,
+    required this.onTap,
     this.tabBuilder,
     this.itemCount,
     this.icons,
     this.height,
     this.elevation,
-    this.splashRadius,
+    this.splashRadius = 24,
     this.splashSpeedInMilliseconds,
     this.notchMargin,
     this.backgroundColor,
@@ -102,10 +104,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.gapLocation,
     this.gapWidth,
   })  : assert(icons != null || itemCount != null),
-        assert(((itemCount ?? icons.length) >= 2) &&
-            ((itemCount ?? icons.length) <= 5)),
-        assert(activeIndex != null),
-        assert(onTap != null),
+        assert(((itemCount ?? icons!.length) >= 2) && ((itemCount ?? icons!.length) <= 5)),
         super(key: key) {
     if (gapLocation == GapLocation.end) {
       if (rightCornerRadius != 0)
@@ -114,34 +113,33 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
             'consider set rightCornerRadius to 0.');
     }
     if (gapLocation == GapLocation.center) {
-      if ((itemCount ?? icons.length) % 2 != 0)
-        throw NonAppropriatePathException(
-            'Odd count of icons along with $gapLocation causes render issue => '
+      if ((itemCount ?? icons!.length) % 2 != 0)
+        throw NonAppropriatePathException('Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
     }
   }
 
   AnimatedBottomNavigationBar({
-    Key key,
-    @required List<IconData> icons,
-    @required int activeIndex,
-    @required Function(int) onTap,
-    double height = 56,
-    double elevation = 8,
-    double splashRadius = 24,
-    int splashSpeedInMilliseconds = 300,
-    double notchMargin = 8,
-    Color backgroundColor = Colors.white,
-    Color splashColor = Colors.purple,
-    Color activeColor = Colors.deepPurpleAccent,
-    Color inactiveColor = Colors.black,
-    Animation<double> notchAndCornersAnimation,
-    double leftCornerRadius = 0,
-    double rightCornerRadius = 0,
-    double iconSize = 24,
-    NotchSmoothness notchSmoothness = NotchSmoothness.defaultEdge,
-    GapLocation gapLocation = GapLocation.end,
-    double gapWidth = 72,
+    Key? key,
+    required List<IconData> icons,
+    required int activeIndex,
+    required Function(int) onTap,
+    double? height,
+    double? elevation,
+    double? splashRadius,
+    int? splashSpeedInMilliseconds,
+    double? notchMargin,
+    Color? backgroundColor,
+    Color? splashColor,
+    Color? activeColor,
+    Color? inactiveColor,
+    Animation<double>? notchAndCornersAnimation,
+    double? leftCornerRadius,
+    double? rightCornerRadius,
+    double? iconSize,
+    NotchSmoothness? notchSmoothness,
+    GapLocation? gapLocation,
+    double? gapWidth,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -149,7 +147,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           onTap: onTap,
           height: height,
           elevation: elevation,
-          splashRadius: splashRadius,
+          splashRadius: splashRadius ?? 24,
           splashSpeedInMilliseconds: splashSpeedInMilliseconds,
           notchMargin: notchMargin,
           backgroundColor: backgroundColor,
@@ -166,24 +164,24 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
         );
 
   AnimatedBottomNavigationBar.builder({
-    Key key,
-    @required int itemCount,
-    @required IndexedWidgetBuilder tabBuilder,
-    @required int activeIndex,
-    @required Function(int) onTap,
-    double height = 56,
-    double elevation = 8,
-    double splashRadius = 24,
-    int splashSpeedInMilliseconds = 300,
-    double notchMargin = 8,
-    Color backgroundColor = Colors.white,
-    Color splashColor = Colors.purple,
-    Animation<double> notchAndCornersAnimation,
-    double leftCornerRadius = 0,
-    double rightCornerRadius = 0,
-    NotchSmoothness notchSmoothness = NotchSmoothness.defaultEdge,
-    GapLocation gapLocation = GapLocation.end,
-    double gapWidth = 72,
+    Key? key,
+    required int itemCount,
+    required IndexedWidgetBuilder tabBuilder,
+    required int activeIndex,
+    required Function(int) onTap,
+    double? height,
+    double? elevation,
+    double? splashRadius,
+    int? splashSpeedInMilliseconds,
+    double? notchMargin,
+    Color? backgroundColor,
+    Color? splashColor,
+    Animation<double>? notchAndCornersAnimation,
+    double? leftCornerRadius,
+    double? rightCornerRadius,
+    NotchSmoothness? notchSmoothness,
+    GapLocation? gapLocation,
+    double? gapWidth,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -192,7 +190,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           onTap: onTap,
           height: height,
           elevation: elevation,
-          splashRadius: splashRadius,
+          splashRadius: splashRadius ?? 24,
           splashSpeedInMilliseconds: splashSpeedInMilliseconds,
           notchMargin: notchMargin,
           backgroundColor: backgroundColor,
@@ -206,14 +204,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
         );
 
   @override
-  _AnimatedBottomNavigationBarState createState() =>
-      _AnimatedBottomNavigationBarState();
+  _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
 }
 
-class _AnimatedBottomNavigationBarState
-    extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
-  ValueListenable<ScaffoldGeometry> geometryListenable;
-  AnimationController _bubbleController;
+class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
+  late ValueListenable<ScaffoldGeometry> geometryListenable;
+  late AnimationController _bubbleController;
   double _bubbleRadius = 0;
   double _iconScale = 1;
 
@@ -222,9 +218,7 @@ class _AnimatedBottomNavigationBarState
     super.didChangeDependencies();
     geometryListenable = Scaffold.geometryOf(context);
 
-    if (widget.notchAndCornersAnimation != null) {
-      widget.notchAndCornersAnimation..addListener(() => setState(() {}));
-    }
+    widget.notchAndCornersAnimation?..addListener(() => setState(() {}));
   }
 
   @override
@@ -237,7 +231,7 @@ class _AnimatedBottomNavigationBarState
 
   _startBubbleAnimation() {
     _bubbleController = AnimationController(
-      duration: Duration(milliseconds: widget.splashSpeedInMilliseconds),
+      duration: Duration(milliseconds: widget.splashSpeedInMilliseconds ?? 300),
       vsync: this,
     );
 
@@ -271,25 +265,25 @@ class _AnimatedBottomNavigationBarState
   @override
   Widget build(BuildContext context) {
     return PhysicalShape(
-      elevation: widget.elevation,
+      elevation: widget.elevation ?? 8,
       color: Colors.transparent,
       clipper: CircularNotchedAndCorneredRectangleClipper(
         shape: CircularNotchedAndCorneredRectangle(
           animation: widget.notchAndCornersAnimation,
-          notchSmoothness: widget.notchSmoothness,
-          gapLocation: widget.gapLocation,
-          leftCornerRadius: widget.leftCornerRadius,
-          rightCornerRadius: widget.rightCornerRadius,
+          notchSmoothness: widget.notchSmoothness ?? NotchSmoothness.defaultEdge,
+          gapLocation: widget.gapLocation ?? GapLocation.end,
+          leftCornerRadius: widget.leftCornerRadius ?? 0.0,
+          rightCornerRadius: widget.rightCornerRadius ?? 0.0,
         ),
         geometry: geometryListenable,
-        notchMargin: widget.notchMargin,
+        notchMargin: widget.notchMargin ?? 8,
       ),
       clipBehavior: Clip.antiAlias,
       child: Material(
-        color: widget.backgroundColor,
+        color: widget.backgroundColor ?? Colors.white,
         child: SafeArea(
           child: Container(
-            height: widget.height,
+            height: widget.height ?? 56,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
@@ -302,10 +296,9 @@ class _AnimatedBottomNavigationBarState
   }
 
   List<Widget> _buildItems() {
-    final gapItemWidth = widget.notchAndCornersAnimation != null
-        ? widget.gapWidth * widget.notchAndCornersAnimation.value
-        : widget.gapWidth;
-    final itemCount = widget.itemCount ?? widget.icons.length;
+    final gapWidth = widget.gapWidth ?? 72;
+    final gapItemWidth = widget.notchAndCornersAnimation != null ? gapWidth * widget.notchAndCornersAnimation!.value : gapWidth;
+    final itemCount = widget.itemCount ?? widget.icons!.length;
 
     List items = <Widget>[];
     for (var i = 0; i < itemCount; i++) {
@@ -343,16 +336,10 @@ class _AnimatedBottomNavigationBarState
         );
       }
     }
-    return items;
+    return items as List<Widget>;
   }
 }
 
-enum NotchSmoothness {
-  sharpEdge,
-  defaultEdge,
-  softEdge,
-  smoothEdge,
-  verySmoothEdge
-}
+enum NotchSmoothness { sharpEdge, defaultEdge, softEdge, smoothEdge, verySmoothEdge }
 
 enum GapLocation { none, center, end }
