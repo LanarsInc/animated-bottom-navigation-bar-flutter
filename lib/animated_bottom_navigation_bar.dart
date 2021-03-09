@@ -104,7 +104,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.gapLocation,
     this.gapWidth,
   })  : assert(icons != null || itemCount != null),
-        assert(((itemCount ?? icons!.length) >= 2) && ((itemCount ?? icons!.length) <= 5)),
+        assert(((itemCount ?? icons!.length) >= 2) &&
+            ((itemCount ?? icons!.length) <= 5)),
         super(key: key) {
     if (gapLocation == GapLocation.end) {
       if (rightCornerRadius != 0)
@@ -114,7 +115,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     }
     if (gapLocation == GapLocation.center) {
       if ((itemCount ?? icons!.length) % 2 != 0)
-        throw NonAppropriatePathException('Odd count of icons along with $gapLocation causes render issue => '
+        throw NonAppropriatePathException(
+            'Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
     }
   }
@@ -155,11 +157,11 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           activeColor: activeColor,
           inactiveColor: inactiveColor,
           notchAndCornersAnimation: notchAndCornersAnimation,
-          leftCornerRadius: leftCornerRadius,
-          rightCornerRadius: rightCornerRadius,
+          leftCornerRadius: leftCornerRadius ?? 0,
+          rightCornerRadius: rightCornerRadius ?? 0,
           iconSize: iconSize,
           notchSmoothness: notchSmoothness,
-          gapLocation: gapLocation,
+          gapLocation: gapLocation ?? GapLocation.end,
           gapWidth: gapWidth,
         );
 
@@ -196,18 +198,20 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           backgroundColor: backgroundColor,
           splashColor: splashColor,
           notchAndCornersAnimation: notchAndCornersAnimation,
-          leftCornerRadius: leftCornerRadius,
-          rightCornerRadius: rightCornerRadius,
+          leftCornerRadius: leftCornerRadius ?? 0,
+          rightCornerRadius: rightCornerRadius ?? 0,
           notchSmoothness: notchSmoothness,
-          gapLocation: gapLocation,
+          gapLocation: gapLocation ?? GapLocation.end,
           gapWidth: gapWidth,
         );
 
   @override
-  _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
+  _AnimatedBottomNavigationBarState createState() =>
+      _AnimatedBottomNavigationBarState();
 }
 
-class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
+class _AnimatedBottomNavigationBarState
+    extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   late ValueListenable<ScaffoldGeometry> geometryListenable;
   late AnimationController _bubbleController;
   double _bubbleRadius = 0;
@@ -270,7 +274,8 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
       clipper: CircularNotchedAndCorneredRectangleClipper(
         shape: CircularNotchedAndCorneredRectangle(
           animation: widget.notchAndCornersAnimation,
-          notchSmoothness: widget.notchSmoothness ?? NotchSmoothness.defaultEdge,
+          notchSmoothness:
+              widget.notchSmoothness ?? NotchSmoothness.defaultEdge,
           gapLocation: widget.gapLocation ?? GapLocation.end,
           leftCornerRadius: widget.leftCornerRadius ?? 0.0,
           rightCornerRadius: widget.rightCornerRadius ?? 0.0,
@@ -297,7 +302,9 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
 
   List<Widget> _buildItems() {
     final gapWidth = widget.gapWidth ?? 72;
-    final gapItemWidth = widget.notchAndCornersAnimation != null ? gapWidth * widget.notchAndCornersAnimation!.value : gapWidth;
+    final gapItemWidth = widget.notchAndCornersAnimation != null
+        ? gapWidth * widget.notchAndCornersAnimation!.value
+        : gapWidth;
     final itemCount = widget.itemCount ?? widget.icons!.length;
 
     List items = <Widget>[];
@@ -340,6 +347,12 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
   }
 }
 
-enum NotchSmoothness { sharpEdge, defaultEdge, softEdge, smoothEdge, verySmoothEdge }
+enum NotchSmoothness {
+  sharpEdge,
+  defaultEdge,
+  softEdge,
+  smoothEdge,
+  verySmoothEdge
+}
 
 enum GapLocation { none, center, end }

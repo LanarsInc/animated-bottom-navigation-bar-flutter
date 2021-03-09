@@ -19,14 +19,17 @@ class BubblePainter extends CustomPainter {
 
     var animationProgress = bubbleRadius / maxBubbleRadius;
 
-    double strokeWidth = bubbleRadius < maxBubbleRadius * 0.5 ? bubbleRadius : maxBubbleRadius - bubbleRadius;
+    double strokeWidth = bubbleRadius < maxBubbleRadius * 0.5
+        ? bubbleRadius
+        : maxBubbleRadius - bubbleRadius;
 
     final paint = Paint()
       ..color = Color.lerp(bubbleColor, endColor, animationProgress)!
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 
-    canvas.drawCircle(Offset(size.width / 2, size.height / 2), bubbleRadius, paint);
+    canvas.drawCircle(
+        Offset(size.width / 2, size.height / 2), bubbleRadius, paint);
   }
 
   @override
