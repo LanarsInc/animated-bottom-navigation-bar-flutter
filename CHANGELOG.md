@@ -1,3 +1,6 @@
+## [0.3.0] - 2021-03-09.
+* Migrate to null safety [#15](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/15)
+
 ## [0.2.1] - 2020-12-27.
 * Resolve `List` warning
 
