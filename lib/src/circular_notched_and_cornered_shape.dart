@@ -150,11 +150,6 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
   }
 }
 
-double _degreeToRadians(double degree) {
-  final double radian = (math.pi / 180) * degree;
-  return radian;
-}
-
 extension on NotchSmoothness? {
   static const curveS1 = {
     NotchSmoothness.sharpEdge: 0.0,
