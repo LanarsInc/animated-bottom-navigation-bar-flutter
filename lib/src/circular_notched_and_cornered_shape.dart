@@ -105,7 +105,7 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
     double p2yA = math.sqrt(r * r - p2xA * p2xA);
     double p2yB = math.sqrt(r * r - p2xB * p2xB);
 
-    List<Offset> p = []..length = 6;
+    List<Offset> p = List.filled(6, Offset.zero, growable: true);
 
     // p0, p1, and p2 are the control points for segment A.
     p[0] = Offset(a - s1, b);
