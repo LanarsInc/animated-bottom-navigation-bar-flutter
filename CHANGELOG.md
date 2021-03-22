@@ -1,4 +1,8 @@
-## [0.3.1+1] - 2021-03-10.
+## [0.3.2] - 2021-03-22.
+* Fix [#16](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/16)
+* Update example
+
+# [0.3.1+1] - 2021-03-10.
 * Clean up code
 
 ## [0.3.1] - 2021-03-09.
