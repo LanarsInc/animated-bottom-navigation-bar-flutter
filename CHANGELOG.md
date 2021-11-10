@@ -1,3 +1,6 @@
+## [0.3.3] - 2021-11-10.
+* Fix floating-point comparison by [franciscrispin](https://github.com/franciscrispin)
+
 ## [0.3.2] - 2021-03-22.
 * Fix [#16](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/16)
 * Update example
