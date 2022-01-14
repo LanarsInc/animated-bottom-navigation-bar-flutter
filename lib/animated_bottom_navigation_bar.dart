@@ -1,6 +1,8 @@
 library animated_bottom_navigation_bar;
 
+import 'package:animated_bottom_navigation_bar/src/clip_shadow_path.dart';
 import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
+import 'package:animated_bottom_navigation_bar/src/show_hide.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -80,6 +82,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Default is 72.
   final double? gapWidth;
 
+  /// Optional value for whether or not the navigation bar is visible. Default is false.
+  final bool? isVisible;
+
+  /// Optional custom shadow around the navigation bar;
+  final Shadow? shadow;
+
   AnimatedBottomNavigationBar._internal({
     Key? key,
     required this.activeIndex,
@@ -103,6 +111,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.notchSmoothness,
     this.gapLocation,
     this.gapWidth,
+    this.isVisible,
+    this.shadow,
   })  : assert(icons != null || itemCount != null),
         assert(((itemCount ?? icons!.length) >= 2) &&
             ((itemCount ?? icons!.length) <= 5)),
@@ -142,6 +152,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     NotchSmoothness? notchSmoothness,
     GapLocation? gapLocation,
     double? gapWidth,
+    bool? isVisible,
+    Shadow? shadow,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -163,6 +175,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           notchSmoothness: notchSmoothness,
           gapLocation: gapLocation ?? GapLocation.end,
           gapWidth: gapWidth,
+          isVisible: isVisible,
+          shadow: shadow,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -184,6 +198,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     NotchSmoothness? notchSmoothness,
     GapLocation? gapLocation,
     double? gapWidth,
+    bool? isVisible,
+    Shadow? shadow,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -203,6 +219,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           notchSmoothness: notchSmoothness,
           gapLocation: gapLocation ?? GapLocation.end,
           gapWidth: gapWidth,
+          isVisible: isVisible,
+          shadow: shadow,
         );
 
   @override
@@ -268,9 +286,7 @@ class _AnimatedBottomNavigationBarState
 
   @override
   Widget build(BuildContext context) {
-    return PhysicalShape(
-      elevation: widget.elevation ?? 8,
-      color: Colors.transparent,
+    return ClipShadowPath(
       clipper: CircularNotchedAndCorneredRectangleClipper(
         shape: CircularNotchedAndCorneredRectangle(
           animation: widget.notchAndCornersAnimation,
@@ -283,16 +299,24 @@ class _AnimatedBottomNavigationBarState
         geometry: geometryListenable,
         notchMargin: widget.notchMargin ?? 8,
       ),
-      clipBehavior: Clip.antiAlias,
-      child: Material(
-        color: widget.backgroundColor ?? Colors.white,
-        child: SafeArea(
-          child: Container(
-            height: widget.height ?? 56,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: _buildItems(),
+      shadow: widget.shadow ??
+          BoxShadow(
+            color: Color(0xFFEBEBEC),
+            offset: Offset(0, -1.0),
+            blurRadius: 5.0,
+          ),
+      child: ShowHide(
+        showing: widget.isVisible ?? true,
+        child: Material(
+          color: widget.backgroundColor ?? Colors.white,
+          child: SafeArea(
+            child: Container(
+              height: widget.height ?? 56,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: _buildItems(),
+              ),
             ),
           ),
         ),

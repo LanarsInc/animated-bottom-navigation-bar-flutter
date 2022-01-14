@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
@@ -38,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   final autoSizeGroup = AutoSizeGroup();
   var _bottomNavIndex = 0; //default index of a first screen
+  var _isBottomNavVisible = true;
 
   late AnimationController _animationController;
   late Animation<double> animation;
@@ -82,6 +84,27 @@ class _MyHomePageState extends State<MyHomePage>
     );
   }
 
+  bool onScrollNotification(ScrollNotification notification) {
+    if (notification is UserScrollNotification &&
+        notification.metrics.axis == Axis.vertical) {
+      switch (notification.direction) {
+        case ScrollDirection.forward:
+          setState(() {
+            _isBottomNavVisible = true;
+          });
+          break;
+        case ScrollDirection.reverse:
+          setState(() {
+            _isBottomNavVisible = false;
+          });
+          break;
+        case ScrollDirection.idle:
+          break;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -95,8 +118,11 @@ class _MyHomePageState extends State<MyHomePage>
           ),
           backgroundColor: HexColor('#373A36'),
         ),
-        body: NavigationScreen(
-          iconList[_bottomNavIndex],
+        body: NotificationListener<ScrollNotification>(
+          onNotification: onScrollNotification,
+          child: NavigationScreen(
+            iconList[_bottomNavIndex],
+          ),
         ),
         floatingActionButton: ScaleTransition(
           scale: animation,
@@ -149,6 +175,7 @@ class _MyHomePageState extends State<MyHomePage>
           gapLocation: GapLocation.center,
           leftCornerRadius: 32,
           rightCornerRadius: 32,
+          isVisible: _isBottomNavVisible,
           onTap: (index) => setState(() => _bottomNavIndex = index),
         ),
       ),
@@ -213,20 +240,23 @@ class _NavigationScreenState extends State<NavigationScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: double.infinity,
       color: Colors.white,
-      child: Center(
-        child: CircularRevealAnimation(
-          animation: animation,
-          centerOffset: Offset(80, 80),
-          maxRadius: MediaQuery.of(context).size.longestSide * 1.1,
-          child: Icon(
-            widget.iconData,
-            color: HexColor('#FFA400'),
-            size: 160,
+      child: ListView(
+        children: [
+          SizedBox(height: 64),
+          Center(
+            child: CircularRevealAnimation(
+              animation: animation,
+              centerOffset: Offset(80, 80),
+              maxRadius: MediaQuery.of(context).size.longestSide * 1.1,
+              child: Icon(
+                widget.iconData,
+                color: HexColor('#FFA400'),
+                size: 160,
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
