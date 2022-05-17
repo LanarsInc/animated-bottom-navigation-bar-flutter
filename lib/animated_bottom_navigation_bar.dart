@@ -80,12 +80,17 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Default is 72.
   final double? gapWidth;
 
+  /// Whether to avoid system intrusions on the left.
   final bool safeAreaLeft;
 
+  /// Whether to avoid system intrusions at the top of the screen, typically the
+  /// system status bar.
   final bool safeAreaTop;
 
+  /// Whether to avoid system intrusions on the right.
   final bool safeAreaRight;
 
+  /// Whether to avoid system intrusions on the bottom side of the screen.
   final bool safeAreaBottom;
 
   AnimatedBottomNavigationBar._internal({
