@@ -80,6 +80,14 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Default is 72.
   final double? gapWidth;
 
+  final bool safeAreaLeft;
+
+  final bool safeAreaTop;
+
+  final bool safeAreaRight;
+
+  final bool safeAreaBottom;
+
   AnimatedBottomNavigationBar._internal({
     Key? key,
     required this.activeIndex,
@@ -103,6 +111,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.notchSmoothness,
     this.gapLocation,
     this.gapWidth,
+    this.safeAreaLeft = true,
+    this.safeAreaTop = true,
+    this.safeAreaRight = true,
+    this.safeAreaBottom = true,
   })  : assert(icons != null || itemCount != null),
         assert(((itemCount ?? icons!.length) >= 2) &&
             ((itemCount ?? icons!.length) <= 5)),
@@ -142,6 +154,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     NotchSmoothness? notchSmoothness,
     GapLocation? gapLocation,
     double? gapWidth,
+    bool safeAreaLeft = true,
+    bool safeAreaTop = true,
+    bool safeAreaRight = true,
+    bool safeAreaBottom = true,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -163,6 +179,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           notchSmoothness: notchSmoothness,
           gapLocation: gapLocation ?? GapLocation.end,
           gapWidth: gapWidth,
+          safeAreaLeft: safeAreaLeft,
+          safeAreaTop: safeAreaTop,
+          safeAreaRight: safeAreaRight,
+          safeAreaBottom: safeAreaBottom,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -184,6 +204,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     NotchSmoothness? notchSmoothness,
     GapLocation? gapLocation,
     double? gapWidth,
+    bool safeAreaLeft = true,
+    bool safeAreaTop = true,
+    bool safeAreaRight = true,
+    bool safeAreaBottom = true,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -203,6 +227,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           notchSmoothness: notchSmoothness,
           gapLocation: gapLocation ?? GapLocation.end,
           gapWidth: gapWidth,
+          safeAreaLeft: safeAreaLeft,
+          safeAreaTop: safeAreaTop,
+          safeAreaRight: safeAreaRight,
+          safeAreaBottom: safeAreaBottom,
         );
 
   @override
@@ -287,6 +315,10 @@ class _AnimatedBottomNavigationBarState
       child: Material(
         color: widget.backgroundColor ?? Colors.white,
         child: SafeArea(
+          left: widget.safeAreaLeft,
+          top: widget.safeAreaTop,
+          right: widget.safeAreaRight,
+          bottom: widget.safeAreaBottom,
           child: Container(
             height: widget.height ?? 56,
             child: Row(
