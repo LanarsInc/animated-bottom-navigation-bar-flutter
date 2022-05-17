@@ -29,6 +29,7 @@
 .pub-cache/
 .pub/
 build/
+pubspec.lock
 # i18n
 lib/generated
 res/values
