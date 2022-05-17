@@ -1,4 +1,5 @@
-## [0.3.3] - 2021-11-10.
+## [0.3.3] - 2022-05-18.
+* Add SafeArea setting by [DenchikBY](https://github.com/DenchikBY)
 * Fix floating-point comparison by [franciscrispin](https://github.com/franciscrispin)
 
 ## [0.3.2] - 2021-03-22.
