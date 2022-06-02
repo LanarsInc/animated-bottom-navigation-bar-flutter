@@ -88,6 +88,19 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Optional custom shadow around the navigation bar;
   final Shadow? shadow;
 
+  /// Whether to avoid system intrusions on the left.
+  final bool safeAreaLeft;
+
+  /// Whether to avoid system intrusions at the top of the screen, typically the
+  /// system status bar.
+  final bool safeAreaTop;
+
+  /// Whether to avoid system intrusions on the right.
+  final bool safeAreaRight;
+
+  /// Whether to avoid system intrusions on the bottom side of the screen.
+  final bool safeAreaBottom;
+
   AnimatedBottomNavigationBar._internal({
     Key? key,
     required this.activeIndex,
@@ -113,6 +126,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.gapWidth,
     this.isVisible,
     this.shadow,
+    this.safeAreaLeft = true,
+    this.safeAreaTop = true,
+    this.safeAreaRight = true,
+    this.safeAreaBottom = true,
   })  : assert(icons != null || itemCount != null),
         assert(((itemCount ?? icons!.length) >= 2) &&
             ((itemCount ?? icons!.length) <= 5)),
@@ -154,6 +171,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     double? gapWidth,
     bool? isVisible,
     Shadow? shadow,
+    bool safeAreaLeft = true,
+    bool safeAreaTop = true,
+    bool safeAreaRight = true,
+    bool safeAreaBottom = true,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -177,6 +198,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           gapWidth: gapWidth,
           isVisible: isVisible,
           shadow: shadow,
+          safeAreaLeft: safeAreaLeft,
+          safeAreaTop: safeAreaTop,
+          safeAreaRight: safeAreaRight,
+          safeAreaBottom: safeAreaBottom,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -200,6 +225,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     double? gapWidth,
     bool? isVisible,
     Shadow? shadow,
+    bool safeAreaLeft = true,
+    bool safeAreaTop = true,
+    bool safeAreaRight = true,
+    bool safeAreaBottom = true,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -221,6 +250,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           gapWidth: gapWidth,
           isVisible: isVisible,
           shadow: shadow,
+          safeAreaLeft: safeAreaLeft,
+          safeAreaTop: safeAreaTop,
+          safeAreaRight: safeAreaRight,
+          safeAreaBottom: safeAreaBottom,
         );
 
   @override
@@ -308,8 +341,13 @@ class _AnimatedBottomNavigationBarState
       child: ShowHide(
         showing: widget.isVisible ?? true,
         child: Material(
+          clipBehavior: Clip.antiAlias,
           color: widget.backgroundColor ?? Colors.white,
           child: SafeArea(
+            left: widget.safeAreaLeft,
+            top: widget.safeAreaTop,
+            right: widget.safeAreaRight,
+            bottom: widget.safeAreaBottom,
             child: Container(
               height: widget.height ?? 56,
               child: Row(
