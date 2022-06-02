@@ -1,7 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:flutter_hooks/flutter_hooks.dart';
-
 /// A widget that will animate in by growing to its full size
 /// and shrinking away depending on `showing`.
 /// - Usually `showing` is stored in the view model to show or hide a widget.
@@ -15,13 +13,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 /// ),
 /// ```
 /// {@end-tool}
-class ShowHide extends HookWidget {
-  // ignore: public_member_api_docs
+
+class ShowHide extends StatefulWidget {
   const ShowHide({
     Key? key,
     required this.child,
     this.duration = const Duration(milliseconds: 200),
     required this.showing,
+    this.curve = Curves.fastOutSlowIn,
   }) : super(key: key);
 
   /// The [Widget] on which the animation is applied.
@@ -30,37 +29,64 @@ class ShowHide extends HookWidget {
   /// How long it takes to show/hide
   final Duration duration;
 
+  ///The [Curve] that the size animation will follow.
+  ///Defaults to [Curves.fastOutSlowIn]
+  final Curve curve;
+
   /// Whether the [Widget] is visible.
   final bool showing;
 
-  /* @override
+  @override
+  State<ShowHide> createState() => _ShowHideState();
+}
+
+class _ShowHideState extends State<ShowHide>
+    with SingleTickerProviderStateMixin {
+  late Animation<double> _animation;
+  late AnimationController _controller;
+
+  @override
   void initState() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
-    _animation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(_controller);
     super.initState();
-  } */
+    _controller = AnimationController(
+      duration: widget.duration,
+      vsync: this,
+    );
+    _animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: widget.curve,
+      ),
+    );
+
+    if (widget.showing) {
+      _controller.value = _controller.upperBound;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(ShowHide oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.showing != oldWidget.showing) {
+      if (widget.showing) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    var _hide = useAnimationController(
-      duration: duration,
-      initialValue: 1.0,
-    );
-
-    if (!showing) {
-      _hide.reverse();
-    } else {
-      _hide.forward();
-    }
     return SizeTransition(
-      sizeFactor: _hide,
-      child: child,
+      sizeFactor: _animation,
+      child: widget.child,
     );
   }
 }
