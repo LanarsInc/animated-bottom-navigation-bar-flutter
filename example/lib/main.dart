@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage>
     SystemChrome.setSystemUIOverlayStyle(systemTheme);
 
     _animationController = AnimationController(
-      duration: Duration(seconds: 1),
+      duration: Duration(milliseconds: 200),
       vsync: this,
     );
     curve = CurvedAnimation(
@@ -91,10 +91,12 @@ class _MyHomePageState extends State<MyHomePage>
           setState(() {
             _isBottomNavVisible = true;
           });
+          _animationController.forward(from: 0);
           break;
         case ScrollDirection.reverse:
           setState(() {
             _isBottomNavVisible = false;
+            _animationController.reverse(from: 1);
           });
           break;
         case ScrollDirection.idle:
@@ -168,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage>
           backgroundColor: HexColor('#373A36'),
           activeIndex: _bottomNavIndex,
           splashColor: HexColor('#FFA400'),
-          notchAndCornersAnimation: animation,
+          // notchAndCornersAnimation: animation,
           splashSpeedInMilliseconds: 300,
           notchSmoothness: NotchSmoothness.defaultEdge,
           gapLocation: GapLocation.center,

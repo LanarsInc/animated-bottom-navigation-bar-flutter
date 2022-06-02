@@ -101,6 +101,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Whether to avoid system intrusions on the bottom side of the screen.
   final bool safeAreaBottom;
 
+  ///Optional custom hiding animation duration
+  final Duration? hideAnimationDuration;
+
+  ///Optional custom hiding animation curve
+  final Curve? hideAnimationCurve;
+
   AnimatedBottomNavigationBar._internal({
     Key? key,
     required this.activeIndex,
@@ -130,6 +136,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.safeAreaTop = true,
     this.safeAreaRight = true,
     this.safeAreaBottom = true,
+    this.hideAnimationDuration,
+    this.hideAnimationCurve,
   })  : assert(icons != null || itemCount != null),
         assert(((itemCount ?? icons!.length) >= 2) &&
             ((itemCount ?? icons!.length) <= 5)),
@@ -148,34 +156,36 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     }
   }
 
-  AnimatedBottomNavigationBar({
-    Key? key,
-    required List<IconData> icons,
-    required int activeIndex,
-    required Function(int) onTap,
-    double? height,
-    double? elevation,
-    double? splashRadius,
-    int? splashSpeedInMilliseconds,
-    double? notchMargin,
-    Color? backgroundColor,
-    Color? splashColor,
-    Color? activeColor,
-    Color? inactiveColor,
-    Animation<double>? notchAndCornersAnimation,
-    double? leftCornerRadius,
-    double? rightCornerRadius,
-    double? iconSize,
-    NotchSmoothness? notchSmoothness,
-    GapLocation? gapLocation,
-    double? gapWidth,
-    bool? isVisible,
-    Shadow? shadow,
-    bool safeAreaLeft = true,
-    bool safeAreaTop = true,
-    bool safeAreaRight = true,
-    bool safeAreaBottom = true,
-  }) : this._internal(
+  AnimatedBottomNavigationBar(
+      {Key? key,
+      required List<IconData> icons,
+      required int activeIndex,
+      required Function(int) onTap,
+      double? height,
+      double? elevation,
+      double? splashRadius,
+      int? splashSpeedInMilliseconds,
+      double? notchMargin,
+      Color? backgroundColor,
+      Color? splashColor,
+      Color? activeColor,
+      Color? inactiveColor,
+      Animation<double>? notchAndCornersAnimation,
+      double? leftCornerRadius,
+      double? rightCornerRadius,
+      double? iconSize,
+      NotchSmoothness? notchSmoothness,
+      GapLocation? gapLocation,
+      double? gapWidth,
+      bool? isVisible,
+      Shadow? shadow,
+      bool safeAreaLeft = true,
+      bool safeAreaTop = true,
+      bool safeAreaRight = true,
+      bool safeAreaBottom = true,
+      Duration? hideAnimationDuration,
+      Curve? hideAnimationCurve})
+      : this._internal(
           key: key,
           icons: icons,
           activeIndex: activeIndex,
@@ -202,6 +212,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           safeAreaTop: safeAreaTop,
           safeAreaRight: safeAreaRight,
           safeAreaBottom: safeAreaBottom,
+          hideAnimationDuration: hideAnimationDuration,
+          hideAnimationCurve: hideAnimationCurve,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -229,6 +241,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     bool safeAreaTop = true,
     bool safeAreaRight = true,
     bool safeAreaBottom = true,
+    Curve? hideAnimationCurve,
+    Duration? hideAnimationDuration,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -254,6 +268,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           safeAreaTop: safeAreaTop,
           safeAreaRight: safeAreaRight,
           safeAreaBottom: safeAreaBottom,
+          hideAnimationCurve: hideAnimationCurve,
+          hideAnimationDuration: hideAnimationDuration,
         );
 
   @override
@@ -264,7 +280,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
 class _AnimatedBottomNavigationBarState
     extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   late ValueListenable<ScaffoldGeometry> geometryListenable;
+
   late AnimationController _bubbleController;
+  late AnimationController _showController;
+
   double _bubbleRadius = 0;
   double _iconScale = 1;
 
@@ -277,10 +296,30 @@ class _AnimatedBottomNavigationBarState
   }
 
   @override
+  void initState() {
+    _showController = AnimationController(
+      duration: widget.hideAnimationDuration ?? Duration(milliseconds: 200),
+      vsync: this,
+    );
+
+    if (widget.isVisible!) {
+      _showController.value = _showController.upperBound;
+    }
+    super.initState();
+  }
+
+  @override
   void didUpdateWidget(AnimatedBottomNavigationBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.activeIndex != widget.activeIndex) {
       _startBubbleAnimation();
+    }
+    if (widget.isVisible != oldWidget.isVisible) {
+      if (widget.isVisible!) {
+        _showController.forward();
+      } else {
+        _showController.reverse();
+      }
     }
   }
 
@@ -339,7 +378,8 @@ class _AnimatedBottomNavigationBarState
             blurRadius: 5.0,
           ),
       child: ShowHide(
-        showing: widget.isVisible ?? true,
+        showController: _showController,
+        curve: widget.hideAnimationCurve,
         child: Material(
           clipBehavior: Clip.antiAlias,
           color: widget.backgroundColor ?? Colors.white,
