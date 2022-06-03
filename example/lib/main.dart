@@ -34,15 +34,18 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage>
-    with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final autoSizeGroup = AutoSizeGroup();
   var _bottomNavIndex = 0; //default index of a first screen
   var _isBottomNavVisible = true;
 
-  late AnimationController _animationController;
-  late Animation<double> animation;
-  late CurvedAnimation curve;
+  late AnimationController _fabAnimationController;
+  late AnimationController _borderRadiusAnimationController;
+  late Animation<double> fabAnimation;
+  late Animation<double> borderRadiusAnimation;
+
+  late CurvedAnimation fabCurve;
+  late CurvedAnimation borderRadiusCurve;
 
   final iconList = <IconData>[
     Icons.brightness_5,
@@ -60,26 +63,35 @@ class _MyHomePageState extends State<MyHomePage>
     );
     SystemChrome.setSystemUIOverlayStyle(systemTheme);
 
-    _animationController = AnimationController(
+    _fabAnimationController = AnimationController(
       duration: Duration(milliseconds: 200),
       vsync: this,
     );
-    curve = CurvedAnimation(
-      parent: _animationController,
-      curve: Interval(
-        0.5,
-        1.0,
-        curve: Curves.fastOutSlowIn,
-      ),
+    _borderRadiusAnimationController = AnimationController(
+      duration: Duration(milliseconds: 500),
+      vsync: this,
     );
-    animation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(curve);
+    fabCurve = CurvedAnimation(
+      parent: _fabAnimationController,
+      curve: Interval(0.5, 1.0, curve: Curves.fastOutSlowIn),
+    );
+    borderRadiusCurve = CurvedAnimation(
+      parent: _borderRadiusAnimationController,
+      curve: Interval(0.5, 1.0, curve: Curves.fastOutSlowIn),
+    );
+
+    fabAnimation = Tween<double>(begin: 0, end: 1).animate(fabCurve);
+    borderRadiusAnimation = Tween<double>(begin: 0, end: 1).animate(
+      borderRadiusCurve,
+    );
 
     Future.delayed(
       Duration(seconds: 1),
-      () => _animationController.forward(),
+      () => _fabAnimationController.forward(),
+    );
+    Future.delayed(
+      Duration(seconds: 1),
+      () => _borderRadiusAnimationController.forward(),
     );
   }
 
@@ -91,12 +103,12 @@ class _MyHomePageState extends State<MyHomePage>
           setState(() {
             _isBottomNavVisible = true;
           });
-          _animationController.forward(from: 0);
+          _fabAnimationController.forward(from: 0);
           break;
         case ScrollDirection.reverse:
           setState(() {
             _isBottomNavVisible = false;
-            _animationController.reverse(from: 1);
+            _fabAnimationController.reverse(from: 1);
           });
           break;
         case ScrollDirection.idle:
@@ -126,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage>
           ),
         ),
         floatingActionButton: ScaleTransition(
-          scale: animation,
+          scale: fabAnimation,
           child: FloatingActionButton(
             elevation: 8,
             backgroundColor: HexColor('#FFA400'),
@@ -135,8 +147,10 @@ class _MyHomePageState extends State<MyHomePage>
               color: HexColor('#373A36'),
             ),
             onPressed: () {
-              _animationController.reset();
-              _animationController.forward();
+              _fabAnimationController.reset();
+              _borderRadiusAnimationController.reset();
+              _borderRadiusAnimationController.forward();
+              _fabAnimationController.forward();
             },
           ),
         ),
@@ -170,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage>
           backgroundColor: HexColor('#373A36'),
           activeIndex: _bottomNavIndex,
           splashColor: HexColor('#FFA400'),
-          // notchAndCornersAnimation: animation,
+          notchAndCornersAnimation: borderRadiusAnimation,
           splashSpeedInMilliseconds: 300,
           notchSmoothness: NotchSmoothness.defaultEdge,
           gapLocation: GapLocation.center,
