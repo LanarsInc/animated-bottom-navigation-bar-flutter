@@ -135,23 +135,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           onNotification: onScrollNotification,
           child: NavigationScreen(iconList[_bottomNavIndex]),
         ),
-        floatingActionButton: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8),
-          child: FloatingActionButton(
-            shape: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
-            elevation: 8,
-            backgroundColor: HexColor('#FFA400'),
-            child: Icon(
-              Icons.brightness_3,
-              color: HexColor('#373A36'),
-            ),
-            onPressed: () {
-              _fabAnimationController.reset();
-              _borderRadiusAnimationController.reset();
-              _borderRadiusAnimationController.forward();
-              _fabAnimationController.forward();
-            },
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: HexColor('#FFA400'),
+          child: Icon(
+            Icons.brightness_3,
+            color: HexColor('#373A36'),
           ),
+          onPressed: () {
+            _fabAnimationController.reset();
+            _borderRadiusAnimationController.reset();
+            _borderRadiusAnimationController.forward();
+            _fabAnimationController.forward();
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AnimatedBottomNavigationBar.builder(
@@ -185,10 +180,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           splashColor: HexColor('#FFA400'),
           notchAndCornersAnimation: borderRadiusAnimation,
           splashSpeedInMilliseconds: 300,
-          notchSmoothness: NotchSmoothness.verySmoothEdge,
+          notchSmoothness: NotchSmoothness.defaultEdge,
           gapLocation: GapLocation.center,
-          borderColor: Colors.green,
-          borderWidth: 5,
           leftCornerRadius: 32,
           rightCornerRadius: 32,
           isVisible: _isBottomNavVisible,
