@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     SystemChrome.setSystemUIOverlayStyle(systemTheme);
 
     _fabAnimationController = AnimationController(
-      duration: Duration(milliseconds: 200),
+      duration: Duration(milliseconds: 500),
       vsync: this,
     );
     _borderRadiusAnimationController = AnimationController(
@@ -133,13 +133,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
         body: NotificationListener<ScrollNotification>(
           onNotification: onScrollNotification,
-          child: NavigationScreen(
-            iconList[_bottomNavIndex],
-          ),
+          child: NavigationScreen(iconList[_bottomNavIndex]),
         ),
-        floatingActionButton: ScaleTransition(
-          scale: fabAnimation,
+        floatingActionButton: Padding(
+          padding: EdgeInsets.symmetric(vertical: 8),
           child: FloatingActionButton(
+            shape: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
             elevation: 8,
             backgroundColor: HexColor('#FFA400'),
             child: Icon(
@@ -186,8 +185,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           splashColor: HexColor('#FFA400'),
           notchAndCornersAnimation: borderRadiusAnimation,
           splashSpeedInMilliseconds: 300,
-          notchSmoothness: NotchSmoothness.defaultEdge,
+          notchSmoothness: NotchSmoothness.verySmoothEdge,
           gapLocation: GapLocation.center,
+          borderColor: Colors.green,
+          borderWidth: 5,
           leftCornerRadius: 32,
           rightCornerRadius: 32,
           isVisible: _isBottomNavVisible,

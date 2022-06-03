@@ -37,9 +37,6 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Optional custom tab bar height. Default is 56.
   final double? height;
 
-  /// Optional custom tab bar elevation. Default is 8.
-  final double? elevation;
-
   /// Optional custom notch margin for Floating. Default is 8.
   final double? notchMargin;
 
@@ -85,7 +82,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Optional value for whether or not the navigation bar is visible. Default is false.
   final bool? isVisible;
 
-  /// Optional custom shadow around the navigation bar;
+  /// Optional custom shadow around the navigation bar. Default is material elevation shadow 8
   final Shadow? shadow;
 
   /// Whether to avoid system intrusions on the left.
@@ -122,7 +119,6 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.itemCount,
     this.icons,
     this.height,
-    this.elevation,
     this.splashRadius = 24,
     this.splashSpeedInMilliseconds,
     this.notchMargin,
@@ -171,7 +167,6 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     required int activeIndex,
     required Function(int) onTap,
     double? height,
-    double? elevation,
     double? splashRadius,
     int? splashSpeedInMilliseconds,
     double? notchMargin,
@@ -202,7 +197,6 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           activeIndex: activeIndex,
           onTap: onTap,
           height: height,
-          elevation: elevation,
           splashRadius: splashRadius ?? 24,
           splashSpeedInMilliseconds: splashSpeedInMilliseconds,
           notchMargin: notchMargin,
@@ -236,7 +230,6 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     required int activeIndex,
     required Function(int) onTap,
     double? height,
-    double? elevation,
     double? splashRadius,
     int? splashSpeedInMilliseconds,
     double? notchMargin,
@@ -265,7 +258,6 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           activeIndex: activeIndex,
           onTap: onTap,
           height: height,
-          elevation: elevation,
           splashRadius: splashRadius ?? 24,
           splashSpeedInMilliseconds: splashSpeedInMilliseconds,
           notchMargin: notchMargin,
@@ -388,27 +380,30 @@ class _AnimatedBottomNavigationBarState
         geometry: geometryListenable,
         notchMargin: widget.notchMargin ?? 8,
       ),
-      shadow: widget.shadow ?? BoxShadow(color: Colors.transparent),
+      shadow: widget.shadow ??
+          BoxShadow(
+            offset: Offset(0.0, -8.0),
+            blurRadius: 10.0,
+            spreadRadius: 1.0,
+            color: Color(0x24000000),
+          ),
       borderColor: widget.borderColor ?? Colors.transparent,
       borderWidth: widget.borderWidth ?? 2,
       child: VisibleAnimator(
         showController: _showController,
         curve: widget.hideAnimationCurve ?? Curves.fastOutSlowIn,
-        child: Material(
-          clipBehavior: Clip.antiAlias,
-          color: widget.backgroundColor ?? Colors.white,
-          child: SafeArea(
-            left: widget.safeAreaLeft,
-            top: widget.safeAreaTop,
-            right: widget.safeAreaRight,
-            bottom: widget.safeAreaBottom,
-            child: Container(
-              height: widget.height ?? 56,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: _buildItems(),
-              ),
+        child: SafeArea(
+          left: widget.safeAreaLeft,
+          top: widget.safeAreaTop,
+          right: widget.safeAreaRight,
+          bottom: widget.safeAreaBottom,
+          child: Container(
+            height: widget.height ?? 56,
+            color: widget.backgroundColor ?? Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: _buildItems(),
             ),
           ),
         ),
