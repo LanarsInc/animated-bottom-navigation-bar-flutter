@@ -1,15 +1,17 @@
 library animated_bottom_navigation_bar;
 
-import 'package:animated_bottom_navigation_bar/src/around_custom_painter.dart';
-import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
-import 'package:animated_bottom_navigation_bar/src/visible_animator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_bottom_navigation_bar/src/around_custom_painter.dart';
+import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
+import 'package:animated_bottom_navigation_bar/src/safe_area_values.dart';
+import 'package:animated_bottom_navigation_bar/src/visible_animator.dart';
+import 'package:animated_bottom_navigation_bar/src/circular_notch_and_corner_clipper.dart';
+import 'package:animated_bottom_navigation_bar/src/circular_notched_and_cornered_shape.dart';
+import 'package:animated_bottom_navigation_bar/src/exceptions.dart';
+import 'package:animated_bottom_navigation_bar/src/gap_item.dart';
 
-import 'src/circular_notch_and_corner_clipper.dart';
-import 'src/circular_notched_and_cornered_shape.dart';
-import 'src/exceptions.dart';
-import 'src/gap_item.dart';
+export 'package:animated_bottom_navigation_bar/src/safe_area_values.dart';
 
 /// Signature for a function that creates a widget for a given index & state.
 /// Used by [AnimatedBottomNavigationBar.builder].
@@ -85,18 +87,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Optional custom shadow around the navigation bar. Default is material elevation shadow 8
   final Shadow? shadow;
 
-  /// Whether to avoid system intrusions on the left.
-  final bool safeAreaLeft;
-
-  /// Whether to avoid system intrusions at the top of the screen, typically the
-  /// system status bar.
-  final bool safeAreaTop;
-
-  /// Whether to avoid system intrusions on the right.
-  final bool safeAreaRight;
-
-  /// Whether to avoid system intrusions on the bottom side of the screen.
-  final bool safeAreaBottom;
+  /// Specifies whether to avoid system intrusions for specific sides
+  final SafeAreaValues safeAreaValues;
 
   ///Optional custom hiding animation duration. Default is 200 milliseconds.
   final Duration? hideAnimationDuration;
@@ -111,6 +103,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Optional custom border width around the navigation bar. Default is 2.0.
   final double? borderWidth;
 
+  static const _defaultSplashRadius = 24.0;
+
   AnimatedBottomNavigationBar._internal({
     Key? key,
     required this.activeIndex,
@@ -119,7 +113,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.itemCount,
     this.icons,
     this.height,
-    this.splashRadius = 24,
+    this.splashRadius = _defaultSplashRadius,
     this.splashSpeedInMilliseconds,
     this.notchMargin,
     this.backgroundColor,
@@ -137,15 +131,14 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.shadow,
     this.borderColor,
     this.borderWidth,
-    this.safeAreaLeft = true,
-    this.safeAreaTop = true,
-    this.safeAreaRight = true,
-    this.safeAreaBottom = true,
+    this.safeAreaValues = const SafeAreaValues(),
     this.hideAnimationDuration,
     this.hideAnimationCurve,
   })  : assert(icons != null || itemCount != null),
-        assert(((itemCount ?? icons!.length) >= 2) &&
-            ((itemCount ?? icons!.length) <= 5)),
+        assert(
+          ((itemCount ?? icons!.length) >= 2) &&
+              ((itemCount ?? icons!.length) <= 5),
+        ),
         super(key: key) {
     if (gapLocation == GapLocation.end) {
       if (rightCornerRadius != 0)
@@ -154,7 +147,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
             'consider set rightCornerRadius to 0.');
     }
     if (gapLocation == GapLocation.center) {
-      if ((itemCount ?? icons!.length) % 2 != 0)
+      final iconsCountIsOdd = (itemCount ?? icons!.length).isOdd;
+      if (iconsCountIsOdd)
         throw NonAppropriatePathException(
             'Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
@@ -185,10 +179,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     Shadow? shadow,
     Color? borderColor,
     double? borderWidth,
-    bool safeAreaLeft = true,
-    bool safeAreaTop = true,
-    bool safeAreaRight = true,
-    bool safeAreaBottom = true,
+    SafeAreaValues safeAreaValues = const SafeAreaValues(),
     Duration? hideAnimationDuration,
     Curve? hideAnimationCurve,
   }) : this._internal(
@@ -197,7 +188,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           activeIndex: activeIndex,
           onTap: onTap,
           height: height,
-          splashRadius: splashRadius ?? 24,
+          splashRadius: splashRadius ?? _defaultSplashRadius,
           splashSpeedInMilliseconds: splashSpeedInMilliseconds,
           notchMargin: notchMargin,
           backgroundColor: backgroundColor,
@@ -215,10 +206,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           shadow: shadow,
           borderColor: borderColor,
           borderWidth: borderWidth,
-          safeAreaLeft: safeAreaLeft,
-          safeAreaTop: safeAreaTop,
-          safeAreaRight: safeAreaRight,
-          safeAreaBottom: safeAreaBottom,
+          safeAreaValues: safeAreaValues,
           hideAnimationDuration: hideAnimationDuration,
           hideAnimationCurve: hideAnimationCurve,
         );
@@ -245,10 +233,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     Shadow? shadow,
     Color? borderColor,
     double? borderWidth,
-    bool safeAreaLeft = true,
-    bool safeAreaTop = true,
-    bool safeAreaRight = true,
-    bool safeAreaBottom = true,
+    SafeAreaValues safeAreaValues = const SafeAreaValues(),
     Curve? hideAnimationCurve,
     Duration? hideAnimationDuration,
   }) : this._internal(
@@ -258,7 +243,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           activeIndex: activeIndex,
           onTap: onTap,
           height: height,
-          splashRadius: splashRadius ?? 24,
+          splashRadius: splashRadius ?? _defaultSplashRadius,
           splashSpeedInMilliseconds: splashSpeedInMilliseconds,
           notchMargin: notchMargin,
           backgroundColor: backgroundColor,
@@ -273,10 +258,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           shadow: shadow,
           borderColor: borderColor,
           borderWidth: borderWidth,
-          safeAreaLeft: safeAreaLeft,
-          safeAreaTop: safeAreaTop,
-          safeAreaRight: safeAreaRight,
-          safeAreaBottom: safeAreaBottom,
+          safeAreaValues: safeAreaValues,
           hideAnimationCurve: hideAnimationCurve,
           hideAnimationDuration: hideAnimationDuration,
         );
@@ -296,6 +278,13 @@ class _AnimatedBottomNavigationBarState
   double _bubbleRadius = 0;
   double _iconScale = 1;
 
+  final _defaultShadow = BoxShadow(
+    offset: Offset(0, 1),
+    blurRadius: 12,
+    spreadRadius: 0.5,
+    color: Colors.black,
+  );
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -306,25 +295,25 @@ class _AnimatedBottomNavigationBarState
 
   @override
   void initState() {
+    super.initState();
     _showController = AnimationController(
       duration: widget.hideAnimationDuration ?? Duration(milliseconds: 200),
       vsync: this,
     );
 
-    if (widget.isVisible!) {
+    if (widget.isVisible == true) {
       _showController.value = _showController.upperBound;
     }
-    super.initState();
   }
 
   @override
   void didUpdateWidget(AnimatedBottomNavigationBar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.activeIndex != widget.activeIndex) {
+    if (widget.activeIndex != oldWidget.activeIndex) {
       _startBubbleAnimation();
     }
     if (widget.isVisible != oldWidget.isVisible) {
-      if (widget.isVisible!) {
+      if (widget.isVisible == true) {
         _showController.forward();
       } else {
         _showController.reverse();
@@ -380,23 +369,17 @@ class _AnimatedBottomNavigationBarState
         geometry: geometryListenable,
         notchMargin: widget.notchMargin ?? 8,
       ),
-      shadow: widget.shadow ??
-          BoxShadow(
-            offset: Offset(0.0, -8.0),
-            blurRadius: 10.0,
-            spreadRadius: 1.0,
-            color: Color(0x24000000),
-          ),
+      shadow: widget.shadow ?? _defaultShadow,
       borderColor: widget.borderColor ?? Colors.transparent,
       borderWidth: widget.borderWidth ?? 2,
       child: VisibleAnimator(
         showController: _showController,
         curve: widget.hideAnimationCurve ?? Curves.fastOutSlowIn,
         child: SafeArea(
-          left: widget.safeAreaLeft,
-          top: widget.safeAreaTop,
-          right: widget.safeAreaRight,
-          bottom: widget.safeAreaBottom,
+          left: widget.safeAreaValues.left,
+          top: widget.safeAreaValues.top,
+          right: widget.safeAreaValues.right,
+          bottom: widget.safeAreaValues.bottom,
           child: Container(
             height: widget.height ?? 56,
             color: widget.backgroundColor ?? Colors.white,
@@ -418,7 +401,7 @@ class _AnimatedBottomNavigationBarState
         : gapWidth;
     final itemCount = widget.itemCount ?? widget.icons!.length;
 
-    List items = <Widget>[];
+    final items = <Widget>[];
     for (var i = 0; i < itemCount; i++) {
       final isActive = i == widget.activeIndex;
 
@@ -446,7 +429,7 @@ class _AnimatedBottomNavigationBarState
         items.add(GapItem(width: gapItemWidth));
       }
     }
-    return items as List<Widget>;
+    return items;
   }
 }
 

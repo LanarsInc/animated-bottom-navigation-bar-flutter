@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'exceptions.dart';
-
 class CircularNotchedAndCorneredRectangleClipper extends CustomClipper<Path> {
   final ValueListenable<ScaffoldGeometry> geometry;
   final NotchedShape shape;
