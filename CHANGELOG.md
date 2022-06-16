@@ -1,3 +1,10 @@
+## [1.0.0] - 2022-06-16.
+* **Breaking change**. `SafeArea` params grouped to `SafeAreaValues` object.
+* **Breaking change**. Remove `elevation` parameter in favour of `shadow` parameter.
+* Add shadow customization by [Prn-Ice](https://github.com/Prn-Ice)
+* Add hide on scroll animation by [Prn-Ice](https://github.com/Prn-Ice)
+* Add border customization
+
 ## [0.3.3] - 2022-05-18.
 * Add SafeArea setting by [DenchikBY](https://github.com/DenchikBY)
 * Fix floating-point comparison by [franciscrispin](https://github.com/franciscrispin)
