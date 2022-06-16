@@ -273,7 +273,7 @@ class _AnimatedBottomNavigationBarState
     offset: Offset(0, 1),
     blurRadius: 12,
     spreadRadius: 0.5,
-    color: Colors.black,
+    color: Colors.grey,
   );
 
   @override
@@ -359,7 +359,7 @@ class _AnimatedBottomNavigationBarState
         right: widget.safeAreaValues.right,
         bottom: widget.safeAreaValues.bottom,
         child: Container(
-          height: widget.height ?? 56,
+          height: widget.height ?? kBottomNavigationBarHeight,
           color: widget.backgroundColor ?? Colors.white,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
