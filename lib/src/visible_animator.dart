@@ -23,7 +23,7 @@ class _VisibleAnimatorState extends State<VisibleAnimator> {
   @override
   void initState() {
     super.initState();
-    _animation = Tween<double>(begin: 0, end: 1).animate(
+    _animation = Tween<double>(begin: 1, end: 0).animate(
       CurvedAnimation(parent: widget.showController, curve: widget.curve),
     );
   }

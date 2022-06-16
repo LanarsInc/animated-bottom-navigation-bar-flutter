@@ -37,15 +37,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final autoSizeGroup = AutoSizeGroup();
   var _bottomNavIndex = 0; //default index of a first screen
-  var _isBottomNavVisible = true;
 
   late AnimationController _fabAnimationController;
   late AnimationController _borderRadiusAnimationController;
   late Animation<double> fabAnimation;
   late Animation<double> borderRadiusAnimation;
-
   late CurvedAnimation fabCurve;
   late CurvedAnimation borderRadiusCurve;
+  late AnimationController _hideBottomBarAnimationController;
 
   final iconList = <IconData>[
     Icons.brightness_5,
@@ -85,6 +84,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       borderRadiusCurve,
     );
 
+    _hideBottomBarAnimationController = AnimationController(
+      duration: Duration(milliseconds: 200),
+      vsync: this,
+    );
+
     Future.delayed(
       Duration(seconds: 1),
       () => _fabAnimationController.forward(),
@@ -100,16 +104,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         notification.metrics.axis == Axis.vertical) {
       switch (notification.direction) {
         case ScrollDirection.forward:
-          setState(() {
-            _isBottomNavVisible = true;
-          });
+          _hideBottomBarAnimationController.reverse();
           _fabAnimationController.forward(from: 0);
           break;
         case ScrollDirection.reverse:
-          setState(() {
-            _isBottomNavVisible = false;
-            _fabAnimationController.reverse(from: 1);
-          });
+          _hideBottomBarAnimationController.forward();
+          _fabAnimationController.reverse(from: 1);
           break;
         case ScrollDirection.idle:
           break;
@@ -184,8 +184,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           gapLocation: GapLocation.center,
           leftCornerRadius: 32,
           rightCornerRadius: 32,
-          isVisible: _isBottomNavVisible,
           onTap: (index) => setState(() => _bottomNavIndex = index),
+          hideAnimationController: _hideBottomBarAnimationController,
         ),
       ),
     );

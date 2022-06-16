@@ -81,19 +81,13 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Default is 72.
   final double? gapWidth;
 
-  /// Optional value for whether or not the navigation bar is visible. Default is false.
-  final bool? isVisible;
-
   /// Optional custom shadow around the navigation bar. Default is material elevation shadow 8
   final Shadow? shadow;
 
   /// Specifies whether to avoid system intrusions for specific sides
   final SafeAreaValues safeAreaValues;
 
-  ///Optional custom hiding animation duration. Default is 200 milliseconds.
-  final Duration? hideAnimationDuration;
-
-  ///The [Curve] that the size animation will follow.
+  ///The [Curve] that the hide animation will follow.
   ///Defaults to [Curves.fastOutSlowIn],
   final Curve? hideAnimationCurve;
 
@@ -102,6 +96,9 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
 
   /// Optional custom border width around the navigation bar. Default is 2.0.
   final double? borderWidth;
+
+  /// Optional hide bottom bar animation controller
+  final AnimationController? hideAnimationController;
 
   static const _defaultSplashRadius = 24.0;
 
@@ -127,13 +124,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.notchSmoothness,
     this.gapLocation,
     this.gapWidth,
-    this.isVisible,
     this.shadow,
     this.borderColor,
     this.borderWidth,
     this.safeAreaValues = const SafeAreaValues(),
-    this.hideAnimationDuration,
     this.hideAnimationCurve,
+    this.hideAnimationController,
   })  : assert(icons != null || itemCount != null),
         assert(
           ((itemCount ?? icons!.length) >= 2) &&
@@ -175,13 +171,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     NotchSmoothness? notchSmoothness,
     GapLocation? gapLocation,
     double? gapWidth,
-    bool? isVisible,
     Shadow? shadow,
     Color? borderColor,
     double? borderWidth,
     SafeAreaValues safeAreaValues = const SafeAreaValues(),
-    Duration? hideAnimationDuration,
     Curve? hideAnimationCurve,
+    AnimationController? hideAnimationController,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -202,13 +197,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           notchSmoothness: notchSmoothness,
           gapLocation: gapLocation ?? GapLocation.end,
           gapWidth: gapWidth,
-          isVisible: isVisible,
           shadow: shadow,
           borderColor: borderColor,
           borderWidth: borderWidth,
           safeAreaValues: safeAreaValues,
-          hideAnimationDuration: hideAnimationDuration,
           hideAnimationCurve: hideAnimationCurve,
+          hideAnimationController: hideAnimationController,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -229,13 +223,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     NotchSmoothness? notchSmoothness,
     GapLocation? gapLocation,
     double? gapWidth,
-    bool? isVisible,
     Shadow? shadow,
     Color? borderColor,
     double? borderWidth,
     SafeAreaValues safeAreaValues = const SafeAreaValues(),
     Curve? hideAnimationCurve,
-    Duration? hideAnimationDuration,
+    AnimationController? hideAnimationController,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -254,13 +247,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           notchSmoothness: notchSmoothness,
           gapLocation: gapLocation ?? GapLocation.end,
           gapWidth: gapWidth,
-          isVisible: isVisible,
           shadow: shadow,
           borderColor: borderColor,
           borderWidth: borderWidth,
           safeAreaValues: safeAreaValues,
           hideAnimationCurve: hideAnimationCurve,
-          hideAnimationDuration: hideAnimationDuration,
+          hideAnimationController: hideAnimationController,
         );
 
   @override
@@ -273,7 +265,6 @@ class _AnimatedBottomNavigationBarState
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
   late AnimationController _bubbleController;
-  late AnimationController _showController;
 
   double _bubbleRadius = 0;
   double _iconScale = 1;
@@ -294,30 +285,10 @@ class _AnimatedBottomNavigationBarState
   }
 
   @override
-  void initState() {
-    super.initState();
-    _showController = AnimationController(
-      duration: widget.hideAnimationDuration ?? Duration(milliseconds: 200),
-      vsync: this,
-    );
-
-    if (widget.isVisible == true) {
-      _showController.value = _showController.upperBound;
-    }
-  }
-
-  @override
   void didUpdateWidget(AnimatedBottomNavigationBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.activeIndex != oldWidget.activeIndex) {
       _startBubbleAnimation();
-    }
-    if (widget.isVisible != oldWidget.isVisible) {
-      if (widget.isVisible == true) {
-        _showController.forward();
-      } else {
-        _showController.reverse();
-      }
     }
   }
 
@@ -372,27 +343,31 @@ class _AnimatedBottomNavigationBarState
       shadow: widget.shadow ?? _defaultShadow,
       borderColor: widget.borderColor ?? Colors.transparent,
       borderWidth: widget.borderWidth ?? 2,
-      child: VisibleAnimator(
-        showController: _showController,
-        curve: widget.hideAnimationCurve ?? Curves.fastOutSlowIn,
-        child: SafeArea(
-          left: widget.safeAreaValues.left,
-          top: widget.safeAreaValues.top,
-          right: widget.safeAreaValues.right,
-          bottom: widget.safeAreaValues.bottom,
-          child: Container(
-            height: widget.height ?? 56,
-            color: widget.backgroundColor ?? Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: _buildItems(),
-            ),
-          ),
-        ),
-      ),
+      child: widget.hideAnimationController != null
+          ? VisibleAnimator(
+              showController: widget.hideAnimationController!,
+              curve: widget.hideAnimationCurve ?? Curves.fastOutSlowIn,
+              child: _buildBody(),
+            )
+          : _buildBody(),
     );
   }
+
+  Widget _buildBody() => SafeArea(
+        left: widget.safeAreaValues.left,
+        top: widget.safeAreaValues.top,
+        right: widget.safeAreaValues.right,
+        bottom: widget.safeAreaValues.bottom,
+        child: Container(
+          height: widget.height ?? 56,
+          color: widget.backgroundColor ?? Colors.white,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: _buildItems(),
+          ),
+        ),
+      );
 
   List<Widget> _buildItems() {
     final gapWidth = widget.gapWidth ?? 72;
