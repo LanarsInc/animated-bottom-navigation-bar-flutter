@@ -103,7 +103,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Optional background gradient.
   ///
   /// If this is specified, [backgroundColor] has no effect.
-  final Gradient? gradient;
+  final Gradient? backgroundGradient;
 
   static const _defaultSplashRadius = 24.0;
 
@@ -135,7 +135,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.safeAreaValues = const SafeAreaValues(),
     this.hideAnimationCurve,
     this.hideAnimationController,
-    this.gradient,
+    this.backgroundGradient,
   })  : assert(icons != null || itemCount != null),
         assert(
           ((itemCount ?? icons!.length) >= 2) &&
@@ -183,7 +183,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     SafeAreaValues safeAreaValues = const SafeAreaValues(),
     Curve? hideAnimationCurve,
     AnimationController? hideAnimationController,
-    Gradient? gradient,
+    Gradient? backgroundGradient,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -210,7 +210,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           safeAreaValues: safeAreaValues,
           hideAnimationCurve: hideAnimationCurve,
           hideAnimationController: hideAnimationController,
-          gradient: gradient,
+          backgroundGradient: backgroundGradient,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -237,7 +237,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     SafeAreaValues safeAreaValues = const SafeAreaValues(),
     Curve? hideAnimationCurve,
     AnimationController? hideAnimationController,
-    Gradient? gradient,
+    Gradient? backgroundGradient,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -262,7 +262,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           safeAreaValues: safeAreaValues,
           hideAnimationCurve: hideAnimationCurve,
           hideAnimationController: hideAnimationController,
-          gradient: gradient,
+          backgroundGradient: backgroundGradient,
         );
 
   @override
@@ -372,7 +372,7 @@ class _AnimatedBottomNavigationBarState
           height: widget.height ?? kBottomNavigationBarHeight,
           decoration: BoxDecoration(
             color: widget.backgroundColor ?? Colors.white,
-            gradient: widget.gradient,
+            gradient: widget.backgroundGradient,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,

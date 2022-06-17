@@ -4,7 +4,7 @@
 * Add shadow customization by [Prn-Ice](https://github.com/Prn-Ice)
 * Add hide on scroll animation by [Prn-Ice](https://github.com/Prn-Ice)
 * Add border customization
-* Add background `gradient` parameter
+* Add `backgroundGradient` parameter
 * Fix [#34](https://github.com/vizhan-lanars/animated-bottom-navigation-bar-flutter/issues/34)
 
 ## [0.3.3] - 2022-05-18.
