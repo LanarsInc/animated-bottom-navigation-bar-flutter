@@ -186,6 +186,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           rightCornerRadius: 32,
           onTap: (index) => setState(() => _bottomNavIndex = index),
           hideAnimationController: _hideBottomBarAnimationController,
+          shadow: BoxShadow(
+            offset: Offset(0, 1),
+            blurRadius: 12,
+            spreadRadius: 0.5,
+            color: Colors.grey,
+          ),
         ),
       ),
     );

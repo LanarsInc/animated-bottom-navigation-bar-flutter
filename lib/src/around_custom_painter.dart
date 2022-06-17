@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AroundCustomPainter extends StatelessWidget {
   final CustomClipper<Path> clipper;
 
-  final Shadow shadow;
+  final Shadow? shadow;
 
   final double borderWidth;
   final Color borderColor;
@@ -12,11 +12,11 @@ class AroundCustomPainter extends StatelessWidget {
   final Widget child;
 
   AroundCustomPainter({
-    required this.shadow,
     required this.clipper,
     required this.borderWidth,
     required this.borderColor,
     required this.child,
+    this.shadow,
   });
 
   @override
@@ -37,15 +37,15 @@ class AroundCustomPainter extends StatelessWidget {
 class _AroundCustomPainter extends CustomPainter {
   final CustomClipper<Path> clipper;
 
-  final Shadow shadow;
+  final Shadow? shadow;
   final double borderWidth;
   final Color borderColor;
 
   _AroundCustomPainter({
-    required this.shadow,
     required this.borderColor,
     required this.borderWidth,
     required this.clipper,
+    this.shadow,
   });
 
   @override
@@ -57,14 +57,14 @@ class _AroundCustomPainter extends CustomPainter {
       ..strokeCap = StrokeCap.square
       ..style = PaintingStyle.stroke
       ..strokeWidth = borderWidth;
-    final shadowPaint = shadow.toPaint();
+    final shadowPaint = shadow?.toPaint();
 
     if (size.height != 0) {
       if (borderPaint.color.value != Colors.transparent.value) {
         canvas.drawPath(clipPath, borderPaint);
       }
-      if (shadow.color.value != Colors.transparent.value) {
-        canvas.drawPath(clipPath.shift(shadow.offset), shadowPaint);
+      if (shadow != null && shadow!.color.value != Colors.transparent.value) {
+        canvas.drawPath(clipPath.shift(shadow!.offset), shadowPaint!);
       }
     }
   }

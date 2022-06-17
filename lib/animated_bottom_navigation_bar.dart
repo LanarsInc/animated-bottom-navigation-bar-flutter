@@ -83,7 +83,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Default is 72.
   final double? gapWidth;
 
-  /// Optional custom shadow around the navigation bar. Default is material elevation shadow 8
+  /// Optional custom shadow around the navigation bar.
   final Shadow? shadow;
 
   /// Specifies whether to avoid system intrusions for specific sides
@@ -291,13 +291,6 @@ class _AnimatedBottomNavigationBarState
   double _bubbleRadius = 0;
   double _iconScale = 1;
 
-  final _defaultShadow = BoxShadow(
-    offset: Offset(0, 1),
-    blurRadius: 12,
-    spreadRadius: 0.5,
-    color: Colors.grey,
-  );
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -362,20 +355,20 @@ class _AnimatedBottomNavigationBarState
         geometry: geometryListenable,
         notchMargin: widget.notchMargin ?? 8,
       ),
-      shadow: widget.shadow ?? _defaultShadow,
+      shadow: widget.shadow,
       borderColor: widget.borderColor ?? Colors.transparent,
       borderWidth: widget.borderWidth ?? 2,
       child: widget.hideAnimationController != null
           ? VisibleAnimator(
               showController: widget.hideAnimationController!,
               curve: widget.hideAnimationCurve ?? Curves.fastOutSlowIn,
-              child: _buildBody(),
+              child: _buildBottomBar(),
             )
-          : _buildBody(),
+          : _buildBottomBar(),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBottomBar() {
     return SafeArea(
       left: widget.safeAreaValues.left,
       top: widget.safeAreaValues.top,
@@ -385,32 +378,25 @@ class _AnimatedBottomNavigationBarState
           ? ClipRect(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 10),
-                child: Container(
-                  height: widget.height ?? kBottomNavigationBarHeight,
-                  decoration: BoxDecoration(
-                    color: widget.backgroundColor ?? Colors.white,
-                    gradient: widget.backgroundGradient,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: _buildItems(),
-                  ),
-                ),
+                child: _buildBody(),
               ),
             )
-          : Container(
-              height: widget.height ?? kBottomNavigationBarHeight,
-              decoration: BoxDecoration(
-                color: widget.backgroundColor ?? Colors.white,
-                gradient: widget.backgroundGradient,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: _buildItems(),
-              ),
-            ),
+          : _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    return Container(
+      height: widget.height ?? kBottomNavigationBarHeight,
+      decoration: BoxDecoration(
+        color: widget.backgroundColor ?? Colors.white,
+        gradient: widget.backgroundGradient,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: _buildItems(),
+      ),
     );
   }
 
