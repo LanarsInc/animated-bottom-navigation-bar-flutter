@@ -100,6 +100,11 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Optional hide bottom bar animation controller
   final AnimationController? hideAnimationController;
 
+  /// Optional background gradient.
+  ///
+  /// If this is specified, [backgroundColor] has no effect.
+  final Gradient? gradient;
+
   static const _defaultSplashRadius = 24.0;
 
   AnimatedBottomNavigationBar._internal({
@@ -130,6 +135,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.safeAreaValues = const SafeAreaValues(),
     this.hideAnimationCurve,
     this.hideAnimationController,
+    this.gradient,
   })  : assert(icons != null || itemCount != null),
         assert(
           ((itemCount ?? icons!.length) >= 2) &&
@@ -177,6 +183,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     SafeAreaValues safeAreaValues = const SafeAreaValues(),
     Curve? hideAnimationCurve,
     AnimationController? hideAnimationController,
+    Gradient? gradient,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -203,6 +210,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           safeAreaValues: safeAreaValues,
           hideAnimationCurve: hideAnimationCurve,
           hideAnimationController: hideAnimationController,
+          gradient: gradient,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -229,6 +237,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     SafeAreaValues safeAreaValues = const SafeAreaValues(),
     Curve? hideAnimationCurve,
     AnimationController? hideAnimationController,
+    Gradient? gradient,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -253,6 +262,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           safeAreaValues: safeAreaValues,
           hideAnimationCurve: hideAnimationCurve,
           hideAnimationController: hideAnimationController,
+          gradient: gradient,
         );
 
   @override
@@ -360,7 +370,10 @@ class _AnimatedBottomNavigationBarState
         bottom: widget.safeAreaValues.bottom,
         child: Container(
           height: widget.height ?? kBottomNavigationBarHeight,
-          color: widget.backgroundColor ?? Colors.white,
+          decoration: BoxDecoration(
+            color: widget.backgroundColor ?? Colors.white,
+            gradient: widget.gradient,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
