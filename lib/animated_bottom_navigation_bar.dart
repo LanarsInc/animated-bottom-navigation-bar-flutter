@@ -1,5 +1,7 @@
 library animated_bottom_navigation_bar;
 
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_bottom_navigation_bar/src/around_custom_painter.dart';
@@ -105,6 +107,11 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// If this is specified, [backgroundColor] has no effect.
   final Gradient? backgroundGradient;
 
+  /// Whether blur effect should be applied.
+  ///
+  /// Makes sense only if [backgroundColor] opacity is < 1.
+  final bool blurEffect;
+
   static const _defaultSplashRadius = 24.0;
 
   AnimatedBottomNavigationBar._internal({
@@ -136,6 +143,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.hideAnimationCurve,
     this.hideAnimationController,
     this.backgroundGradient,
+    this.blurEffect = false,
   })  : assert(icons != null || itemCount != null),
         assert(
           ((itemCount ?? icons!.length) >= 2) &&
@@ -184,6 +192,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     Curve? hideAnimationCurve,
     AnimationController? hideAnimationController,
     Gradient? backgroundGradient,
+    bool blurEffect = false,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -211,6 +220,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationCurve: hideAnimationCurve,
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
+          blurEffect: blurEffect,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -238,6 +248,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     Curve? hideAnimationCurve,
     AnimationController? hideAnimationController,
     Gradient? backgroundGradient,
+    bool blurEffect = false,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -263,6 +274,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationCurve: hideAnimationCurve,
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
+          blurEffect: blurEffect,
         );
 
   @override
@@ -363,24 +375,44 @@ class _AnimatedBottomNavigationBarState
     );
   }
 
-  Widget _buildBody() => SafeArea(
-        left: widget.safeAreaValues.left,
-        top: widget.safeAreaValues.top,
-        right: widget.safeAreaValues.right,
-        bottom: widget.safeAreaValues.bottom,
-        child: Container(
-          height: widget.height ?? kBottomNavigationBarHeight,
-          decoration: BoxDecoration(
-            color: widget.backgroundColor ?? Colors.white,
-            gradient: widget.backgroundGradient,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: _buildItems(),
-          ),
-        ),
-      );
+  Widget _buildBody() {
+    return SafeArea(
+      left: widget.safeAreaValues.left,
+      top: widget.safeAreaValues.top,
+      right: widget.safeAreaValues.right,
+      bottom: widget.safeAreaValues.bottom,
+      child: widget.blurEffect
+          ? ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 10),
+                child: Container(
+                  height: widget.height ?? kBottomNavigationBarHeight,
+                  decoration: BoxDecoration(
+                    color: widget.backgroundColor ?? Colors.white,
+                    gradient: widget.backgroundGradient,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: _buildItems(),
+                  ),
+                ),
+              ),
+            )
+          : Container(
+              height: widget.height ?? kBottomNavigationBarHeight,
+              decoration: BoxDecoration(
+                color: widget.backgroundColor ?? Colors.white,
+                gradient: widget.backgroundGradient,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: _buildItems(),
+              ),
+            ),
+    );
+  }
 
   List<Widget> _buildItems() {
     final gapWidth = widget.gapWidth ?? 72;

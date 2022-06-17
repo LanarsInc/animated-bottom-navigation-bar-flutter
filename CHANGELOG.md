@@ -6,6 +6,7 @@
 * Add border customization
 * Add `backgroundGradient` parameter
 * Fix [#34](https://github.com/vizhan-lanars/animated-bottom-navigation-bar-flutter/issues/34)
+* Add `blurEffect` parameter
 
 ## [0.3.3] - 2022-05-18.
 * Add SafeArea setting by [DenchikBY](https://github.com/DenchikBY)
