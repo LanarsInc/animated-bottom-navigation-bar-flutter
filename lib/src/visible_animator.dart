@@ -30,6 +30,10 @@ class _VisibleAnimatorState extends State<VisibleAnimator> {
 
   @override
   Widget build(BuildContext context) {
-    return SizeTransition(sizeFactor: _animation, child: widget.child);
+    return SizeTransition(
+      axisAlignment: -1,
+      sizeFactor: _animation,
+      child: widget.child,
+    );
   }
 }
