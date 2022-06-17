@@ -1,7 +1,6 @@
-import 'package:animated_bottom_navigation_bar/src/bubble_selection_painter.dart';
 import 'package:flutter/material.dart';
-
-import 'tab_item.dart';
+import 'package:animated_bottom_navigation_bar/src/bubble_selection_painter.dart';
+import 'package:animated_bottom_navigation_bar/src/tab_item.dart';
 
 class NavigationBarItem extends StatelessWidget {
   final bool isActive;
@@ -33,9 +32,7 @@ class NavigationBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        height: double.infinity,
-        width: double.infinity,
+      child: SizedBox.expand(
         child: CustomPaint(
           painter: BubblePainter(
             bubbleRadius: isActive ? bubbleRadius : 0,
