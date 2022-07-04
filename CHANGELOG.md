@@ -1,3 +1,6 @@
+## [1.0.1] - 2022-07-04
+* Fix [#40](https://github.com/vizhan-lanars/animated-bottom-navigation-bar-flutter/issues/40)
+
 ## [1.0.0] - 2022-06-17.
 * **Breaking change**. `SafeArea` params grouped to `SafeAreaValues` object.
 * **Breaking change**. Remove `elevation` parameter in favour of `shadow` parameter.
