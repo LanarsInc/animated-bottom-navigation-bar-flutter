@@ -369,19 +369,23 @@ class _AnimatedBottomNavigationBarState
   }
 
   Widget _buildBottomBar() {
-    return SafeArea(
-      left: widget.safeAreaValues.left,
-      top: widget.safeAreaValues.top,
-      right: widget.safeAreaValues.right,
-      bottom: widget.safeAreaValues.bottom,
-      child: widget.blurEffect
-          ? ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 10),
-                child: _buildBody(),
-              ),
-            )
-          : _buildBody(),
+    return Material(
+      clipBehavior: Clip.antiAlias,
+      color: widget.backgroundColor ?? Colors.white,
+      child: SafeArea(
+        left: widget.safeAreaValues.left,
+        top: widget.safeAreaValues.top,
+        right: widget.safeAreaValues.right,
+        bottom: widget.safeAreaValues.bottom,
+        child: widget.blurEffect
+            ? ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 10),
+                  child: _buildBody(),
+                ),
+              )
+            : _buildBody(),
+      ),
     );
   }
 
