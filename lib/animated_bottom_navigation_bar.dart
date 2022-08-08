@@ -114,6 +114,8 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
 
   static const _defaultSplashRadius = 24.0;
 
+  final double itemMaxScale;
+
   AnimatedBottomNavigationBar._internal({
     Key? key,
     required this.activeIndex,
@@ -144,6 +146,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.hideAnimationController,
     this.backgroundGradient,
     this.blurEffect = false,
+    this.itemMaxScale = 1.0,
   })  : assert(icons != null || itemCount != null),
         assert(
           ((itemCount ?? icons!.length) >= 2) &&
@@ -193,6 +196,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     AnimationController? hideAnimationController,
     Gradient? backgroundGradient,
     bool blurEffect = false,
+    double itemMaxScale = 1.0,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -221,6 +225,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
           blurEffect: blurEffect,
+          itemMaxScale: itemMaxScale,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -249,6 +254,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     AnimationController? hideAnimationController,
     Gradient? backgroundGradient,
     bool blurEffect = false,
+    double itemMaxScale = 1.0,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -275,6 +281,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
           blurEffect: blurEffect,
+          itemMaxScale: itemMaxScale,
         );
 
   @override
@@ -327,9 +334,9 @@ class _AnimatedBottomNavigationBarState
           }
 
           if (bubbleCurve.value < 0.5) {
-            _iconScale = 1 + bubbleCurve.value;
+            _iconScale = 1 + bubbleCurve.value * widget.itemMaxScale;
           } else {
-            _iconScale = 2 - bubbleCurve.value;
+            _iconScale = 1 + widget.itemMaxScale - bubbleCurve.value * widget.itemMaxScale;
           }
         });
       });
