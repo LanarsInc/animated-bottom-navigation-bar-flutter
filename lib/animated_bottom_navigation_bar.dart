@@ -2,9 +2,9 @@ library animated_bottom_navigation_bar;
 
 import 'dart:ui';
 
+import 'package:animated_bottom_navigation_bar/src/around_custom_painter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:animated_bottom_navigation_bar/src/around_custom_painter.dart';
 import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
 import 'package:animated_bottom_navigation_bar/src/safe_area_values.dart';
 import 'package:animated_bottom_navigation_bar/src/visible_animator.dart';
@@ -83,6 +83,9 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Default is 72.
   final double? gapWidth;
 
+  /// Optional custom tab bar elevation. Default is 8.
+  final double? elevation;
+
   /// Optional custom shadow around the navigation bar.
   final Shadow? shadow;
 
@@ -136,6 +139,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.notchSmoothness,
     this.gapLocation,
     this.gapWidth,
+    this.elevation,
     this.shadow,
     this.borderColor,
     this.borderWidth,
@@ -185,6 +189,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     NotchSmoothness? notchSmoothness,
     GapLocation? gapLocation,
     double? gapWidth,
+    double? elevation,
     Shadow? shadow,
     Color? borderColor,
     double? borderWidth,
@@ -213,6 +218,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           notchSmoothness: notchSmoothness,
           gapLocation: gapLocation ?? GapLocation.end,
           gapWidth: gapWidth,
+          elevation: elevation,
           shadow: shadow,
           borderColor: borderColor,
           borderWidth: borderWidth,
@@ -241,6 +247,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     NotchSmoothness? notchSmoothness,
     GapLocation? gapLocation,
     double? gapWidth,
+    double? elevation,
     Shadow? shadow,
     Color? borderColor,
     double? borderWidth,
@@ -267,6 +274,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           notchSmoothness: notchSmoothness,
           gapLocation: gapLocation ?? GapLocation.end,
           gapWidth: gapWidth,
+          elevation: elevation,
           shadow: shadow,
           borderColor: borderColor,
           borderWidth: borderWidth,
@@ -342,29 +350,35 @@ class _AnimatedBottomNavigationBarState
 
   @override
   Widget build(BuildContext context) {
-    return AroundCustomPainter(
-      clipper: CircularNotchedAndCorneredRectangleClipper(
-        shape: CircularNotchedAndCorneredRectangle(
-          animation: widget.notchAndCornersAnimation,
-          notchSmoothness:
-              widget.notchSmoothness ?? NotchSmoothness.defaultEdge,
-          gapLocation: widget.gapLocation ?? GapLocation.end,
-          leftCornerRadius: widget.leftCornerRadius ?? 0.0,
-          rightCornerRadius: widget.rightCornerRadius ?? 0.0,
-        ),
-        geometry: geometryListenable,
-        notchMargin: widget.notchMargin ?? 8,
+    final clipper = CircularNotchedAndCorneredRectangleClipper(
+      shape: CircularNotchedAndCorneredRectangle(
+        animation: widget.notchAndCornersAnimation,
+        notchSmoothness: widget.notchSmoothness ?? NotchSmoothness.defaultEdge,
+        gapLocation: widget.gapLocation ?? GapLocation.end,
+        leftCornerRadius: widget.leftCornerRadius ?? 0.0,
+        rightCornerRadius: widget.rightCornerRadius ?? 0.0,
       ),
-      shadow: widget.shadow,
-      borderColor: widget.borderColor ?? Colors.transparent,
-      borderWidth: widget.borderWidth ?? 2,
-      child: widget.hideAnimationController != null
-          ? VisibleAnimator(
-              showController: widget.hideAnimationController!,
-              curve: widget.hideAnimationCurve ?? Curves.fastOutSlowIn,
-              child: _buildBottomBar(),
-            )
-          : _buildBottomBar(),
+      geometry: geometryListenable,
+      notchMargin: widget.notchMargin ?? 8,
+    );
+
+    return PhysicalShape(
+      elevation: widget.elevation ?? 8,
+      color: Colors.transparent,
+      clipper: clipper,
+      child: AroundCustomPainter(
+        clipper: clipper,
+        shadow: widget.shadow,
+        borderColor: widget.borderColor ?? Colors.transparent,
+        borderWidth: widget.borderWidth ?? 2,
+        child: widget.hideAnimationController != null
+            ? VisibleAnimator(
+                showController: widget.hideAnimationController!,
+                curve: widget.hideAnimationCurve ?? Curves.fastOutSlowIn,
+                child: _buildBottomBar(),
+              )
+            : _buildBottomBar(),
+      ),
     );
   }
 
