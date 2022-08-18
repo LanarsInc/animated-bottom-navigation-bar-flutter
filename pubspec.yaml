@@ -1,6 +1,6 @@
 name: animated_bottom_navigation_bar
 description: Animated Bottom Navigation Bar Widget implementation inspired by https://dribbble.com/shots/7134849-Simple-Tab-Bar-Animation
-version: 1.0.1
+version: 1.1.0
 homepage: https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter
 
 environment:

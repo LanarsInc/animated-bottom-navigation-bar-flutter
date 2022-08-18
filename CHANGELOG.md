@@ -1,3 +1,7 @@
+## [1.1.0] - 2022-08-18
+* Add `elevation` parameter
+* Remove default value for `shadow`
+
 ## [1.0.1] - 2022-07-04
 * Fix [#40](https://github.com/vizhan-lanars/animated-bottom-navigation-bar-flutter/issues/40)
 
