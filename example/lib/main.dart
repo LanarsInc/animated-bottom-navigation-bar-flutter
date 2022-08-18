@@ -190,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             offset: Offset(0, 1),
             blurRadius: 12,
             spreadRadius: 0.5,
-            color: Colors.grey,
+            color: HexColor('#FFA400'),
           ),
         ),
       ),
