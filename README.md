@@ -1,4 +1,5 @@
-# animated-bottom-navigation-bar
+[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine)
+
 AnimatedBottomNavigationBar is a customizable widget inspired by [dribble shot](https://dribbble.com/shots/7134849-Simple-Tab-Bar-Animation).
 
 Made in [lanars.com](https://lanars.com).
