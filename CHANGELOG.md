@@ -1,3 +1,6 @@
+## [1.1.0+1] - 2022-12-27
+* Update README.md
+
 ## [1.1.0] - 2022-08-18
 * Add `elevation` parameter
 * Remove default value for `shadow`
