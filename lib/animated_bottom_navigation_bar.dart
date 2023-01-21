@@ -115,6 +115,9 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Makes sense only if [backgroundColor] opacity is < 1.
   final bool blurEffect;
 
+  /// Enable or Disable the onTap effect.
+  final bool enableScaleEffect;
+
   static const _defaultSplashRadius = 24.0;
 
   AnimatedBottomNavigationBar._internal({
@@ -148,6 +151,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     this.hideAnimationController,
     this.backgroundGradient,
     this.blurEffect = false,
+    this.enableScaleEffect = true,
   })  : assert(icons != null || itemCount != null),
         assert(
           ((itemCount ?? icons!.length) >= 2) &&
@@ -198,6 +202,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     AnimationController? hideAnimationController,
     Gradient? backgroundGradient,
     bool blurEffect = false,
+    bool enableScaleEffect = true,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -227,6 +232,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
           blurEffect: blurEffect,
+          enableScaleEffect: enableScaleEffect,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -256,6 +262,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     AnimationController? hideAnimationController,
     Gradient? backgroundGradient,
     bool blurEffect = false,
+    bool enableScaleEffect = true,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -283,6 +290,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
           blurEffect: blurEffect,
+          enableScaleEffect: enableScaleEffect,
         );
 
   @override
@@ -310,7 +318,9 @@ class _AnimatedBottomNavigationBarState
   @override
   void didUpdateWidget(AnimatedBottomNavigationBar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.activeIndex != oldWidget.activeIndex) {
+
+    if (widget.enableScaleEffect &&
+        widget.activeIndex != oldWidget.activeIndex) {
       _startBubbleAnimation();
     }
   }

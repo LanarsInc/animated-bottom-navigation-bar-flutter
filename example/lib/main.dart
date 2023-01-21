@@ -150,6 +150,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+          enableScaleEffect: true,
           itemCount: iconList.length,
           tabBuilder: (int index, bool isActive) {
             final color = isActive ? HexColor('#FFA400') : Colors.white;
