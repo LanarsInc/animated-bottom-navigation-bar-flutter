@@ -68,14 +68,14 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
     final halfOfHostWidth = host.width ~/ 2;
 
     if (guestCenterDx == halfOfHostWidth) {
-      if (gapLocation != GapLocation.center)
+      if (gapLocation == GapLocation.end)
         throw GapLocationException(
             'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
             'consider use ${GapLocation.center} instead of $gapLocation or change FloatingActionButtonLocation');
     }
 
     if (guestCenterDx != halfOfHostWidth) {
-      if (gapLocation != GapLocation.end)
+      if (gapLocation == GapLocation.center)
         throw GapLocationException(
             'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
             'consider use ${GapLocation.end} instead of $gapLocation or change FloatingActionButtonLocation');
