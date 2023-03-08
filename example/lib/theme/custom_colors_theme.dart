@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 class CustomColorsTheme extends ThemeExtension<CustomColorsTheme> {
   const CustomColorsTheme({
     required this.bottomNavigationBarBackgroundColor,
-    required this.appBarBackgroundColor,
     required this.colorLabelColor,
   });
 
   final Color bottomNavigationBarBackgroundColor;
-  final Color appBarBackgroundColor;
   final Color colorLabelColor;
 
   @override
@@ -19,8 +17,8 @@ class CustomColorsTheme extends ThemeExtension<CustomColorsTheme> {
     Color? colorLabelColor,
   }) {
     return CustomColorsTheme(
-      bottomNavigationBarBackgroundColor: darkShadowColor ?? this.bottomNavigationBarBackgroundColor,
-      appBarBackgroundColor: lightShadowColor ?? this.appBarBackgroundColor,
+      bottomNavigationBarBackgroundColor:
+          darkShadowColor ?? this.bottomNavigationBarBackgroundColor,
       colorLabelColor: colorLabelColor ?? this.colorLabelColor,
     );
   }
@@ -34,13 +32,10 @@ class CustomColorsTheme extends ThemeExtension<CustomColorsTheme> {
       return this;
     }
     return CustomColorsTheme(
-      bottomNavigationBarBackgroundColor: Color.lerp(bottomNavigationBarBackgroundColor, other.bottomNavigationBarBackgroundColor, t) ??
+      bottomNavigationBarBackgroundColor: Color.lerp(
+              bottomNavigationBarBackgroundColor, other.bottomNavigationBarBackgroundColor, t) ??
           bottomNavigationBarBackgroundColor,
-      appBarBackgroundColor:
-          Color.lerp(appBarBackgroundColor, other.appBarBackgroundColor, t) ??
-              appBarBackgroundColor,
-      colorLabelColor: Color.lerp(colorLabelColor, other.colorLabelColor, t) ??
-          colorLabelColor,
+      colorLabelColor: Color.lerp(colorLabelColor, other.colorLabelColor, t) ?? colorLabelColor,
     );
   }
 }

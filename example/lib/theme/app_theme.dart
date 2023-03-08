@@ -9,14 +9,10 @@ class AppTheme {
   static ThemeData get({required bool isLight}) {
     final base = isLight ? ThemeData.light() : ThemeData.dark();
     return base.copyWith(
-      useMaterial3: true,
       extensions: [
         CustomColorsTheme(
           colorLabelColor: isLight ? Colors.grey : const Color(0xFF7A7FB0),
-          appBarBackgroundColor:
-          isLight ? Colors.blue : colorGray,
-          bottomNavigationBarBackgroundColor:
-          isLight ? Colors.blue : colorGray,
+          bottomNavigationBarBackgroundColor: isLight ? Colors.blue : colorGray,
         )
       ],
       appBarTheme: AppBarTheme(
