@@ -254,6 +254,7 @@ class _NavigationScreenState extends State<NavigationScreen>
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<CustomColorsTheme>()!;
     return Container(
       color: Colors.white,
       child: ListView(
@@ -266,7 +267,7 @@ class _NavigationScreenState extends State<NavigationScreen>
               maxRadius: MediaQuery.of(context).size.longestSide * 1.1,
               child: Icon(
                 widget.iconData,
-                color: AppTheme.colorOrange,
+                color: colors.activeNavigationBarColor,
                 size: 160,
               ),
             ),
