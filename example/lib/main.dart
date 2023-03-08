@@ -6,6 +6,8 @@ import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:lanarsnavbarflutter/theme/app_theme.dart';
+import 'package:lanarsnavbarflutter/theme/custom_colors_theme.dart';
 
 void main() => runApp(MyApp());
 
@@ -117,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<CustomColorsTheme>()!;
     return Theme(
       data: ThemeData.dark(),
       child: Scaffold(
@@ -126,17 +129,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             widget.title,
             style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: HexColor('#373A36'),
+         backgroundColor: colors.appBarBackgroundColor,
         ),
         body: NotificationListener<ScrollNotification>(
           onNotification: onScrollNotification,
           child: NavigationScreen(iconList[_bottomNavIndex]),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: HexColor('#FFA400'),
+          backgroundColor: AppTheme.colorOrange,
           child: Icon(
             Icons.brightness_3,
-            color: HexColor('#373A36'),
+            color: AppTheme.colorGray,
           ),
           onPressed: () {
             _fabAnimationController.reset();
@@ -149,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         bottomNavigationBar: AnimatedBottomNavigationBar.builder(
           itemCount: iconList.length,
           tabBuilder: (int index, bool isActive) {
-            final color = isActive ? HexColor('#FFA400') : Colors.white;
+            final color = isActive ? AppTheme.colorOrange : Colors.white;
             return Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -172,9 +175,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               ],
             );
           },
-          backgroundColor: HexColor('#373A36'),
+          backgroundColor: colors.bottomNavigationBarBackgroundColor,
           activeIndex: _bottomNavIndex,
-          splashColor: HexColor('#FFA400'),
+          splashColor: AppTheme.colorOrange,
           notchAndCornersAnimation: borderRadiusAnimation,
           splashSpeedInMilliseconds: 300,
           notchSmoothness: NotchSmoothness.defaultEdge,
@@ -187,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             offset: Offset(0, 1),
             blurRadius: 12,
             spreadRadius: 0.5,
-            color: HexColor('#FFA400'),
+            color: AppTheme.colorOrange,
           ),
         ),
       ),
@@ -263,7 +266,7 @@ class _NavigationScreenState extends State<NavigationScreen>
               maxRadius: MediaQuery.of(context).size.longestSide * 1.1,
               child: Icon(
                 widget.iconData,
-                color: HexColor('#FFA400'),
+                color: AppTheme.colorOrange,
                 size: 160,
               ),
             ),
