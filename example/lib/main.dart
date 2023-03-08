@@ -138,7 +138,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         child: NavigationScreen(iconList[_bottomNavIndex]),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: AppTheme.colorOrange,
         child: Icon(
           Icons.brightness_3,
           color: AppTheme.colorGray,
@@ -154,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(
         itemCount: iconList.length,
         tabBuilder: (int index, bool isActive) {
-          final color = isActive ? AppTheme.colorOrange : Colors.white;
+          final color = isActive ? colors.activeNavigationBarColor : colors.notActiveNavigationBarColor;
           return Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         },
         backgroundColor: colors.bottomNavigationBarBackgroundColor,
         activeIndex: _bottomNavIndex,
-        splashColor: AppTheme.colorOrange,
+        splashColor: colors.activeNavigationBarColor,
         notchAndCornersAnimation: borderRadiusAnimation,
         splashSpeedInMilliseconds: 300,
         notchSmoothness: NotchSmoothness.defaultEdge,
@@ -192,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           offset: Offset(0, 1),
           blurRadius: 12,
           spreadRadius: 0.5,
-          color: AppTheme.colorOrange,
+          color: colors.activeNavigationBarColor,
         ),
       ),
     );

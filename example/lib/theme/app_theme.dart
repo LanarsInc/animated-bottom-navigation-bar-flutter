@@ -13,8 +13,14 @@ class AppTheme {
         CustomColorsTheme(
           colorLabelColor: isLight ? Colors.grey : const Color(0xFF7A7FB0),
           bottomNavigationBarBackgroundColor: isLight ? Colors.blue : colorGray,
+          activeNavigationBarColor: isLight ? Colors.yellow : colorOrange,
+          notActiveNavigationBarColor: Colors.white,
+          shadowNavigationBarColor: isLight ? Colors.blue : colorOrange,
         )
       ],
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: isLight ? Colors.yellow : colorOrange,
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: isLight ? Colors.blue : colorGray,
       ),
