@@ -15,11 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: AppTheme.get(isLight: true),
+      darkTheme: AppTheme.get(isLight: false),
       home: MyHomePage(title: 'Animated Navigation Bottom Bar'),
     );
   }
