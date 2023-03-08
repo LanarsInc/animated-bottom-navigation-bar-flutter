@@ -53,13 +53,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   ];
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
     final systemTheme = SystemUiOverlayStyle.light.copyWith(
-      systemNavigationBarColor: HexColor('#373A36'),
+      systemNavigationBarColor: Theme.of(context).colorScheme.background,
       systemNavigationBarIconBrightness: Brightness.light,
     );
     SystemChrome.setSystemUIOverlayStyle(systemTheme);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
 
     _fabAnimationController = AnimationController(
       duration: Duration(milliseconds: 500),
