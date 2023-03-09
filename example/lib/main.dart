@@ -6,6 +6,8 @@ import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:lanarsnavbarflutter/theme/app_theme.dart';
+import 'package:lanarsnavbarflutter/theme/custom_colors_theme.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,11 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: AppTheme.get(isLight: true),
+      darkTheme: AppTheme.get(isLight: false),
       home: MyHomePage(title: 'Animated Navigation Bottom Bar'),
     );
   }
@@ -56,11 +55,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    final systemTheme = SystemUiOverlayStyle.light.copyWith(
-      systemNavigationBarColor: HexColor('#373A36'),
-      systemNavigationBarIconBrightness: Brightness.light,
-    );
-    SystemChrome.setSystemUIOverlayStyle(systemTheme);
 
     _fabAnimationController = AnimationController(
       duration: Duration(milliseconds: 500),
@@ -120,78 +114,74 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData.dark(),
-      child: Scaffold(
-        extendBody: true,
-        appBar: AppBar(
-          title: Text(
-            widget.title,
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: HexColor('#373A36'),
+    final colors = Theme.of(context).extension<CustomColorsTheme>()!;
+    return Scaffold(
+      extendBody: true,
+      appBar: AppBar(
+        title: Text(
+          widget.title,
+          style: TextStyle(color: Colors.white),
         ),
-        body: NotificationListener<ScrollNotification>(
-          onNotification: onScrollNotification,
-          child: NavigationScreen(iconList[_bottomNavIndex]),
+      ),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: onScrollNotification,
+        child: NavigationScreen(iconList[_bottomNavIndex]),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.brightness_3,
+          color: AppTheme.colorGray,
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: HexColor('#FFA400'),
-          child: Icon(
-            Icons.brightness_3,
-            color: HexColor('#373A36'),
-          ),
-          onPressed: () {
-            _fabAnimationController.reset();
-            _borderRadiusAnimationController.reset();
-            _borderRadiusAnimationController.forward();
-            _fabAnimationController.forward();
-          },
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-          itemCount: iconList.length,
-          tabBuilder: (int index, bool isActive) {
-            final color = isActive ? HexColor('#FFA400') : Colors.white;
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  iconList[index],
-                  size: 24,
-                  color: color,
+        onPressed: () {
+          _fabAnimationController.reset();
+          _borderRadiusAnimationController.reset();
+          _borderRadiusAnimationController.forward();
+          _fabAnimationController.forward();
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+        itemCount: iconList.length,
+        tabBuilder: (int index, bool isActive) {
+          final color = isActive ? colors.activeNavigationBarColor : colors.notActiveNavigationBarColor;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                iconList[index],
+                size: 24,
+                color: color,
+              ),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: AutoSizeText(
+                  "brightness $index",
+                  maxLines: 1,
+                  style: TextStyle(color: color),
+                  group: autoSizeGroup,
                 ),
-                const SizedBox(height: 4),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: AutoSizeText(
-                    "brightness $index",
-                    maxLines: 1,
-                    style: TextStyle(color: color),
-                    group: autoSizeGroup,
-                  ),
-                )
-              ],
-            );
-          },
-          backgroundColor: HexColor('#373A36'),
-          activeIndex: _bottomNavIndex,
-          splashColor: HexColor('#FFA400'),
-          notchAndCornersAnimation: borderRadiusAnimation,
-          splashSpeedInMilliseconds: 300,
-          notchSmoothness: NotchSmoothness.defaultEdge,
-          gapLocation: GapLocation.center,
-          leftCornerRadius: 32,
-          rightCornerRadius: 32,
-          onTap: (index) => setState(() => _bottomNavIndex = index),
-          hideAnimationController: _hideBottomBarAnimationController,
-          shadow: BoxShadow(
-            offset: Offset(0, 1),
-            blurRadius: 12,
-            spreadRadius: 0.5,
-            color: HexColor('#FFA400'),
-          ),
+              )
+            ],
+          );
+        },
+        backgroundColor: colors.bottomNavigationBarBackgroundColor,
+        activeIndex: _bottomNavIndex,
+        splashColor: colors.activeNavigationBarColor,
+        notchAndCornersAnimation: borderRadiusAnimation,
+        splashSpeedInMilliseconds: 300,
+        notchSmoothness: NotchSmoothness.defaultEdge,
+        gapLocation: GapLocation.center,
+        leftCornerRadius: 32,
+        rightCornerRadius: 32,
+        onTap: (index) => setState(() => _bottomNavIndex = index),
+        hideAnimationController: _hideBottomBarAnimationController,
+        shadow: BoxShadow(
+          offset: Offset(0, 1),
+          blurRadius: 12,
+          spreadRadius: 0.5,
+          color: colors.activeNavigationBarColor,
         ),
       ),
     );
@@ -254,8 +244,9 @@ class _NavigationScreenState extends State<NavigationScreen>
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<CustomColorsTheme>()!;
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.background,
       child: ListView(
         children: [
           SizedBox(height: 64),
@@ -266,7 +257,7 @@ class _NavigationScreenState extends State<NavigationScreen>
               maxRadius: MediaQuery.of(context).size.longestSide * 1.1,
               child: Icon(
                 widget.iconData,
-                color: HexColor('#FFA400'),
+                color: colors.activeNavigationBarColor,
                 size: 160,
               ),
             ),
@@ -274,17 +265,5 @@ class _NavigationScreenState extends State<NavigationScreen>
         ],
       ),
     );
-  }
-}
-
-class HexColor extends Color {
-  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
-
-  static int _getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll('#', '');
-    if (hexColor.length == 6) {
-      hexColor = 'FF' + hexColor;
-    }
-    return int.parse(hexColor, radix: 16);
   }
 }
