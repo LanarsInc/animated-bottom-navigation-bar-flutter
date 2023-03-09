@@ -159,6 +159,12 @@ Scaffold(
 ```
 <img src="https://raw.githubusercontent.com/LanarsInc/animated-bottom-navigation-bar-flutter/master/doc/assets/example-very-smooth-notch-center.jpeg" width="300"> 
 
+Added support for dark and light mode
+
+<img src="https://raw.githubusercontent.com/LanarsInc/animated-bottom-navigation-bar-flutter/master/doc/assets/example-light-mode.jpeg" width="300">
+
+<img src="https://raw.githubusercontent.com/LanarsInc/animated-bottom-navigation-bar-flutter/master/doc/assets/example-dark-mode.jpeg" width="300">
+
 # Driving Navigation Bar Changes
 
 You have to change the active navigation bar tab programmatically by passing a new activeIndex to the AnimatedBottomNavigationBar widget.
