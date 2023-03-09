@@ -53,16 +53,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   ];
 
   @override
-  void didChangeDependencies() {
-    final systemTheme = SystemUiOverlayStyle.light.copyWith(
-      systemNavigationBarColor: Theme.of(context).colorScheme.background,
-      systemNavigationBarIconBrightness: Brightness.light,
-    );
-    SystemChrome.setSystemUIOverlayStyle(systemTheme);
-    super.didChangeDependencies();
-  }
-
-  @override
   void initState() {
     super.initState();
 
