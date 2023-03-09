@@ -1,3 +1,8 @@
+## [1.2.0] - 2023-03-09
+* Fix [#46](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/46)
+* Fix [#52](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/52) shown in the example
+* Add dark mode to sample application
+
 ## [1.1.0+1] - 2022-12-27
 * Update README.md
 
