@@ -2,9 +2,9 @@
 
 AnimatedBottomNavigationBar is a customizable widget inspired by [dribble shot](https://dribbble.com/shots/7134849-Simple-Tab-Bar-Animation).
 
-Made in [lanars.com](https://lanars.com).
-
 [![pub package](https://img.shields.io/pub/v/animated_bottom_navigation_bar.svg)](https://pub.dev/packages/animated_bottom_navigation_bar)
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/lanars)
 
 <img src="https://raw.githubusercontent.com/LanarsInc/animated-bottom-navigation-bar-flutter/master/doc/assets/animated-bottom-navigation-bar.gif" width="300">
 
@@ -14,7 +14,7 @@ With `AnimatedBottomNavigationBar.builder` you are able to customize tab view ho
 
 # Getting Started
 
-To get started, place your `AnimatedBottomNavigationBar` in the bottomNavigationBar slot of a `Scaffold`.
+To get started, place your `AnimatedBottomNavigationBar` or `AnimatedBottomNavigationBar.builder` in the bottomNavigationBar slot of a `Scaffold`.
 The `AnimatedBottomNavigationBar` respects `FloatingActionButton` location.
 For example:
 
