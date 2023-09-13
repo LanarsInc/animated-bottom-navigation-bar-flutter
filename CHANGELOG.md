@@ -1,4 +1,5 @@
 ## [1.2.1] - 2023-09-13
+* Bump sdk version to `>=2.12.0 <4.0.0`
 * Update README.md
 
 ## [1.2.0] - 2023-03-09
@@ -57,7 +58,7 @@
 
 ## [0.1.2+2] - 2020-04-24.
 
-* Update package README
+* Update package README.md
 
 ## [0.1.2+1] - 2020-04-23.
 
@@ -65,7 +66,7 @@
 
 ## [0.1.2] - 2020-04-23.
 
-* Update example README
+* Update example README.md
 
 ## [0.1.1] - 2020-04-23.
 
