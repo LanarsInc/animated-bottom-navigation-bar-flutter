@@ -38,7 +38,7 @@ Scaffold(
 );
 ```
 
-There is also more flexible way to build `bottomNavigationBar` with Builder: 
+There is also a more flexible way to build `bottomNavigationBar` with Builder (see [example](https://pub.dev/packages/animated_bottom_navigation_bar/example) for more insights): 
 ```dart
 Scaffold(
    body: Container(), //destination screen
