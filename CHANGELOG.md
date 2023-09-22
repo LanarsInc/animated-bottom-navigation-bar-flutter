@@ -1,3 +1,7 @@
+## [1.3.0] - 2023-09-13
+* Add `scaleFactor` parameter by [Oubi256](https://github.com/Oubi256) 
+* Update README.md
+
 ## [1.2.1] - 2023-09-13
 * Bump sdk version to `>=2.12.0 <4.0.0`
 * Update README.md
