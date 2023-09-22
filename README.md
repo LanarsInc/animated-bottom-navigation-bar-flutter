@@ -38,6 +38,34 @@ Scaffold(
 );
 ```
 
+There is also more flexible way to build `bottomNavigationBar` with Builder: 
+```dart
+Scaffold(
+   body: Container(), //destination screen
+   floatingActionButton: FloatingActionButton(
+      //params
+   ),
+   floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+   bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+      itemCount: iconList.length,
+      tabBuilder: (int index, bool isActive) {
+        return Icon(
+          iconList[index],
+          size: 24,
+          color: isActive ? colors.activeNavigationBarColor : colors.notActiveNavigationBarColor,
+        );
+      activeIndex: _bottomNavIndex,
+      gapLocation: GapLocation.center,
+      notchSmoothness: NotchSmoothness.verySmoothEdge,
+      leftCornerRadius: 32,
+      rightCornerRadius: 32,
+      onTap: (index) => setState(() => _bottomNavIndex = index),
+      //other params
+   ),
+);
+```
+
+
 <img src="https://raw.githubusercontent.com/LanarsInc/animated-bottom-navigation-bar-flutter/master/doc/assets/example-cornered-notched-bar.jpeg" width="300">
 
 # Customization
