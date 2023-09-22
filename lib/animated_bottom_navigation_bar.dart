@@ -115,40 +115,46 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Makes sense only if [backgroundColor] opacity is < 1.
   final bool blurEffect;
 
+  /// Optional scale effect factor. Default is 1.
+  ///
+  /// To disable scale effect set value of 0.
+  final double scaleFactor;
+
   static const _defaultSplashRadius = 24.0;
 
-  AnimatedBottomNavigationBar._internal({
-    Key? key,
-    required this.activeIndex,
-    required this.onTap,
-    this.tabBuilder,
-    this.itemCount,
-    this.icons,
-    this.height,
-    this.splashRadius = _defaultSplashRadius,
-    this.splashSpeedInMilliseconds,
-    this.notchMargin,
-    this.backgroundColor,
-    this.splashColor,
-    this.activeColor,
-    this.inactiveColor,
-    this.notchAndCornersAnimation,
-    this.leftCornerRadius,
-    this.rightCornerRadius,
-    this.iconSize,
-    this.notchSmoothness,
-    this.gapLocation,
-    this.gapWidth,
-    this.elevation,
-    this.shadow,
-    this.borderColor,
-    this.borderWidth,
-    this.safeAreaValues = const SafeAreaValues(),
-    this.hideAnimationCurve,
-    this.hideAnimationController,
-    this.backgroundGradient,
-    this.blurEffect = false,
-  })  : assert(icons != null || itemCount != null),
+  AnimatedBottomNavigationBar._internal(
+      {Key? key,
+      required this.activeIndex,
+      required this.onTap,
+      this.tabBuilder,
+      this.itemCount,
+      this.icons,
+      this.height,
+      this.splashRadius = _defaultSplashRadius,
+      this.splashSpeedInMilliseconds,
+      this.notchMargin,
+      this.backgroundColor,
+      this.splashColor,
+      this.activeColor,
+      this.inactiveColor,
+      this.notchAndCornersAnimation,
+      this.leftCornerRadius,
+      this.rightCornerRadius,
+      this.iconSize,
+      this.notchSmoothness,
+      this.gapLocation,
+      this.gapWidth,
+      this.elevation,
+      this.shadow,
+      this.borderColor,
+      this.borderWidth,
+      this.safeAreaValues = const SafeAreaValues(),
+      this.hideAnimationCurve,
+      this.hideAnimationController,
+      this.backgroundGradient,
+      this.blurEffect = false,
+      this.scaleFactor = 1.0})
+      : assert(icons != null || itemCount != null),
         assert(
           ((itemCount ?? icons!.length) >= 2) &&
               ((itemCount ?? icons!.length) <= 5),
@@ -198,6 +204,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     AnimationController? hideAnimationController,
     Gradient? backgroundGradient,
     bool blurEffect = false,
+    double scaleFactor = 1.0,
   }) : this._internal(
           key: key,
           icons: icons,
@@ -227,6 +234,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
           blurEffect: blurEffect,
+          scaleFactor: scaleFactor,
         );
 
   AnimatedBottomNavigationBar.builder({
@@ -256,6 +264,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     AnimationController? hideAnimationController,
     Gradient? backgroundGradient,
     bool blurEffect = false,
+    double scaleFactor = 1.0,
   }) : this._internal(
           key: key,
           tabBuilder: tabBuilder,
@@ -283,6 +292,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
           blurEffect: blurEffect,
+          scaleFactor: scaleFactor,
         );
 
   @override
@@ -335,9 +345,10 @@ class _AnimatedBottomNavigationBarState
           }
 
           if (bubbleCurve.value < 0.5) {
-            _iconScale = 1 + bubbleCurve.value;
+            _iconScale = 1 + bubbleCurve.value * widget.scaleFactor;
           } else {
-            _iconScale = 2 - bubbleCurve.value;
+            _iconScale = 1 + widget.scaleFactor -
+                bubbleCurve.value * widget.scaleFactor;
           }
         });
       });

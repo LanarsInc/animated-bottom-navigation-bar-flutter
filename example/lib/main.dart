@@ -5,7 +5,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:lanarsnavbarflutter/theme/app_theme.dart';
 import 'package:lanarsnavbarflutter/theme/custom_colors_theme.dart';
 
