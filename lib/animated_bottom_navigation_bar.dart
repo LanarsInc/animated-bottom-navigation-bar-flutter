@@ -347,8 +347,8 @@ class _AnimatedBottomNavigationBarState
           if (bubbleCurve.value < 0.5) {
             _iconScale = 1 + bubbleCurve.value * widget.scaleFactor;
           } else {
-            _iconScale = 1 + widget.scaleFactor -
-                bubbleCurve.value * widget.scaleFactor;
+            _iconScale =
+                1 + widget.scaleFactor - bubbleCurve.value * widget.scaleFactor;
           }
         });
       });

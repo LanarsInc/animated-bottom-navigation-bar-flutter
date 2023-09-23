@@ -142,7 +142,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(
         itemCount: iconList.length,
         tabBuilder: (int index, bool isActive) {
-          final color = isActive ? colors.activeNavigationBarColor : colors.notActiveNavigationBarColor;
+          final color = isActive
+              ? colors.activeNavigationBarColor
+              : colors.notActiveNavigationBarColor;
           return Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
