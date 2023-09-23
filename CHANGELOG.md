@@ -1,4 +1,4 @@
-## [1.3.0] - 2023-09-13
+## [1.3.0] - 2023-09-22
 * Add `scaleFactor` parameter by [Oubi256](https://github.com/Oubi256) 
 * Update README.md
 
