@@ -156,18 +156,21 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
       this.scaleFactor = 1.0})
       : assert(icons != null || itemCount != null),
         assert(
-          ((itemCount ?? icons!.length) >= 2) && ((itemCount ?? icons!.length) <= 5),
+          ((itemCount ?? icons!.length) >= 2) &&
+              ((itemCount ?? icons!.length) <= 5),
         ),
         super(key: key) {
     if (gapLocation == GapLocation.end) {
       if (rightCornerRadius != 0)
-        throw NonAppropriatePathException('RightCornerRadius along with ${GapLocation.end} or/and ${FloatingActionButtonLocation.endDocked} causes render issue => '
+        throw NonAppropriatePathException(
+            'RightCornerRadius along with ${GapLocation.end} or/and ${FloatingActionButtonLocation.endDocked} causes render issue => '
             'consider set rightCornerRadius to 0.');
     }
     if (gapLocation == GapLocation.center) {
       final iconsCountIsOdd = (itemCount ?? icons!.length).isOdd;
       if (iconsCountIsOdd)
-        throw NonAppropriatePathException('Odd count of icons along with $gapLocation causes render issue => '
+        throw NonAppropriatePathException(
+            'Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
     }
   }
@@ -293,10 +296,12 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
         );
 
   @override
-  _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
+  _AnimatedBottomNavigationBarState createState() =>
+      _AnimatedBottomNavigationBarState();
 }
 
-class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
+class _AnimatedBottomNavigationBarState
+    extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
   late AnimationController _bubbleController;
@@ -342,7 +347,8 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
           if (bubbleCurve.value < 0.5) {
             _iconScale = 1 + bubbleCurve.value * widget.scaleFactor;
           } else {
-            _iconScale = 1 + widget.scaleFactor - bubbleCurve.value * widget.scaleFactor;
+            _iconScale =
+                1 + widget.scaleFactor - bubbleCurve.value * widget.scaleFactor;
           }
         });
       });
@@ -431,7 +437,9 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
 
   List<Widget> _buildItems() {
     final gapWidth = widget.gapWidth ?? 72;
-    final gapItemWidth = widget.notchAndCornersAnimation != null ? gapWidth * widget.notchAndCornersAnimation!.value : gapWidth;
+    final gapItemWidth = widget.notchAndCornersAnimation != null
+        ? gapWidth * widget.notchAndCornersAnimation!.value
+        : gapWidth;
     final itemCount = widget.itemCount ?? widget.icons!.length;
 
     final items = <Widget>[];
@@ -466,6 +474,12 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
   }
 }
 
-enum NotchSmoothness { sharpEdge, defaultEdge, softEdge, smoothEdge, verySmoothEdge }
+enum NotchSmoothness {
+  sharpEdge,
+  defaultEdge,
+  softEdge,
+  smoothEdge,
+  verySmoothEdge
+}
 
 enum GapLocation { none, center, end }
