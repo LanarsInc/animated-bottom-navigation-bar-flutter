@@ -115,6 +115,9 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Makes sense only if [backgroundColor] opacity is < 1.
   final bool blurEffect;
 
+  /// Filter to apply blurring effect.
+  final ImageFilter? imageFilter;
+
   /// Optional scale effect factor. Default is 1.
   ///
   /// To disable scale effect set value of 0.
@@ -153,6 +156,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
       this.hideAnimationController,
       this.backgroundGradient,
       this.blurEffect = false,
+      this.imageFilter,
       this.scaleFactor = 1.0})
       : assert(icons != null || itemCount != null),
         assert(
@@ -203,6 +207,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     Curve? hideAnimationCurve,
     AnimationController? hideAnimationController,
     Gradient? backgroundGradient,
+    ImageFilter? imageFilter,
     bool blurEffect = false,
     double scaleFactor = 1.0,
   }) : this._internal(
@@ -233,6 +238,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationCurve: hideAnimationCurve,
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
+          imageFilter: imageFilter,
           blurEffect: blurEffect,
           scaleFactor: scaleFactor,
         );
@@ -264,6 +270,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     AnimationController? hideAnimationController,
     Gradient? backgroundGradient,
     bool blurEffect = false,
+    ImageFilter? imageFilter,
     double scaleFactor = 1.0,
   }) : this._internal(
           key: key,
@@ -292,6 +299,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
           blurEffect: blurEffect,
+          imageFilter: imageFilter,
           scaleFactor: scaleFactor,
         );
 
@@ -386,37 +394,40 @@ class _AnimatedBottomNavigationBarState
             ? VisibleAnimator(
                 showController: widget.hideAnimationController!,
                 curve: widget.hideAnimationCurve ?? Curves.fastOutSlowIn,
-                child: _buildBottomBar(),
+                child: _buildBottomBar(context),
               )
-            : _buildBottomBar(),
+            : _buildBottomBar(context),
       ),
     );
   }
 
-  Widget _buildBottomBar() {
+  Widget _buildBottomBar(BuildContext context) {
     return Material(
       clipBehavior: Clip.antiAlias,
       color: widget.backgroundColor ?? Colors.white,
       child: SafeArea(
-        left: widget.safeAreaValues.left,
         top: widget.safeAreaValues.top,
-        right: widget.safeAreaValues.right,
         bottom: widget.safeAreaValues.bottom,
+        left: widget.safeAreaValues.left,
+        right: widget.safeAreaValues.right,
         child: widget.blurEffect
             ? ClipRect(
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 10),
-                  child: _buildBody(),
+                  filter: widget.imageFilter ??
+                      ImageFilter.blur(sigmaX: 5, sigmaY: 10),
+                  child: _buildBody(context),
                 ),
               )
-            : _buildBody(),
+            : _buildBody(context),
       ),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
+    final bottomPadding =
+        widget.safeAreaValues.bottom ? 0 : MediaQuery.paddingOf(context).bottom;
     return Container(
-      height: widget.height ?? kBottomNavigationBarHeight,
+      height: (widget.height ?? kBottomNavigationBarHeight) + bottomPadding,
       decoration: BoxDecoration(
         color: widget.backgroundColor ?? Colors.white,
         gradient: widget.backgroundGradient,
