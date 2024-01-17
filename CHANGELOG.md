@@ -1,3 +1,6 @@
+## [1.3.1] - 2024-01-17
+* Fix [#65](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/65)
+
 ## [1.3.0] - 2023-09-22
 * Add `scaleFactor` parameter by [Oubi256](https://github.com/Oubi256) 
 * Update README.md
