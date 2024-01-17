@@ -3,15 +3,15 @@ library animated_bottom_navigation_bar;
 import 'dart:ui';
 
 import 'package:animated_bottom_navigation_bar/src/around_custom_painter.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
-import 'package:animated_bottom_navigation_bar/src/safe_area_values.dart';
-import 'package:animated_bottom_navigation_bar/src/visible_animator.dart';
 import 'package:animated_bottom_navigation_bar/src/circular_notch_and_corner_clipper.dart';
 import 'package:animated_bottom_navigation_bar/src/circular_notched_and_cornered_shape.dart';
 import 'package:animated_bottom_navigation_bar/src/exceptions.dart';
 import 'package:animated_bottom_navigation_bar/src/gap_item.dart';
+import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
+import 'package:animated_bottom_navigation_bar/src/safe_area_values.dart';
+import 'package:animated_bottom_navigation_bar/src/visible_animator.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 export 'package:animated_bottom_navigation_bar/src/safe_area_values.dart';
 
@@ -357,6 +357,12 @@ class _AnimatedBottomNavigationBarState
       _bubbleController.reset();
     }
     _bubbleController.forward();
+  }
+
+  @override
+  void dispose() {
+    _bubbleController.dispose();
+    super.dispose();
   }
 
   @override
