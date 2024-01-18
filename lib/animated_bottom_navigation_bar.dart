@@ -116,7 +116,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   final bool blurEffect;
 
   /// Filter to apply blurring effect.
-  final ImageFilter? imageFilter;
+  final ImageFilter? blurFilter;
 
   /// Optional scale effect factor. Default is 1.
   ///
@@ -156,7 +156,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
       this.hideAnimationController,
       this.backgroundGradient,
       this.blurEffect = false,
-      this.imageFilter,
+      this.blurFilter,
       this.scaleFactor = 1.0})
       : assert(icons != null || itemCount != null),
         assert(
@@ -238,7 +238,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationCurve: hideAnimationCurve,
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
-          imageFilter: imageFilter,
+          blurFilter: imageFilter,
           blurEffect: blurEffect,
           scaleFactor: scaleFactor,
         );
@@ -299,7 +299,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           hideAnimationController: hideAnimationController,
           backgroundGradient: backgroundGradient,
           blurEffect: blurEffect,
-          imageFilter: imageFilter,
+          blurFilter: imageFilter,
           scaleFactor: scaleFactor,
         );
 
@@ -413,7 +413,7 @@ class _AnimatedBottomNavigationBarState
         child: widget.blurEffect
             ? ClipRect(
                 child: BackdropFilter(
-                  filter: widget.imageFilter ??
+                  filter: widget.blurFilter ??
                       ImageFilter.blur(sigmaX: 5, sigmaY: 10),
                   child: _buildBody(context),
                 ),
