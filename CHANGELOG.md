@@ -1,3 +1,6 @@
+## [1.3.2] - 2024-01-18
+* Add `blurFilter` parameter
+
 ## [1.3.1] - 2024-01-17
 * Fix [#65](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/issues/65)
 
