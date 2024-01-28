@@ -312,34 +312,22 @@ class _AnimatedBottomNavigationBarState
     extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
-  late AnimationController _bubbleController;
+  late final AnimationController _bubbleController;
+  late final CurvedAnimation bubbleCurve;
+
 
   double _bubbleRadius = 0;
   double _iconScale = 1;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    geometryListenable = Scaffold.geometryOf(context);
-
-    widget.notchAndCornersAnimation?..addListener(() => setState(() {}));
-  }
-
-  @override
-  void didUpdateWidget(AnimatedBottomNavigationBar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.activeIndex != oldWidget.activeIndex) {
-      _startBubbleAnimation();
-    }
-  }
-
-  _startBubbleAnimation() {
+  void initState() {
+    super.initState();
     _bubbleController = AnimationController(
       duration: Duration(milliseconds: widget.splashSpeedInMilliseconds ?? 300),
       vsync: this,
     );
 
-    final bubbleCurve = CurvedAnimation(
+    bubbleCurve = CurvedAnimation(
       parent: _bubbleController,
       curve: Curves.linear,
     );
@@ -360,11 +348,30 @@ class _AnimatedBottomNavigationBarState
           }
         });
       });
+  }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    geometryListenable = Scaffold.geometryOf(context);
+
+    widget.notchAndCornersAnimation?..addListener(() => setState(() {}));
+  }
+
+  @override
+  void didUpdateWidget(AnimatedBottomNavigationBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.activeIndex != oldWidget.activeIndex) {
+      _startBubbleAnimation();
+    }
+  }
+
+  _startBubbleAnimation() {
+    // Stop animation if it's currently running
     if (_bubbleController.isAnimating) {
       _bubbleController.reset();
     }
-    _bubbleController.forward();
+    _bubbleController.forward(from: 0);
   }
 
   @override
