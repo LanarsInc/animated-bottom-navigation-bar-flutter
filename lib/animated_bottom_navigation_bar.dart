@@ -325,7 +325,7 @@ class _AnimatedBottomNavigationBarState
       vsync: this,
     );
 
-    var bubbleCurve = CurvedAnimation(
+    final bubbleCurve = CurvedAnimation(
       parent: _bubbleController,
       curve: Curves.linear,
     );
