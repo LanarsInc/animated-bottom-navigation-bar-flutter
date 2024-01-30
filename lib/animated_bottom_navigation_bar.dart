@@ -313,8 +313,6 @@ class _AnimatedBottomNavigationBarState
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
   late final AnimationController _bubbleController;
-  late final CurvedAnimation bubbleCurve;
-
 
   double _bubbleRadius = 0;
   double _iconScale = 1;
@@ -327,7 +325,7 @@ class _AnimatedBottomNavigationBarState
       vsync: this,
     );
 
-    bubbleCurve = CurvedAnimation(
+    var bubbleCurve = CurvedAnimation(
       parent: _bubbleController,
       curve: Curves.linear,
     );
