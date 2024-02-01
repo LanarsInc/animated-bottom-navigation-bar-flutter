@@ -1,3 +1,6 @@
+## [1.3.3] - 2024-01-31
+* Fix animation controllers memory leak by [Clon1998](https://github.com/Clon1998)
+
 ## [1.3.2] - 2024-01-18
 * Add `blurFilter` parameter
 
