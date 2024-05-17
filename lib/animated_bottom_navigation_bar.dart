@@ -1,5 +1,6 @@
 library animated_bottom_navigation_bar;
 
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:animated_bottom_navigation_bar/src/around_custom_painter.dart';
@@ -115,6 +116,11 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   /// Makes sense only if [backgroundColor] opacity is < 1.
   final bool blurEffect;
 
+  /// A running loading bar in the edge .
+  ///
+  /// set borderColor to change the loading bar color
+  final bool showLoading;
+
   /// Filter to apply blurring effect.
   final ImageFilter? blurFilter;
 
@@ -125,40 +131,41 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
 
   static const _defaultSplashRadius = 24.0;
 
-  AnimatedBottomNavigationBar._internal(
-      {Key? key,
-      required this.activeIndex,
-      required this.onTap,
-      this.tabBuilder,
-      this.itemCount,
-      this.icons,
-      this.height,
-      this.splashRadius = _defaultSplashRadius,
-      this.splashSpeedInMilliseconds,
-      this.notchMargin,
-      this.backgroundColor,
-      this.splashColor,
-      this.activeColor,
-      this.inactiveColor,
-      this.notchAndCornersAnimation,
-      this.leftCornerRadius,
-      this.rightCornerRadius,
-      this.iconSize,
-      this.notchSmoothness,
-      this.gapLocation,
-      this.gapWidth,
-      this.elevation,
-      this.shadow,
-      this.borderColor,
-      this.borderWidth,
-      this.safeAreaValues = const SafeAreaValues(),
-      this.hideAnimationCurve,
-      this.hideAnimationController,
-      this.backgroundGradient,
-      this.blurEffect = false,
-      this.blurFilter,
-      this.scaleFactor = 1.0})
-      : assert(icons != null || itemCount != null),
+  AnimatedBottomNavigationBar._internal({
+    Key? key,
+    required this.activeIndex,
+    required this.onTap,
+    this.tabBuilder,
+    this.itemCount,
+    this.icons,
+    this.height,
+    this.splashRadius = _defaultSplashRadius,
+    this.splashSpeedInMilliseconds,
+    this.notchMargin,
+    this.backgroundColor,
+    this.splashColor,
+    this.activeColor,
+    this.inactiveColor,
+    this.notchAndCornersAnimation,
+    this.leftCornerRadius,
+    this.rightCornerRadius,
+    this.iconSize,
+    this.notchSmoothness,
+    this.gapLocation,
+    this.gapWidth,
+    this.elevation,
+    this.shadow,
+    this.borderColor,
+    this.borderWidth,
+    this.safeAreaValues = const SafeAreaValues(),
+    this.hideAnimationCurve,
+    this.hideAnimationController,
+    this.backgroundGradient,
+    this.blurEffect = false,
+    this.blurFilter,
+    this.scaleFactor = 1.0,
+    this.showLoading = false,
+  })  : assert(icons != null || itemCount != null),
         assert(
           ((itemCount ?? icons!.length) >= 2) &&
               ((itemCount ?? icons!.length) <= 5),
@@ -183,6 +190,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     Key? key,
     required List<IconData> icons,
     required int activeIndex,
+    bool showLoading = false,
     required Function(int) onTap,
     double? height,
     double? splashRadius,
@@ -215,6 +223,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           icons: icons,
           activeIndex: activeIndex,
           onTap: onTap,
+          showLoading: showLoading,
           height: height,
           splashRadius: splashRadius ?? _defaultSplashRadius,
           splashSpeedInMilliseconds: splashSpeedInMilliseconds,
@@ -248,6 +257,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     required int itemCount,
     required IndexedWidgetBuilder tabBuilder,
     required int activeIndex,
+    bool showLoading = false,
     required Function(int) onTap,
     double? height,
     double? splashRadius,
@@ -278,6 +288,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
           itemCount: itemCount,
           activeIndex: activeIndex,
           onTap: onTap,
+          showLoading: showLoading,
           height: height,
           splashRadius: splashRadius ?? _defaultSplashRadius,
           splashSpeedInMilliseconds: splashSpeedInMilliseconds,
@@ -316,6 +327,25 @@ class _AnimatedBottomNavigationBarState
 
   double _bubbleRadius = 0;
   double _iconScale = 1;
+
+  double progress = 0.0;
+  Timer? _timer;
+
+  void _startLoadingAnimation() {
+    _timer = Timer.periodic(Duration(milliseconds: 30), (_) {
+      setState(() {
+        progress += 0.01;
+        if (progress > 1.0) {
+          progress = 0.0;
+        }
+      });
+    });
+  }
+
+  void _stopLoadingAnimation() {
+    _timer?.cancel();
+    setState(() => progress = 0.0);
+  }
 
   @override
   void initState() {
@@ -362,6 +392,13 @@ class _AnimatedBottomNavigationBarState
     if (widget.activeIndex != oldWidget.activeIndex) {
       _startBubbleAnimation();
     }
+    if (widget.showLoading != oldWidget.showLoading) {
+      if (widget.showLoading) {
+        _startLoadingAnimation();
+      } else {
+        _stopLoadingAnimation();
+      }
+    }
   }
 
   _startBubbleAnimation() {
@@ -374,6 +411,7 @@ class _AnimatedBottomNavigationBarState
 
   @override
   void dispose() {
+    _timer?.cancel();
     _bubbleController.dispose();
     super.dispose();
   }
@@ -398,6 +436,8 @@ class _AnimatedBottomNavigationBarState
       clipper: clipper,
       child: AroundCustomPainter(
         clipper: clipper,
+        progress: progress,
+        showLoading: widget.showLoading,
         shadow: widget.shadow,
         borderColor: widget.borderColor ?? Colors.transparent,
         borderWidth: widget.borderWidth ?? 2,
