@@ -184,6 +184,11 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
             'Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
     }
+    if (showLoading) {
+      if (borderColor == null) {
+        throw Exception('if showLoading is `true` set `borderColor`');
+      }
+    }
   }
 
   AnimatedBottomNavigationBar({
@@ -384,6 +389,12 @@ class _AnimatedBottomNavigationBarState
     geometryListenable = Scaffold.geometryOf(context);
 
     widget.notchAndCornersAnimation?..addListener(() => setState(() {}));
+
+    if (widget.showLoading) {
+      _startLoadingAnimation();
+    } else {
+      _stopLoadingAnimation();
+    }
   }
 
   @override
