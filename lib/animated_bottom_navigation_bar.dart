@@ -435,10 +435,9 @@ class _AnimatedBottomNavigationBarState
   }
 
   Widget _buildBody(BuildContext context) {
-    final bottomPadding =
-        widget.safeAreaValues.bottom ? 0 : MediaQuery.paddingOf(context).bottom;
-    return Container(
-      height: (widget.height ?? kBottomNavigationBarHeight) + bottomPadding,
+    return SafeArea(
+        child:Container(
+      // height: (widget.height ?? kBottomNavigationBarHeight) + bottomPadding,
       decoration: BoxDecoration(
         color: widget.backgroundColor ?? Colors.white,
         gradient: widget.backgroundGradient,
@@ -448,7 +447,7 @@ class _AnimatedBottomNavigationBarState
         mainAxisSize: MainAxisSize.max,
         children: _buildItems(),
       ),
-    );
+    ));
   }
 
   List<Widget> _buildItems() {
