@@ -413,23 +413,29 @@ class _AnimatedBottomNavigationBarState
   }
 
   Widget _buildBottomBar(BuildContext context) {
+    final backgroundColor = widget.backgroundColor ?? Colors.white;
+    final bottomBarBackgroundColor =
+        widget.backgroundGradient != null ? Colors.transparent : backgroundColor;
+
     return Material(
       clipBehavior: Clip.antiAlias,
-      color: widget.backgroundColor ?? Colors.white,
-      child: SafeArea(
-        top: widget.safeAreaValues.top,
-        bottom: widget.safeAreaValues.bottom,
-        left: widget.safeAreaValues.left,
-        right: widget.safeAreaValues.right,
-        child: widget.blurEffect
-            ? ClipRect(
-                child: BackdropFilter(
-                  filter: widget.blurFilter ??
-                      ImageFilter.blur(sigmaX: 5, sigmaY: 10),
-                  child: _buildBody(context),
-                ),
-              )
-            : _buildBody(context),
+      color: bottomBarBackgroundColor,
+      child: DecoratedBox(
+        decoration: BoxDecoration(gradient: widget.backgroundGradient),
+        child: SafeArea(
+          top: widget.safeAreaValues.top,
+          bottom: widget.safeAreaValues.bottom,
+          left: widget.safeAreaValues.left,
+          right: widget.safeAreaValues.right,
+          child: widget.blurEffect
+              ? ClipRect(
+                  child: BackdropFilter(
+                    filter: widget.blurFilter ?? ImageFilter.blur(sigmaX: 5, sigmaY: 10),
+                    child: _buildBody(context),
+                  ),
+                )
+              : _buildBody(context),
+        ),
       ),
     );
   }
