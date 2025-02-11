@@ -414,8 +414,9 @@ class _AnimatedBottomNavigationBarState
 
   Widget _buildBottomBar(BuildContext context) {
     final backgroundColor = widget.backgroundColor ?? Colors.white;
-    final bottomBarBackgroundColor =
-        widget.backgroundGradient != null ? Colors.transparent : backgroundColor;
+    final bottomBarBackgroundColor = widget.backgroundGradient != null
+        ? Colors.transparent
+        : backgroundColor;
 
     return Material(
       clipBehavior: Clip.antiAlias,
@@ -430,7 +431,8 @@ class _AnimatedBottomNavigationBarState
           child: widget.blurEffect
               ? ClipRect(
                   child: BackdropFilter(
-                    filter: widget.blurFilter ?? ImageFilter.blur(sigmaX: 5, sigmaY: 10),
+                    filter: widget.blurFilter ??
+                        ImageFilter.blur(sigmaX: 5, sigmaY: 10),
                     child: _buildBody(context),
                   ),
                 )
