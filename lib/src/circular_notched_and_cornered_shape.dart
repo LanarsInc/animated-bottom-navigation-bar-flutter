@@ -63,22 +63,26 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
       }
       return Path()..addRect(host);
     }
+    
+    final guestCenterDx = guest.center.dx;
+    final halfOfHostWidth = host.width / 2;
+    
+    final threshold = host.width * 0.1;  // 10% tolerance
+    final distanceFromCenter = (guestCenterDx - halfOfHostWidth).abs();
+    final isNearCenter = distanceFromCenter <= threshold;
 
-    final guestCenterDx = guest.center.dx.toInt();
-    final halfOfHostWidth = host.width ~/ 2;
-
-    if (guestCenterDx == halfOfHostWidth) {
-      if (gapLocation == GapLocation.end)
-        throw GapLocationException(
-            'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
-            'consider use ${GapLocation.center} instead of $gapLocation or change FloatingActionButtonLocation');
+    if (isNearCenter && gapLocation != GapLocation.center) {
+      throw GapLocationException(
+        'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
+        'consider use ${GapLocation.center} instead of $gapLocation or change FloatingActionButtonLocation'
+      );
     }
 
-    if (guestCenterDx != halfOfHostWidth) {
-      if (gapLocation == GapLocation.center)
-        throw GapLocationException(
-            'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
-            'consider use ${GapLocation.end} instead of $gapLocation or change FloatingActionButtonLocation');
+    if (!isNearCenter && gapLocation != GapLocation.end) {
+      throw GapLocationException(
+        'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
+        'consider use ${GapLocation.end} instead of $gapLocation or change FloatingActionButtonLocation'
+      );
     }
 
     // The guest's shape is a circle bounded by the guest rectangle.
