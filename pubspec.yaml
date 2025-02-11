@@ -4,7 +4,8 @@ version: 1.3.3
 homepage: https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter
 
 environment:
-  sdk: '>=2.12.0 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.16.0"
 
 dependencies:
   flutter:
