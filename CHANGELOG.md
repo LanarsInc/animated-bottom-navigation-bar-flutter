@@ -1,3 +1,7 @@
+## [1.4.0] - 2025-02-11
+* Fix displaying gradient for background in bottom navigation bar [#76](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/pull/76), thanks to [huykgit98](https://github.com/huykgit98)
+* Increase flutter to `>=3.16.0` and dart to `>=3.0.0` versions 
+
 ## [1.3.3] - 2024-01-31
 * Fix animation controllers memory leak by [Clon1998](https://github.com/Clon1998)
 
