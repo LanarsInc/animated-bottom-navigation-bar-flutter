@@ -413,6 +413,10 @@ class _AnimatedBottomNavigationBarState
   }
 
   Widget _buildBottomBar(BuildContext context) {
+    final backgroundColor = widget.backgroundColor ?? Colors.white;
+    final bottomBarBackgroundColor =
+        widget.backgroundGradient != null ? Colors.transparent : backgroundColor;
+
     return Material(
       clipBehavior: Clip.antiAlias,
       color: widget.backgroundColor ?? Colors.white,
