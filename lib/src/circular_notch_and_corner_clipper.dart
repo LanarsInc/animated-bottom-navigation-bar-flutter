@@ -56,8 +56,7 @@ class CircularNotchedAndCorneredRectangleClipper extends CustomClipper<Path> {
   }
 
   Offset? get _navigationBarOffsetInScaffold {
-    final navigationBarObject =
-        navigationBarKey.currentContext?.findRenderObject();
+    final navigationBarObject = navigationBarKey.currentContext?.findRenderObject();
     final scaffoldObject = scaffoldContext?.findRenderObject();
 
     if ((navigationBarObject is! RenderBox) ||
@@ -75,9 +74,7 @@ class CircularNotchedAndCorneredRectangleClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CircularNotchedAndCorneredRectangleClipper oldClipper) {
-    return oldClipper.geometry != geometry ||
-        oldClipper.shape != shape ||
-        oldClipper.notchMargin != notchMargin;
+    return oldClipper.geometry != geometry || oldClipper.shape != shape || oldClipper.notchMargin != notchMargin;
   }
 }
 

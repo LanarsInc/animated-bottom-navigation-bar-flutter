@@ -160,8 +160,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
       this.scaleFactor = 1.0})
       : assert(icons != null || itemCount != null),
         assert(
-          ((itemCount ?? icons!.length) >= 2) &&
-              ((itemCount ?? icons!.length) <= 5),
+          ((itemCount ?? icons!.length) >= 2) && ((itemCount ?? icons!.length) <= 5),
         ),
         super(key: key) {
     if (gapLocation == GapLocation.end) {
@@ -173,8 +172,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
     if (gapLocation == GapLocation.center) {
       final iconsCountIsOdd = (itemCount ?? icons!.length).isOdd;
       if (iconsCountIsOdd)
-        throw NonAppropriatePathException(
-            'Odd count of icons along with $gapLocation causes render issue => '
+        throw NonAppropriatePathException('Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
     }
   }
@@ -304,12 +302,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
         );
 
   @override
-  _AnimatedBottomNavigationBarState createState() =>
-      _AnimatedBottomNavigationBarState();
+  _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
 }
 
-class _AnimatedBottomNavigationBarState
-    extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
+class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
   final _notchAreaCache = NotchAreaCache();
@@ -346,8 +342,7 @@ class _AnimatedBottomNavigationBarState
           if (bubbleCurve.value < 0.5) {
             _iconScale = 1 + bubbleCurve.value * widget.scaleFactor;
           } else {
-            _iconScale =
-                1 + widget.scaleFactor - bubbleCurve.value * widget.scaleFactor;
+            _iconScale = 1 + widget.scaleFactor - bubbleCurve.value * widget.scaleFactor;
           }
         });
       });
@@ -424,9 +419,7 @@ class _AnimatedBottomNavigationBarState
 
   Widget _buildBottomBar(BuildContext context, CustomClipper<Path> clipper) {
     final backgroundColor = widget.backgroundColor ?? Colors.white;
-    final bottomBarBackgroundColor = widget.backgroundGradient != null
-        ? Colors.transparent
-        : backgroundColor;
+    final bottomBarBackgroundColor = widget.backgroundGradient != null ? Colors.transparent : backgroundColor;
 
     return Material(
       clipBehavior: Clip.antiAlias,
@@ -442,8 +435,7 @@ class _AnimatedBottomNavigationBarState
               ? ClipPath(
                   clipper: clipper,
                   child: BackdropFilter(
-                    filter: widget.blurFilter ??
-                        ImageFilter.blur(sigmaX: 5, sigmaY: 10),
+                    filter: widget.blurFilter ?? ImageFilter.blur(sigmaX: 5, sigmaY: 10),
                     child: _buildBody(context),
                   ),
                 )
@@ -454,8 +446,7 @@ class _AnimatedBottomNavigationBarState
   }
 
   Widget _buildBody(BuildContext context) {
-    final bottomPadding =
-        widget.safeAreaValues.bottom ? 0 : MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = widget.safeAreaValues.bottom ? 0 : MediaQuery.paddingOf(context).bottom;
     return Container(
       height: (widget.height ?? kBottomNavigationBarHeight) + bottomPadding,
       decoration: BoxDecoration(
@@ -472,9 +463,8 @@ class _AnimatedBottomNavigationBarState
 
   List<Widget> _buildItems() {
     final gapWidth = widget.gapWidth ?? 72;
-    final gapItemWidth = widget.notchAndCornersAnimation != null
-        ? gapWidth * widget.notchAndCornersAnimation!.value
-        : gapWidth;
+    final gapItemWidth =
+        widget.notchAndCornersAnimation != null ? gapWidth * widget.notchAndCornersAnimation!.value : gapWidth;
     final itemCount = widget.itemCount ?? widget.icons!.length;
 
     final items = <Widget>[];
@@ -509,12 +499,6 @@ class _AnimatedBottomNavigationBarState
   }
 }
 
-enum NotchSmoothness {
-  sharpEdge,
-  defaultEdge,
-  softEdge,
-  smoothEdge,
-  verySmoothEdge
-}
+enum NotchSmoothness { sharpEdge, defaultEdge, softEdge, smoothEdge, verySmoothEdge }
 
 enum GapLocation { none, center, end }

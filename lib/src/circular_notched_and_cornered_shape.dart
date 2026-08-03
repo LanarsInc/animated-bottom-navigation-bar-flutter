@@ -39,10 +39,8 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
   Path getOuterPath(Rect host, Rect? guest) {
     if (guest == null || !host.overlaps(guest)) {
       if (this.rightCornerRadius > 0 || this.leftCornerRadius > 0) {
-        double leftCornerRadius =
-            this.leftCornerRadius * (animation?.value ?? 1);
-        double rightCornerRadius =
-            this.rightCornerRadius * (animation?.value ?? 1);
+        double leftCornerRadius = this.leftCornerRadius * (animation?.value ?? 1);
+        double rightCornerRadius = this.rightCornerRadius * (animation?.value ?? 1);
         return Path()
           ..moveTo(host.left, host.bottom)
           ..lineTo(host.left, host.top + leftCornerRadius)

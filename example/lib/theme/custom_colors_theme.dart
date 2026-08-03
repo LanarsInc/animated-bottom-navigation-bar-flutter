@@ -25,15 +25,11 @@ class CustomColorsTheme extends ThemeExtension<CustomColorsTheme> {
     Color? shadowNavigationBarColor,
   }) {
     return CustomColorsTheme(
-      bottomNavigationBarBackgroundColor: bottomNavigationBarBackgroundColor ??
-          this.bottomNavigationBarBackgroundColor,
+      bottomNavigationBarBackgroundColor: bottomNavigationBarBackgroundColor ?? this.bottomNavigationBarBackgroundColor,
       colorLabelColor: colorLabelColor ?? this.colorLabelColor,
-      activeNavigationBarColor:
-          activeNavigationBarColor ?? this.activeNavigationBarColor,
-      notActiveNavigationBarColor:
-          notActiveNavigationBarColor ?? this.notActiveNavigationBarColor,
-      shadowNavigationBarColor:
-          shadowNavigationBarColor ?? this.shadowNavigationBarColor,
+      activeNavigationBarColor: activeNavigationBarColor ?? this.activeNavigationBarColor,
+      notActiveNavigationBarColor: notActiveNavigationBarColor ?? this.notActiveNavigationBarColor,
+      shadowNavigationBarColor: shadowNavigationBarColor ?? this.shadowNavigationBarColor,
     );
   }
 
@@ -46,22 +42,16 @@ class CustomColorsTheme extends ThemeExtension<CustomColorsTheme> {
       return this;
     }
     return CustomColorsTheme(
-      bottomNavigationBarBackgroundColor: Color.lerp(
+      bottomNavigationBarBackgroundColor:
+          Color.lerp(bottomNavigationBarBackgroundColor, other.bottomNavigationBarBackgroundColor, t) ??
               bottomNavigationBarBackgroundColor,
-              other.bottomNavigationBarBackgroundColor,
-              t) ??
-          bottomNavigationBarBackgroundColor,
-      colorLabelColor: Color.lerp(colorLabelColor, other.colorLabelColor, t) ??
-          colorLabelColor,
-      activeNavigationBarColor: Color.lerp(
-              activeNavigationBarColor, other.activeNavigationBarColor, t) ??
-          activeNavigationBarColor,
-      notActiveNavigationBarColor: Color.lerp(notActiveNavigationBarColor,
-              other.notActiveNavigationBarColor, t) ??
-          notActiveNavigationBarColor,
-      shadowNavigationBarColor: Color.lerp(
-              shadowNavigationBarColor, other.shadowNavigationBarColor, t) ??
-          shadowNavigationBarColor,
+      colorLabelColor: Color.lerp(colorLabelColor, other.colorLabelColor, t) ?? colorLabelColor,
+      activeNavigationBarColor:
+          Color.lerp(activeNavigationBarColor, other.activeNavigationBarColor, t) ?? activeNavigationBarColor,
+      notActiveNavigationBarColor:
+          Color.lerp(notActiveNavigationBarColor, other.notActiveNavigationBarColor, t) ?? notActiveNavigationBarColor,
+      shadowNavigationBarColor:
+          Color.lerp(shadowNavigationBarColor, other.shadowNavigationBarColor, t) ?? shadowNavigationBarColor,
     );
   }
 }

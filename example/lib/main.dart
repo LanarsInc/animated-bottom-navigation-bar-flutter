@@ -93,8 +93,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   bool onScrollNotification(ScrollNotification notification) {
-    if (notification is UserScrollNotification &&
-        notification.metrics.axis == Axis.vertical) {
+    if (notification is UserScrollNotification && notification.metrics.axis == Axis.vertical) {
       switch (notification.direction) {
         case ScrollDirection.forward:
           _hideBottomBarAnimationController.reverse();
@@ -142,9 +141,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(
         itemCount: iconList.length,
         tabBuilder: (int index, bool isActive) {
-          final color = isActive
-              ? colors.activeNavigationBarColor
-              : colors.notActiveNavigationBarColor;
+          final color = isActive ? colors.activeNavigationBarColor : colors.notActiveNavigationBarColor;
           return Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -198,8 +195,7 @@ class NavigationScreen extends StatefulWidget {
   _NavigationScreenState createState() => _NavigationScreenState();
 }
 
-class _NavigationScreenState extends State<NavigationScreen>
-    with TickerProviderStateMixin {
+class _NavigationScreenState extends State<NavigationScreen> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> animation;
 
