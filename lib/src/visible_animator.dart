@@ -2,11 +2,11 @@ import 'package:flutter/widgets.dart';
 
 class VisibleAnimator extends StatefulWidget {
   const VisibleAnimator({
-    Key? key,
+    super.key,
     required this.child,
     required this.showController,
     required this.curve,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Curve curve;

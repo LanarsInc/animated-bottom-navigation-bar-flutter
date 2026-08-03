@@ -1,4 +1,4 @@
-library animated_bottom_navigation_bar;
+library;
 
 import 'dart:ui';
 
@@ -126,7 +126,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   static const _defaultSplashRadius = 24.0;
 
   AnimatedBottomNavigationBar._internal(
-      {Key? key,
+      {super.key,
       required this.activeIndex,
       required this.onTap,
       this.tabBuilder,
@@ -161,19 +161,20 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
       : assert(icons != null || itemCount != null),
         assert(
           ((itemCount ?? icons!.length) >= 2) && ((itemCount ?? icons!.length) <= 5),
-        ),
-        super(key: key) {
+        ) {
     if (gapLocation == GapLocation.end) {
-      if (rightCornerRadius != 0)
+      if (rightCornerRadius != 0) {
         throw NonAppropriatePathException(
             'RightCornerRadius along with ${GapLocation.end} or/and ${FloatingActionButtonLocation.endDocked} causes render issue => '
             'consider set rightCornerRadius to 0.');
+      }
     }
     if (gapLocation == GapLocation.center) {
       final iconsCountIsOdd = (itemCount ?? icons!.length).isOdd;
-      if (iconsCountIsOdd)
+      if (iconsCountIsOdd) {
         throw NonAppropriatePathException('Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
+      }
     }
   }
 
@@ -331,21 +332,20 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
       curve: Curves.linear,
     );
 
-    Tween<double>(begin: 0, end: 1).animate(bubbleCurve)
-      ..addListener(() {
-        setState(() {
-          _bubbleRadius = widget.splashRadius * bubbleCurve.value;
-          if (_bubbleRadius == widget.splashRadius) {
-            _bubbleRadius = 0;
-          }
+    Tween<double>(begin: 0, end: 1).animate(bubbleCurve).addListener(() {
+      setState(() {
+        _bubbleRadius = widget.splashRadius * bubbleCurve.value;
+        if (_bubbleRadius == widget.splashRadius) {
+          _bubbleRadius = 0;
+        }
 
-          if (bubbleCurve.value < 0.5) {
-            _iconScale = 1 + bubbleCurve.value * widget.scaleFactor;
-          } else {
-            _iconScale = 1 + widget.scaleFactor - bubbleCurve.value * widget.scaleFactor;
-          }
-        });
+        if (bubbleCurve.value < 0.5) {
+          _iconScale = 1 + bubbleCurve.value * widget.scaleFactor;
+        } else {
+          _iconScale = 1 + widget.scaleFactor - bubbleCurve.value * widget.scaleFactor;
+        }
       });
+    });
   }
 
   @override
@@ -354,7 +354,7 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
     geometryListenable = Scaffold.geometryOf(context);
     _scaffoldContext = Scaffold.maybeOf(context)?.context;
 
-    widget.notchAndCornersAnimation?..addListener(() => setState(() {}));
+    widget.notchAndCornersAnimation?.addListener(() => setState(() {}));
   }
 
   @override
@@ -365,7 +365,7 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
     }
   }
 
-  _startBubbleAnimation() {
+  void _startBubbleAnimation() {
     // Stop animation if it's currently running
     if (_bubbleController.isAnimating) {
       _bubbleController.reset();
@@ -483,11 +483,11 @@ class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBa
           bubbleColor: widget.splashColor,
           activeColor: widget.activeColor,
           inactiveColor: widget.inactiveColor,
-          child: widget.tabBuilder?.call(i, isActive),
           iconData: widget.icons?.elementAt(i),
           iconScale: _iconScale,
           iconSize: widget.iconSize,
           onTap: () => widget.onTap(i),
+          child: widget.tabBuilder?.call(i, isActive),
         ),
       );
 

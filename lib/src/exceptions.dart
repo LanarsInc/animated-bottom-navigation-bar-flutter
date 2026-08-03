@@ -17,7 +17,7 @@ class NonAppropriatePathException implements Exception {
 }
 
 class IllegalFloatingActionButtonSizeException implements Exception {
-  String _cause;
+  final String _cause;
 
   IllegalFloatingActionButtonSizeException(this._cause) : super();
 

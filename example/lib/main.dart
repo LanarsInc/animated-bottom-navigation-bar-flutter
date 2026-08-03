@@ -11,6 +11,8 @@ import 'package:lanarsnavbarflutter/theme/custom_colors_theme.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -189,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 class NavigationScreen extends StatefulWidget {
   final IconData iconData;
 
-  NavigationScreen(this.iconData) : super();
+  const NavigationScreen(this.iconData, {super.key});
 
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
@@ -221,7 +223,7 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
     super.initState();
   }
 
-  _startAnimation() {
+  void _startAnimation() {
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1000),
@@ -243,7 +245,7 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<CustomColorsTheme>()!;
     return Container(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       child: ListView(
         children: [
           SizedBox(height: 64),
