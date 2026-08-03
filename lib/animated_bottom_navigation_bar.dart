@@ -312,6 +312,8 @@ class _AnimatedBottomNavigationBarState
     extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
+  final _notchAreaCache = NotchAreaCache();
+
   late final AnimationController _bubbleController;
 
   double _bubbleRadius = 0;
@@ -390,6 +392,7 @@ class _AnimatedBottomNavigationBarState
       ),
       geometry: geometryListenable,
       notchMargin: widget.notchMargin ?? 8,
+      notchAreaCache: _notchAreaCache,
     );
 
     return PhysicalShape(
@@ -430,7 +433,7 @@ class _AnimatedBottomNavigationBarState
           right: widget.safeAreaValues.right,
           child: widget.blurEffect
               ? ClipPath(
-                clipper: clipper,
+                  clipper: clipper,
                   child: BackdropFilter(
                     filter: widget.blurFilter ??
                         ImageFilter.blur(sigmaX: 5, sigmaY: 10),
