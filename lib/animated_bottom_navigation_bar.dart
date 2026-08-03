@@ -313,6 +313,9 @@ class _AnimatedBottomNavigationBarState
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
   final _notchAreaCache = NotchAreaCache();
+  final _navigationBarKey = GlobalKey();
+
+  BuildContext? _scaffoldContext;
 
   late final AnimationController _bubbleController;
 
@@ -354,6 +357,7 @@ class _AnimatedBottomNavigationBarState
   void didChangeDependencies() {
     super.didChangeDependencies();
     geometryListenable = Scaffold.geometryOf(context);
+    _scaffoldContext = Scaffold.maybeOf(context)?.context;
 
     widget.notchAndCornersAnimation?..addListener(() => setState(() {}));
   }
@@ -393,9 +397,12 @@ class _AnimatedBottomNavigationBarState
       geometry: geometryListenable,
       notchMargin: widget.notchMargin ?? 8,
       notchAreaCache: _notchAreaCache,
+      navigationBarKey: _navigationBarKey,
+      scaffoldContext: _scaffoldContext,
     );
 
     return PhysicalShape(
+      key: _navigationBarKey,
       elevation: widget.elevation ?? 8,
       color: Colors.transparent,
       clipper: clipper,
