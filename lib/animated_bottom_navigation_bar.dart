@@ -405,14 +405,14 @@ class _AnimatedBottomNavigationBarState
             ? VisibleAnimator(
                 showController: widget.hideAnimationController!,
                 curve: widget.hideAnimationCurve ?? Curves.fastOutSlowIn,
-                child: _buildBottomBar(context),
+                child: _buildBottomBar(context, clipper),
               )
-            : _buildBottomBar(context),
+            : _buildBottomBar(context, clipper),
       ),
     );
   }
 
-  Widget _buildBottomBar(BuildContext context) {
+  Widget _buildBottomBar(BuildContext context, CustomClipper<Path> clipper) {
     final backgroundColor = widget.backgroundColor ?? Colors.white;
     final bottomBarBackgroundColor = widget.backgroundGradient != null
         ? Colors.transparent
@@ -429,7 +429,8 @@ class _AnimatedBottomNavigationBarState
           left: widget.safeAreaValues.left,
           right: widget.safeAreaValues.right,
           child: widget.blurEffect
-              ? ClipRect(
+              ? ClipPath(
+                clipper: clipper,
                   child: BackdropFilter(
                     filter: widget.blurFilter ??
                         ImageFilter.blur(sigmaX: 5, sigmaY: 10),
