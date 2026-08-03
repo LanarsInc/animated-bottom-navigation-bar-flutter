@@ -312,6 +312,10 @@ class _AnimatedBottomNavigationBarState
     extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
+  final _navigationBarKey = GlobalKey();
+
+  BuildContext? _scaffoldContext;
+
   late final AnimationController _bubbleController;
 
   double _bubbleRadius = 0;
@@ -352,6 +356,7 @@ class _AnimatedBottomNavigationBarState
   void didChangeDependencies() {
     super.didChangeDependencies();
     geometryListenable = Scaffold.geometryOf(context);
+    _scaffoldContext = Scaffold.maybeOf(context)?.context;
 
     widget.notchAndCornersAnimation?..addListener(() => setState(() {}));
   }
@@ -390,9 +395,12 @@ class _AnimatedBottomNavigationBarState
       ),
       geometry: geometryListenable,
       notchMargin: widget.notchMargin ?? 8,
+      navigationBarKey: _navigationBarKey,
+      scaffoldContext: _scaffoldContext,
     );
 
     return PhysicalShape(
+      key: _navigationBarKey,
       elevation: widget.elevation ?? 8,
       color: Colors.transparent,
       clipper: clipper,
@@ -430,7 +438,7 @@ class _AnimatedBottomNavigationBarState
           right: widget.safeAreaValues.right,
           child: widget.blurEffect
               ? ClipPath(
-                clipper: clipper,
+                  clipper: clipper,
                   child: BackdropFilter(
                     filter: widget.blurFilter ??
                         ImageFilter.blur(sigmaX: 5, sigmaY: 10),
