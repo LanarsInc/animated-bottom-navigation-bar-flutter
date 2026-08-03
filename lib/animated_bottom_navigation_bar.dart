@@ -312,6 +312,7 @@ class _AnimatedBottomNavigationBarState
     extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
+  final _notchAreaCache = NotchAreaCache();
   final _navigationBarKey = GlobalKey();
 
   BuildContext? _scaffoldContext;
@@ -395,6 +396,7 @@ class _AnimatedBottomNavigationBarState
       ),
       geometry: geometryListenable,
       notchMargin: widget.notchMargin ?? 8,
+      notchAreaCache: _notchAreaCache,
       navigationBarKey: _navigationBarKey,
       scaffoldContext: _scaffoldContext,
     );
