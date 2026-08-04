@@ -11,7 +11,8 @@ class AroundCustomPainter extends StatelessWidget {
 
   final Widget child;
 
-  AroundCustomPainter({
+  const AroundCustomPainter({
+    super.key,
     required this.clipper,
     required this.borderWidth,
     required this.borderColor,
@@ -24,12 +25,12 @@ class AroundCustomPainter extends StatelessWidget {
     return CustomPaint(
       key: UniqueKey(),
       painter: _AroundCustomPainter(
-        clipper: this.clipper,
-        shadow: this.shadow,
-        borderColor: this.borderColor,
-        borderWidth: this.borderWidth,
+        clipper: clipper,
+        shadow: shadow,
+        borderColor: borderColor,
+        borderWidth: borderWidth,
       ),
-      child: ClipPath(child: child, clipper: this.clipper),
+      child: ClipPath(clipper: clipper, child: child),
     );
   }
 }

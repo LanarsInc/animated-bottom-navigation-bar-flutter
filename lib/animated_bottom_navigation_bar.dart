@@ -1,4 +1,4 @@
-library animated_bottom_navigation_bar;
+library;
 
 import 'dart:ui';
 
@@ -126,7 +126,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
   static const _defaultSplashRadius = 24.0;
 
   AnimatedBottomNavigationBar._internal(
-      {Key? key,
+      {super.key,
       required this.activeIndex,
       required this.onTap,
       this.tabBuilder,
@@ -160,22 +160,21 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
       this.scaleFactor = 1.0})
       : assert(icons != null || itemCount != null),
         assert(
-          ((itemCount ?? icons!.length) >= 2) &&
-              ((itemCount ?? icons!.length) <= 5),
-        ),
-        super(key: key) {
+          ((itemCount ?? icons!.length) >= 2) && ((itemCount ?? icons!.length) <= 5),
+        ) {
     if (gapLocation == GapLocation.end) {
-      if (rightCornerRadius != 0)
+      if (rightCornerRadius != 0) {
         throw NonAppropriatePathException(
             'RightCornerRadius along with ${GapLocation.end} or/and ${FloatingActionButtonLocation.endDocked} causes render issue => '
             'consider set rightCornerRadius to 0.');
+      }
     }
     if (gapLocation == GapLocation.center) {
       final iconsCountIsOdd = (itemCount ?? icons!.length).isOdd;
-      if (iconsCountIsOdd)
-        throw NonAppropriatePathException(
-            'Odd count of icons along with $gapLocation causes render issue => '
+      if (iconsCountIsOdd) {
+        throw NonAppropriatePathException('Odd count of icons along with $gapLocation causes render issue => '
             'consider set gapLocation to ${GapLocation.end}');
+      }
     }
   }
 
@@ -304,12 +303,10 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
         );
 
   @override
-  _AnimatedBottomNavigationBarState createState() =>
-      _AnimatedBottomNavigationBarState();
+  _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
 }
 
-class _AnimatedBottomNavigationBarState
-    extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
+class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
   late ValueListenable<ScaffoldGeometry> geometryListenable;
 
   final _notchAreaCache = NotchAreaCache();
@@ -335,22 +332,20 @@ class _AnimatedBottomNavigationBarState
       curve: Curves.linear,
     );
 
-    Tween<double>(begin: 0, end: 1).animate(bubbleCurve)
-      ..addListener(() {
-        setState(() {
-          _bubbleRadius = widget.splashRadius * bubbleCurve.value;
-          if (_bubbleRadius == widget.splashRadius) {
-            _bubbleRadius = 0;
-          }
+    Tween<double>(begin: 0, end: 1).animate(bubbleCurve).addListener(() {
+      setState(() {
+        _bubbleRadius = widget.splashRadius * bubbleCurve.value;
+        if (_bubbleRadius == widget.splashRadius) {
+          _bubbleRadius = 0;
+        }
 
-          if (bubbleCurve.value < 0.5) {
-            _iconScale = 1 + bubbleCurve.value * widget.scaleFactor;
-          } else {
-            _iconScale =
-                1 + widget.scaleFactor - bubbleCurve.value * widget.scaleFactor;
-          }
-        });
+        if (bubbleCurve.value < 0.5) {
+          _iconScale = 1 + bubbleCurve.value * widget.scaleFactor;
+        } else {
+          _iconScale = 1 + widget.scaleFactor - bubbleCurve.value * widget.scaleFactor;
+        }
       });
+    });
   }
 
   @override
@@ -359,7 +354,7 @@ class _AnimatedBottomNavigationBarState
     geometryListenable = Scaffold.geometryOf(context);
     _scaffoldContext = Scaffold.maybeOf(context)?.context;
 
-    widget.notchAndCornersAnimation?..addListener(() => setState(() {}));
+    widget.notchAndCornersAnimation?.addListener(() => setState(() {}));
   }
 
   @override
@@ -370,7 +365,7 @@ class _AnimatedBottomNavigationBarState
     }
   }
 
-  _startBubbleAnimation() {
+  void _startBubbleAnimation() {
     // Stop animation if it's currently running
     if (_bubbleController.isAnimating) {
       _bubbleController.reset();
@@ -424,9 +419,7 @@ class _AnimatedBottomNavigationBarState
 
   Widget _buildBottomBar(BuildContext context, CustomClipper<Path> clipper) {
     final backgroundColor = widget.backgroundColor ?? Colors.white;
-    final bottomBarBackgroundColor = widget.backgroundGradient != null
-        ? Colors.transparent
-        : backgroundColor;
+    final bottomBarBackgroundColor = widget.backgroundGradient != null ? Colors.transparent : backgroundColor;
 
     return Material(
       clipBehavior: Clip.antiAlias,
@@ -442,8 +435,7 @@ class _AnimatedBottomNavigationBarState
               ? ClipPath(
                   clipper: clipper,
                   child: BackdropFilter(
-                    filter: widget.blurFilter ??
-                        ImageFilter.blur(sigmaX: 5, sigmaY: 10),
+                    filter: widget.blurFilter ?? ImageFilter.blur(sigmaX: 5, sigmaY: 10),
                     child: _buildBody(context),
                   ),
                 )
@@ -454,8 +446,7 @@ class _AnimatedBottomNavigationBarState
   }
 
   Widget _buildBody(BuildContext context) {
-    final bottomPadding =
-        widget.safeAreaValues.bottom ? 0 : MediaQuery.paddingOf(context).bottom;
+    final bottomPadding = widget.safeAreaValues.bottom ? 0 : MediaQuery.paddingOf(context).bottom;
     return Container(
       height: (widget.height ?? kBottomNavigationBarHeight) + bottomPadding,
       decoration: BoxDecoration(
@@ -472,9 +463,8 @@ class _AnimatedBottomNavigationBarState
 
   List<Widget> _buildItems() {
     final gapWidth = widget.gapWidth ?? 72;
-    final gapItemWidth = widget.notchAndCornersAnimation != null
-        ? gapWidth * widget.notchAndCornersAnimation!.value
-        : gapWidth;
+    final gapItemWidth =
+        widget.notchAndCornersAnimation != null ? gapWidth * widget.notchAndCornersAnimation!.value : gapWidth;
     final itemCount = widget.itemCount ?? widget.icons!.length;
 
     final items = <Widget>[];
@@ -493,11 +483,11 @@ class _AnimatedBottomNavigationBarState
           bubbleColor: widget.splashColor,
           activeColor: widget.activeColor,
           inactiveColor: widget.inactiveColor,
-          child: widget.tabBuilder?.call(i, isActive),
           iconData: widget.icons?.elementAt(i),
           iconScale: _iconScale,
           iconSize: widget.iconSize,
           onTap: () => widget.onTap(i),
+          child: widget.tabBuilder?.call(i, isActive),
         ),
       );
 
@@ -509,12 +499,6 @@ class _AnimatedBottomNavigationBarState
   }
 }
 
-enum NotchSmoothness {
-  sharpEdge,
-  defaultEdge,
-  softEdge,
-  smoothEdge,
-  verySmoothEdge
-}
+enum NotchSmoothness { sharpEdge, defaultEdge, softEdge, smoothEdge, verySmoothEdge }
 
 enum GapLocation { none, center, end }
