@@ -1,3 +1,7 @@
+## [1.4.1] - 2026-08-04
+* Fix notch alignment for an inset navigation bar [#93](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/pull/93)
+* Fix Scaffold.geometryOf() access outside the paint phase [#94](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/pull/94)
+
 ## [1.4.0] - 2025-02-11
 * Fix displaying gradient for background in bottom navigation bar [#76](https://github.com/LanarsInc/animated-bottom-navigation-bar-flutter/pull/76), thanks to [huykgit98](https://github.com/huykgit98)
 * Increase flutter to `>=3.16.0` and dart to `>=3.0.0` versions 
