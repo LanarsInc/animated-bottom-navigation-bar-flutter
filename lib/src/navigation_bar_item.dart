@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:animated_bottom_navigation_bar/src/bubble_selection_painter.dart';
 import 'package:animated_bottom_navigation_bar/src/tab_item.dart';
+import 'package:material_ui/material_ui.dart';
 
 class NavigationBarItem extends StatelessWidget {
   final bool isActive;

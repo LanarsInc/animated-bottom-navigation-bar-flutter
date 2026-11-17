@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 @immutable
 class AroundCustomPainter extends StatelessWidget {
@@ -61,10 +61,10 @@ class _AroundCustomPainter extends CustomPainter {
     final shadowPaint = shadow?.toPaint();
 
     if (size.height != 0) {
-      if (borderPaint.color.value != Colors.transparent.value) {
+      if (borderPaint.color.toARGB32() != Colors.transparent.toARGB32()) {
         canvas.drawPath(clipPath, borderPaint);
       }
-      if (shadow != null && shadow!.color.value != Colors.transparent.value) {
+      if (shadow != null && shadow!.color.toARGB32() != Colors.transparent.toARGB32()) {
         canvas.drawPath(clipPath.shift(shadow!.offset), shadowPaint!);
       }
     }

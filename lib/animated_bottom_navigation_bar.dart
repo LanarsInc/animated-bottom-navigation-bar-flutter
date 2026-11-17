@@ -11,7 +11,7 @@ import 'package:animated_bottom_navigation_bar/src/navigation_bar_item.dart';
 import 'package:animated_bottom_navigation_bar/src/safe_area_values.dart';
 import 'package:animated_bottom_navigation_bar/src/visible_animator.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 export 'package:animated_bottom_navigation_bar/src/safe_area_values.dart';
 
@@ -303,7 +303,7 @@ class AnimatedBottomNavigationBar extends StatefulWidget {
         );
 
   @override
-  _AnimatedBottomNavigationBarState createState() => _AnimatedBottomNavigationBarState();
+  State<AnimatedBottomNavigationBar> createState() => _AnimatedBottomNavigationBarState();
 }
 
 class _AnimatedBottomNavigationBarState extends State<AnimatedBottomNavigationBar> with TickerProviderStateMixin {
